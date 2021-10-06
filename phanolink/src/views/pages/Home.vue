@@ -1,8 +1,7 @@
 <template>
-  <div class="container">
+  <div>
       <Header/>
-      <router-view/>
-      <b-button variant="primary">submit</b-button>
+        <router-view/>
       <Footer/>
   </div>
 </template>
