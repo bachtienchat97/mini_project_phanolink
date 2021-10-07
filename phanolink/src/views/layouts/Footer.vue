@@ -1,43 +1,50 @@
 <template>
-  <div class="container">
+  <div class="footer container">
+    <div class="footer-first">
     <div class="logo-footer">
-      <img src="../../assets/img/Logo.png" alt="logo-footer">
-      <span class="address">CÔNG TY CỔ PHẦN DƯỢC PHẨM PHANO<br/>Địa chỉ: 31 HỒ BIỂU CHÁNH, P.12, Q.Phú Nhuận, TPHCM</span>
-      <span class="email">
+      <img src="../../assets/img/logo_green2x.png" alt="logo-footer">
+      <p class="address">CÔNG TY CỔ PHẦN DƯỢC PHẨM PHANO<br/>Địa chỉ: 31 HỒ BIỂU CHÁNH, P.12, Q.Phú Nhuận, TPHCM</p>
+      <p class="email">
         MST: 0304860663<br/>Email: cskh@phanolink.com<br/>Tel: 1800 6768
-      </span>
+      </p>
     </div>
 
     <div class="support-footer">
       <h2>HỖ TRỢ KHÁCH HÀNG</h2>
       <ul>
-        <li><a href="#">Chính sách đổi trả</a></li>
-        <li><a href="#">Chính sách giao hàng</a></li>
-        <li><a href="#">Chính sách bảo mật</a></li>
-        <li><a href="#">Hướng dẫn thanh toán</a></li>
-        <li><a href="#">Hướng dẫn đặt hàng</a></li>
-        <li><a href="#">Giải quyết phản hồi</a></li>
-        <li><a href="#">Giấy phép kinh doanh</a></li>
+        <li><a href="#"><img class="arrow" src="../../assets/img/arrow.png" alt="arrow">Chính sách đổi trả</a></li>
+        <li><a href="#"><img class="arrow" src="../../assets/img/arrow.png" alt="arrow">Chính sách giao hàng</a></li>
+        <li><a href="#"><img class="arrow" src="../../assets/img/arrow.png" alt="arrow">Chính sách bảo mật</a></li>
+        <li><a href="#"><img class="arrow" src="../../assets/img/arrow.png" alt="arrow">Hướng dẫn thanh toán</a></li>
+        <li><a href="#"><img class="arrow" src="../../assets/img/arrow.png" alt="arrow">Hướng dẫn đặt hàng</a></li>
+        <li><a href="#"><img class="arrow" src="../../assets/img/arrow.png" alt="arrow">Giải quyết phản hồi</a></li>
+        <li><a href="#"><img class="arrow" src="../../assets/img/arrow.png" alt="arrow">Giấy phép kinh doanh</a></li>
       </ul>
     </div>
 
     <div class="account-footer">
       <h2>TÀI KHOẢN</h2>
       <ul>
-        <li><a href="#">Đăng ký</a></li>
-        <li><a href="#">Đăng nhập</a></li>
-        <li><a href="#">Kiểm tra đơn hàng</a></li>
+        <li><a href="#"><img class="arrow" src="../../assets/img/arrow.png" alt="arrow">Đăng ký</a></li>
+        <li><a href="#"><img class="arrow" src="../../assets/img/arrow.png" alt="arrow">Đăng nhập</a></li>
+        <li><a href="#"><img class="arrow" src="../../assets/img/arrow.png" alt="arrow">Kiểm tra đơn hàng</a></li>
       </ul>
     </div>
 
     <div class="connect-our">
       <h2>KẾT NỐI VỚI CHÚNG TÔI</h2>
       <ul>
-        <li><a href="#"></a></li>
-        <li><a href="#"></a></li>
-        <li><a href="#"></a></li>
-        <li><a href="#"></a></li>
+        <li><a href="#"><img src="../../assets/img/zalo.png" alt="zalo"></a></li>
+        <li><a href="#"><img src="../../assets/img/fb.png" alt="fb"></a></li>
+        <li><a href="#"><img src="../../assets/img/gmail.png" alt="gmail"></a></li>
+        <li><a href="#"><img src="../../assets/img/youtube.png" alt="youtube"></a></li>
       </ul>
+    </div>
+    </div>
+
+    <div class="footer-second">
+      <span>© 2019 - Bản quyền thuộc về Công ty CP Dược Phẩm Phano</span>
+      <img src="../../assets/img/bocongthuong.png" alt="bocongthuong">
     </div>
   </div>
 </template>
@@ -50,6 +57,95 @@ name: 'Footer'
 
 <style lang="scss" scoped>
 .footer {
+  padding: 15px 0;
 
+  h2 {
+    font-size: 15px;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin:0;
+    a {
+      text-decoration: none;
+    }
+  }
+  
+  .logo-footer {
+    img {
+      margin-bottom: 20px;
+      object-position: center;
+      object-fit: cover;
+    }
+  }
+  
+  .footer-second {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    img {
+      height: 35px;
+      object-position: center;
+      object-fit: cover;
+    }
+  }
+
+  .footer-second, .footer-first {
+    margin-bottom: 15px;
+  }
+
+  .footer-first {
+    padding: 15px 0;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #E2E3E4;
+  }
+  
+  .account-footer, .support-footer {
+
+    li {
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+
+    a {
+      color: #595959;
+
+      img {
+        height: 20px;
+        object-fit: cover;
+        object-position: center;
+        margin-right: 5px;
+      }
+    }
+  }
+
+  .account-footer {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .connect-our {
+    ul {
+      display: flex;
+      margin: 0 -5px;
+      li {
+        margin: 0 5px;
+
+        &:hover {
+          opacity: 0.8;
+        }
+      }
+
+      img {
+        height: 30px;
+        object-fit: cover;
+        object-position: center;
+      }
+    }
+  }
 }
 </style>
