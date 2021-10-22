@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 
 import Home from "../views/pages/Home";
 
+
 Vue.use(VueRouter);
 
 const routes = [
@@ -10,6 +11,9 @@ const routes = [
     path: "/",
     name: "Home",
     component: Home,
+    childrend: [
+     
+    ]
   },
 ];
 
