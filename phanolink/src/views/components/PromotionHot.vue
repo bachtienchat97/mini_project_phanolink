@@ -68,6 +68,7 @@ export default {
     autoplaySpeed: 4000,
     dots: true,
     arrows: false,
+    draggable: true
     },
   };
  },
@@ -131,6 +132,7 @@ export default {
         &:hover {
           opacity: 0.8;
           cursor: pointer;
+          border: 1px solid #05A8D0;
         }
       }
     }
@@ -140,13 +142,13 @@ export default {
   display :flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 0;
+  padding: 15px;
 .promotion-title{
   display: flex;
 
   img {
     width: 20px;
-    margin-right: 5px;
+    margin-right: 10px;
   }
 
   span {
@@ -159,27 +161,4 @@ a {
 }
 }
 }
-
-
-
-
-
-    // .slick-dots li {
-    //     margin: 10px;
-    // }
-
-    // .slick-dot li button {
-    //       border-radius: 50%;
-    //       padding: 3px;
-    //       font-size: 0;
-    //       background: transparent;
-    //       transition: 0.5s;
-    //       outline: none;
-    //       border: 1px solid #D0D4D8;
-    //       cursor: pointer;
-    //     }
-
-    //     .slick-slide {
-    //       width: 1200px !important;
-    //     }
 </style>
