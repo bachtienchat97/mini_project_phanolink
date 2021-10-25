@@ -1,9 +1,9 @@
 <template>
-  <div class="non-prescription container">
-     <div class="prescription-header">
-         <div class="prescription-left">
-            <img src="../../assets/img/pills.png" alt="pills">
-            <span>Thuốc Không Kê Toa</span>
+  <div class="supplements container">
+     <div class="supplements-header">
+         <div class="supplements-left">
+             <img src="../../assets/img/thucpham-green2x.png" alt="pres">
+             <span>Thực Phẩm Chức Năng</span>
          </div>
         <a href="#">Xem tất cả ></a>
      </div>
@@ -11,40 +11,37 @@
 </template>
 
 <script>
-import '../../assets/scss/styles.scss'
-
 export default {
-name: 'NonPrescription'
+ name: 'Supplements'
 }
 </script>
 
 <style scoped lang="scss">
-.non-prescription {
+.supplements {
     margin-bottom: 20px;
     
     a {
-    text-decoration: none;
+            text-decoration: none;
     }
 
-    .prescription-header {
+    .supplements-header {
         padding: 15px;
         display: flex;
         align-items: center;
         justify-content: space-between;
-
         
-        .prescription-left {
+        .supplements-left {
             img{
             background-size: cover;
             background-repeat: no-repeat;
             background-position: center;
-            height: 30px;
             margin-right: 10px;
-            }
+            width: 20px;
+        }
 
-            span {
-            font-size: 15px;
-            }
+        span {
+           font-size: 15px;
+        }
         }
     }
 }
