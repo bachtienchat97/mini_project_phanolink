@@ -1,0 +1,15 @@
+html, body {
+  font-size: 16px;
+  font-family: 'Open Sans', sans-serif;
+  -webkit-font-smoothing: antialiased; }
+  @media only screen and (max-width: 1160px) {
+    html, body {
+      font-size: 15px; } }
+  @media only screen and (max-width: 900px) {
+    html, body {
+      font-size: 14px; } }
+  @media only screen and (max-width: 767px) {
+    html, body {
+      font-size: 12px; } }
+
+/*# sourceMappingURL=styles.css.map */

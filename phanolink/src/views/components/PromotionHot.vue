@@ -76,7 +76,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../../assets/css/slick';
 
 .promotion {
   margin-bottom: 20px; 
