@@ -1,5 +1,49 @@
 <template>
-  <div class="footer container">
+  <div class="footer">
+    <div class="footer-top">
+       <div class="footer-top__intro container">
+         <div class="intro-item">
+           <img src="../../assets/img/percent2x.png" alt="item">
+           <p>Sản phẩm chính hãng</p>
+         </div>
+         <div class="intro-item">
+           <img src="../../assets/img/express-car.png" alt="item">
+           <p>Giao hàng toàn quốc</p>
+         </div>
+         <div class="intro-item">
+           <img src="../../assets/img/pay.png" alt="item">
+           <p>Thanh toán linh hoạt</p>
+         </div>
+         <div class="intro-item">
+           <img src="../../assets/img/gift2x.png" alt="item">
+           <p>Tích điểm đổi quà</p>
+         </div>
+       </div>
+
+       <div class="footer-top__contact">
+         <div class="contact container">
+           <div class="contact-hotline">
+             <span class="txt-hotline">BẠN ĐANG CẦN ĐƯỢC TƯ VẤN</span>
+             <div class="hotline">
+               <img src="../../assets/img/telephone2x.png" alt="tele">
+               <span>Gọi ngay</span>
+               <span class="number-phone">1800 6768</span>
+               <span>(miễn phí)</span>
+             </div>
+           </div>
+
+           <div class="contact-email">
+             <span class="txt-email">NHẬP EMAIL NHẬN MÃ GIẢM GIÁ</span>
+             <div class="email">
+               <img src="../../assets/img/telephone2x.png" alt="tele">
+               <input type="text" placeholder="Nhập email của bạn">
+             </div>
+           </div>
+         </div>
+       </div>
+    </div>
+
+    <div class="footer-bot container">
     <div class="footer-first">
     <div class="logo-footer">
       <img src="../../assets/img/logo_green2x.png" alt="logo-footer">
@@ -46,6 +90,7 @@
       <span>© 2019 - Bản quyền thuộc về Công ty CP Dược Phẩm Phano</span>
       <img src="../../assets/img/bocongthuong.png" alt="bocongthuong">
     </div>
+    </div>
   </div>
 </template>
 
@@ -57,6 +102,109 @@ name: 'Footer'
 
 <style lang="scss" scoped>
 .footer {
+  .contact {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .contact-email {
+    display: flex;
+    align-items: center;
+    width: 50%;
+    
+    .email {
+      background: #ffffff;
+      border-radius: 25px;
+      padding: 5px 16px;
+
+      img {
+        margin-right: 10px;
+        object-fit: cover;
+        object-position: center;
+      }
+    }
+
+    .txt-email {
+      position: relative;
+    }
+
+    input {
+      outline: none;
+      border: none;
+    }
+  }
+  .footer-top__contact {
+       background: #01ADAB;
+       color: #ffffff;
+       padding: 25px 0;
+       
+       .contact-hotline {
+          display: flex;
+          align-items: center;
+          width: 50%;
+          
+          .txt-hotline {
+            position: relative;
+          }
+          span {
+            font-size: 16px;
+          }
+
+          .hotline {
+            background: #FFFFFF;
+            color: #595959;
+            border-radius: 25px;
+            padding: 5px 16px;
+            position: absolute;
+            left: 25%;
+
+            img {
+              margin-right: 10px;
+            }
+
+            .number-phone {
+              color: #EA4036;
+              font-size: 18px;
+              margin: 0 10px;
+            }
+          }
+       }
+
+     }
+
+
+  .footer-top__intro {
+    display: flex;
+    align-items: center;
+     
+     
+     .intro-item:nth-child(4) {
+        border: none;
+      }
+      
+     .intro-item {
+       border-right: 1px solid;
+       text-align: center;
+       padding: 10px 50px;
+      
+       img {
+         height: 50px;
+         background-repeat: no-repeat;
+         object-fit: cover;
+         object-position: center;
+       }
+
+       p {
+         margin: 0;
+         padding: 0;
+         text-align: center;
+       }
+     }
+  }
+
+
+.footer-bot {
   padding: 15px 0;
 
   h2 {
@@ -147,5 +295,6 @@ name: 'Footer'
       }
     }
   }
+}
 }
 </style>
