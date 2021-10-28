@@ -177,6 +177,20 @@ export default {
 
     .header-first {
       width: 100%;
+    
+    .btn-search {
+        background: #e2e3e4;
+        padding: 5px 9px;
+        cursor: pointer;
+        border-radius: 0 5px 5px 0;
+        &:hover {
+          background: #b0b5b9;
+        }
+
+        .b-icon {
+          margin-right: 5px;
+        }
+      }
 
       ul {
         list-style: none;
@@ -330,6 +344,20 @@ export default {
       display: flex;
       align-items: center;
       margin-left: -20px;
+
+      .btn-search {
+        background: #e2e3e4;
+        padding: 5px 9px;
+        cursor: pointer;
+        border-radius: 0 5px 5px 0;
+        &:hover {
+          background: #b0b5b9;
+        }
+
+        .b-icon {
+          margin-right: 5px;
+        }
+      }
     }
 
     .header-content__right {

@@ -40,19 +40,7 @@ export default {
         width: 500px;
         background-color: #ffffff;
       }
-      .btn-search {
-        background: #e2e3e4;
-        padding: 5px 9px;
-        cursor: pointer;
-        border-radius: 0 5px 5px 0;
-        &:hover {
-          background: #b0b5b9;
-        }
-
-        .b-icon {
-          margin-right: 5px;
-        }
-      }
+      
 }
 
 </style>
