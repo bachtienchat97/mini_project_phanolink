@@ -1,0 +1,23 @@
+// Variables + Mixins + Functions
+@import "helpers/variables";
+
+// Always include variable 1st !
+@import "helpers/mixins";
+
+// Base
+@import "base/typography";
+
+// Vendors
+// Import jQuery lib, Bootstrap ... etc
+
+// Themes
+//@import "themes/slick-theme";
+// If we have themes, import specific styles here
+
+// Layout
+
+
+// Components
+
+// Page specific styles
+
