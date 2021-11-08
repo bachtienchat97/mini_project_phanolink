@@ -1,13 +1,9 @@
-<template>
-  
-</template>
+<template></template>
 
 <script>
 export default {
-name: 'ProductCategory'
-}
+  name: "ProductCategory",
+};
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

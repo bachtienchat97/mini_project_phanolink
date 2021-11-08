@@ -1,154 +1,317 @@
 <template>
-<div class="wrapper-header container-fluid">
-  <div class="header container">
-    <div class="header-first">
-      <ul class="list-header-first">
-        <li>
-          <img class="hotfire" src="../../assets/img/hotfire.png" alt="hotfire">
-          <a href="#">Khuyến mãi HOT</a></li>
-        <li>
-          <img class="noti" src="../../assets/img/bell.png" alt="bell">
-          <a href="#">Thông báo của tôi</a>
-        </li>
-        <li>
-          <div class="user">
-            <img src="../../assets/img/login2x.png" alt="user">
-            <ul class="login-or-regis">
-              <li><a href="#">Đăng nhập</a></li>
-              <li><a href="#">Tài khoản</a></li>
-            </ul>
+  <div class="wrapper-header container-fluid">
+    <div class="header container">
+      <div class="header-first">
+        <ul class="list-header-first">
+          <li>
+            <div>
+              <img
+                class="hotfire"
+                src="../../assets/img/hotfire.png"
+                alt="hotfire"
+              />
+              <a href="#">Khuyến mãi HOT</a>
+              </div>
+          </li>
+          <li>
+            <div>
+              <img class="noti" src="../../assets/img/bell.png" alt="bell" />
+              <a href="#">Thông báo của tôi</a>
+            </div>
+          </li>
+          <li>
+            <div class="user">
+              <img src="../../assets/img/login2x.png" alt="user" />
+              <ul class="login-or-regis">
+                <li><a href="#" v-b-modal.modal-1 @click="login">Đăng nhập</a></li>
+                <li><a href="#">Tài khoản</a></li>
+              </ul>
+            </div>
+          </li>
+          <b-modal id="modal-1" hide-footer>
+            <div class="wrap-form">
+              <button class="login-form" type="button" @click="login()" :class="objLogin">Login</button>
+              <button class="register-form" type="button" @click="register()" :class="objRegister">Register</button>
+            </div>
+              <Login v-show="isLogin"/>
+              <Register v-show="isRegister" />
+          </b-modal>
+          </ul>
+      </div>
+
+      <div class="header-second">
+        <router-link to="/"><img src="../../assets/img/Logo.png" alt="logo" /></router-link>
+
+        <div class="header-content">
+            <Search v-model="search"/>
+            <div class="btn-search" @click="$emit('search', $event.target.value)">
+            <b-icon icon="search"></b-icon>
+            Tìm kiếm
+            </div>
+
+
+          <div class="header-content__right">
+            <div class="prescription">
+              <img src="../../assets/img/prescription.png" alt="prescription" />
+              <span>Tạo toa thuốc</span>
+            </div>
+
+            <div class="cart">
+              <img src="../../assets/img/cart2x.png" alt="cart2x" />
+              <span>Giỏ hàng</span>
+            </div>
           </div>
-        </li>
-      </ul>
-    </div>
-
-    <div class="header-second">
-       <img src="../../assets/img/Logo.png" alt="logo">
-
-    <div class="header-content">
-      <div class="header-content__left">
-        <input class="search" type="text" placeholder="Bạn đang tìm thuốc gì...">
-
-        <div class="btn-search">
-          <b-icon icon="search"></b-icon> 
-          tìm kiếm
         </div>
       </div>
 
-      <div class="header-content__right">
-         <div class="prescription">
-           <img src="../../assets/img/prescription.png" alt="prescription">
-           <span>Tạo toa thuốc</span>
-         </div>
-
-         <div class="cart">
-           <img src="../../assets/img/cart2x.png" alt="cart2x">
-           <span>Giỏ hàng</span>
-         </div>
+      <div class="header-third">
+        <ul>
+          <li class="item">
+            <img src="../../assets/img/category-product.png" alt="category" />
+            <router-link to="/user"
+              >DANH MỤC SẢN PHẨM
+              <ul class="item-drop">
+                <li>
+                  <router-link to="/"><a href="#"> Mẹ & bé</a></router-link>
+                </li>
+                <li>
+                  <router-link to="/"
+                    ><a href="#"> Thực phẩm chức năng</a></router-link
+                  >
+                </li>
+                <li>
+                  <router-link to="/"
+                    ><a href="#">Chăm sóc cá nhân</a></router-link
+                  >
+                </li>
+                <li>
+                  <router-link to="/"
+                    ><a href="#">Chăm sóc sức khỏe</a></router-link
+                  >
+                </li>
+                <li>
+                  <router-link to="/"
+                    ><a href="#">Tủ thuốc gia đình</a></router-link
+                  >
+                </li>
+                <li>
+                  <router-link to="/"
+                    ><a href="#">Chăm sóc phụ nữ</a></router-link
+                  >
+                </li>
+                <li>
+                  <router-link to="/"
+                    ><a href="#">Chăm sóc sắc đẹp</a></router-link
+                  >
+                </li>
+                <li>
+                  <router-link to="/"
+                    ><a href="#">Sức khỏe gia đình</a></router-link
+                  >
+                </li>
+              </ul>
+            </router-link>
+          </li>
+          <li>
+            <img src="../../assets/img/hot-sale.png" alt="hot-sale" /><a
+              href="#"
+              >KHUYẾN MÃI HOT</a
+            >
+          </li>
+          <li>
+            <img src="../../assets/img/location.png" alt="location" /><a
+              href="#"
+              >HỆ THỐNG NHÀ THUỐC</a
+            >
+          </li>
+          <li>
+            <img src="../../assets/img/heart2x.png" alt="heart2x" /><a href="#"
+              >GÓC SỨC KHỎE</a
+            >
+          </li>
+          <li>
+            <img src="../../assets/img/intro.png" alt="intro" /><a href="#"
+              >GIỚI THIỆU</a
+            >
+          </li>
+          <li>
+            <img src="../../assets/img/question.png" alt="question" /><a
+              href="#"
+              >HƯỚNG DẪN</a
+            >
+          </li>
+        </ul>
       </div>
     </div>
-    </div>
-    
-    <div class="header-third">
-      <ul>
-        <li><img src="../../assets/img/category-product.png" alt="`"><a href="#">DANH MỤC SẢN PHẨM</a></li>
-        <li><img src="../../assets/img/hot-sale.png" alt="hot-sale"><a href="#">KHUYẾN MÃI HOT</a></li>
-        <li><img src="../../assets/img/location.png" alt="location"><a href="#">HỆ THỐNG NHÀ THUỐC</a></li>
-        <li><img src="../../assets/img/heart2x.png" alt="heart2x"><a href="#">GÓC SỨC KHỎE</a></li>
-        <li><img src="../../assets/img/intro.png" alt="intro"><a href="#">GIỚI THIỆU</a></li>
-        <li><img src="../../assets/img/question.png" alt="question"><a href="#">HƯỚNG DẪN</a></li>
-      </ul>
-    </div>
   </div>
-</div>
 </template>
 
 <script>
+import Search from '../components/Search.vue'
+import Register from '../components/auth/Register'
+import Login from '../components/auth/Login'
 
 export default {
-name: 'Header'
-}
+  name: "Header",
+
+  components: {Search,Login,Register},
+
+  data() {
+    return {
+      search: '',
+      searchResult: [],
+      isLogin: true,
+      isRegister: false,
+      activeLogin: false,
+      activeRegister: false
+    }
+  },
+
+  methods: {
+    login() {
+       this.isLogin = true;
+       this.isRegister = false;
+       this.activeLogin = true;
+       this.activeRegister = false;
+    },
+
+    register() {
+       this.isRegister = true;
+       this.isLogin = false;
+       this.activeRegister = true;
+       this.activeLogin = false;
+    }
+  },
+
+  computed: {
+    objLogin() {
+      return {
+        login: this.activeLogin,
+      }
+    },
+
+    objRegister() {
+      return {
+        register: this.activeRegister
+      }
+    }
+  }
+};
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+@import '../../assets/scss/helpers/variables';
+
+.modal-header {
+  display: none !important;
+}
+
+.modal-body {
+  padding: 4rem 2rem 2rem 2rem !important;
+  position: relative;
+
+  input {
+    width: 100%;
+    height: 40px;
+    padding: 10px;
+    border-radius: 5px;
+  }
+}
+
 .wrapper-header {
-  background: #01ADAB;
+  background: #01adab;
   width: 100%;
+   
+  
   .header {
     display: flex;
     align-items: center;
     flex-direction: column;
+    padding-top: 10px;
+
     .header-first {
       width: 100%;
-      margin-bottom: 10px;
+    
+    .btn-search {
+        background: #e2e3e4;
+        padding: 5px 9px;
+        cursor: pointer;
+        border-radius: 0 5px 5px 0;
+        &:hover {
+          background: #b0b5b9;
+        }
 
-       ul {
-         list-style: none;
-         display: flex;
-         margin: 0;
-         padding: 0;
-         
-          li {
-           font-size: 14px;
+        .b-icon {
+          margin-right: 5px;
+        }
+      }
+
+      ul {
+        list-style: none;
+        display: flex;
+        margin: 0;
+        padding: 0;
+
+        li {
+          font-size: 14px;
+        }
+
+        a {
+          text-decoration: none;
+          color: $color-white;
+          &:hover {
+            color: rgb(230, 108, 21);
+          }
+        }
+
+        .user {
+          display: flex;
+          align-items: center;
+
+          img {
+            object-fit: cover;
+            object-position: center;
+            width: 27px;
           }
 
-          a {
-           text-decoration: none;
-           color: #ffffff;
-           &:hover {
-             color: rgb(230, 108, 21);
-           }
-          }
-
-         .user {
-           display: flex;
-           align-items: center;
-
-            img {
-              object-fit: cover;
-              object-position: center;
-              width: 27px;
+          .login-or-regis {
+            display: flex;
+            flex-direction: column;
+            color: $color-white;
+            padding: 0;
+            margin: 0;
+            margin-left: 10px;
+            li {
+              margin: 0;
             }
 
-           .login-or-regis {
-              display: flex;
-              flex-direction: column;
-              color: #ffffff;
-              padding: 0;
-              margin: 0;
-              margin-left: 10px;
-              li {
-                margin: 0;
+            a {
+              text-decoration: none;
+              &:hover {
+                color: rgb(230, 108, 21);
               }
+            }
+          }
+        }
+      }
 
-              a {
-                text-decoration: none;
-                &:hover {
-                  color: rgb(230, 108, 21);
-                }
-              }
-           }
-         }
-       }
+      .list-header-first {
+        display: flex;
+        justify-content: right;
+        align-items: center;
 
-       .list-header-first {
-         display: flex;
-         justify-content: right;
-         align-items: center;
+        li {
+          margin-left: 20px;
+        }
+      }
 
-         li {
-           margin-left: 20px;
-         }
-       }
-
-       .hotfire,.noti {
-         width: 29px;
-         object-fit: cover;
-         object-position: center;
-         margin-right: 5px;
-       }
-
-       
+      .hotfire,
+      .noti {
+        width: 29px;
+        object-fit: cover;
+        object-position: center;
+        margin-right: 5px;
+      }
     }
 
     .header-second {
@@ -161,6 +324,44 @@ name: 'Header'
     .header-third {
       width: 100%;
       margin-bottom: 15px;
+
+      .item {
+        position: relative;
+
+        &:hover .item-drop {
+          opacity: 1;
+          visibility: visible;
+        }
+      }
+
+      .item-drop {
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 200ms ease-in-out;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        position: absolute;
+        top: 30px;
+        left: 12%;
+        gap: 0.5rem;
+        background-color: #01adab;
+        width: 12rem;
+        padding: 15px 0;
+        z-index: 1;
+
+        li {
+          color: $color-white;
+          padding: 0;
+          margin: 0;
+          transition: 0.4s;
+          width: 100%;
+
+          &:hover {
+            margin-left: 5px;
+          }
+        }
+      }
 
       img {
         height: 26px;
@@ -180,16 +381,16 @@ name: 'Header'
           margin-left: 20px;
 
           a {
-          text-decoration: none;
-          color: #ffffff;
-          font-size: 14px;
-          margin-left: 10px;
+            text-decoration: none;
+            color: #ffffff;
+            font-size: 14px;
+            margin-left: 10px;
 
-          &:hover {
-           color: rgb(230, 108, 21);
+            &:hover {
+              color: rgb(230, 108, 21);
+            }
           }
-         }
-       }
+        }
       }
     }
 
@@ -197,59 +398,14 @@ name: 'Header'
       display: flex;
       align-items: center;
       margin-left: -20px;
-    }
-    
-    .header-content__right {
-      display: flex;
-      margin-left: 20px;
 
-       .prescription, .cart {
-         background: #ffffff;
-         border-radius: 3px;
-         padding: 4px 8px;
-       }
-
-       .prescription {
-         &:hover {
-           background: rgb(230, 108, 21);
-           cursor: pointer;
-           color: #ffffff
-
-         }
-       }
-
-       .cart {
-         margin-left: 20px;
-
-         &:hover {
-           background: rgb(230, 108, 21);
-           cursor: pointer;
-           color: #ffffff
-
-         }
-       }
-    }
-
-    .header-content__left {
-      font-size: 15px;
-      display: flex;
-      border-radius: 10px;
-      margin-left: 20px;
-      
-      .search {
-        border: none;
-        outline: none;
-        border-radius: 5px 0 0 5px;
-        padding: 5px 9px;
-        width: 500px
-      }
       .btn-search {
-        background: #E2E3E4;
+        background: #e2e3e4;
         padding: 5px 9px;
         cursor: pointer;
         border-radius: 0 5px 5px 0;
         &:hover {
-         background: #b0b5b9;
+          background: #b0b5b9;
         }
 
         .b-icon {
@@ -257,7 +413,83 @@ name: 'Header'
         }
       }
     }
+
+    .header-content__right {
+      display: flex;
+      margin-left: 20px;
+
+      .prescription,
+      .cart {
+        background: #ffffff;
+        border-radius: 3px;
+        padding: 4px 8px;
+      }
+
+      .prescription {
+        &:hover {
+          background: rgb(230, 108, 21);
+          cursor: pointer;
+          color: #ffffff;
+        }
+      }
+
+      .cart {
+        margin-left: 20px;
+
+        &:hover {
+          background: rgb(230, 108, 21);
+          cursor: pointer;
+          color: #ffffff;
+        }
+      }
+    }
+
+    .header-content__left {
+      font-size: 15px;
+      display: flex;
+      border-radius: 10px;
+      margin-left: 20px;
+
+      
+    }
   }
 }
 
+
+.wrap-form {
+  position: absolute;
+  top: -5%;
+  left: 31%;
+  display: flex;
+  align-items: center;
+
+  .register-form {
+    margin-left: 5px;
+  }
+  
+
+  .login-form, .register-form {
+    padding: 17px;
+    color: $dark;
+    background-color: $color-white;
+    font-size: $font-20;
+    border-radius: 5px;
+    font-weight: bold;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  .login, .register {
+    background-color: $primary-green;
+    color: $color-white;
+    padding: 17px;
+    font-size: $font-20;
+    border-radius: 5px;
+    font-weight: bold;
+    &:hover {
+      cursor: pointer;
+    }
+  } 
+}
 </style>
