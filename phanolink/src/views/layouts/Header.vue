@@ -4,39 +4,43 @@
       <div class="header-first">
         <ul class="list-header-first">
           <li>
-            <img
-              class="hotfire"
-              src="../../assets/img/hotfire.png"
-              alt="hotfire"
-            />
-            <a href="#">Khuyến mãi HOT</a>
+            <div>
+              <img
+                class="hotfire"
+                src="../../assets/img/hotfire.png"
+                alt="hotfire"
+              />
+              <a href="#">Khuyến mãi HOT</a>
+              </div>
           </li>
           <li>
-            <img class="noti" src="../../assets/img/bell.png" alt="bell" />
-            <a href="#">Thông báo của tôi</a>
+            <div>
+              <img class="noti" src="../../assets/img/bell.png" alt="bell" />
+              <a href="#">Thông báo của tôi</a>
+            </div>
           </li>
           <li>
             <div class="user">
               <img src="../../assets/img/login2x.png" alt="user" />
               <ul class="login-or-regis">
-                <li><a href="#" @click="$bvModal.show('bv-modal-example')">Đăng nhập</a></li>
+                <li><a href="#" v-b-modal.modal-1 @click="login">Đăng nhập</a></li>
                 <li><a href="#">Tài khoản</a></li>
               </ul>
-
-  <b-modal id="bv-modal-example" hide-footer>
-    
-    <div class="d-block text-center">
-      <h3>Hello From This Modal!</h3>
-    </div>
-    <b-button class="mt-3" block @click="$bvModal.hide('bv-modal-example')">Đăng nhập</b-button>
-  </b-modal>
             </div>
           </li>
-        </ul>
+          <b-modal id="modal-1" hide-footer>
+            <div class="wrap-form">
+              <button class="login-form" type="button" @click="login()" :class="objLogin">Login</button>
+              <button class="register-form" type="button" @click="register()" :class="objRegister">Register</button>
+            </div>
+              <Login v-show="isLogin"/>
+              <Register v-show="isRegister" />
+          </b-modal>
+          </ul>
       </div>
 
       <div class="header-second">
-        <img src="../../assets/img/Logo.png" alt="logo" />
+        <router-link to="/"><img src="../../assets/img/Logo.png" alt="logo" /></router-link>
 
         <div class="header-content">
             <Search v-model="search"/>
@@ -68,41 +72,41 @@
               >DANH MỤC SẢN PHẨM
               <ul class="item-drop">
                 <li>
-                  <router-link to="/"><a href="#">> Mẹ & bé</a></router-link>
+                  <router-link to="/"><a href="#"> Mẹ & bé</a></router-link>
                 </li>
                 <li>
                   <router-link to="/"
-                    ><a href="#">> Thực phẩm chức năng</a></router-link
+                    ><a href="#"> Thực phẩm chức năng</a></router-link
                   >
                 </li>
                 <li>
                   <router-link to="/"
-                    ><a href="#">> Chăm sóc cá nhân</a></router-link
+                    ><a href="#">Chăm sóc cá nhân</a></router-link
                   >
                 </li>
                 <li>
                   <router-link to="/"
-                    ><a href="#">> Chăm sóc sức khỏe</a></router-link
+                    ><a href="#">Chăm sóc sức khỏe</a></router-link
                   >
                 </li>
                 <li>
                   <router-link to="/"
-                    ><a href="#">> Tủ thuốc gia đình</a></router-link
+                    ><a href="#">Tủ thuốc gia đình</a></router-link
                   >
                 </li>
                 <li>
                   <router-link to="/"
-                    ><a href="#">> Chăm sóc phụ nữ</a></router-link
+                    ><a href="#">Chăm sóc phụ nữ</a></router-link
                   >
                 </li>
                 <li>
                   <router-link to="/"
-                    ><a href="#">> Chăm sóc sắc đẹp</a></router-link
+                    ><a href="#">Chăm sóc sắc đẹp</a></router-link
                   >
                 </li>
                 <li>
                   <router-link to="/"
-                    ><a href="#">> Sức khỏe gia đình</a></router-link
+                    ><a href="#">Sức khỏe gia đình</a></router-link
                   >
                 </li>
               </ul>
@@ -144,31 +148,81 @@
 
 <script>
 import Search from '../components/Search.vue'
+import Register from '../components/auth/Register'
+import Login from '../components/auth/Login'
 
 export default {
   name: "Header",
 
-  components: {Search},
+  components: {Search,Login,Register},
 
   data() {
     return {
       search: '',
-      searchResult: []
+      searchResult: [],
+      isLogin: true,
+      isRegister: false,
+      activeLogin: false,
+      activeRegister: false
     }
   },
 
   methods: {
-    onSearch() {
-      
+    login() {
+       this.isLogin = true;
+       this.isRegister = false;
+       this.activeLogin = true;
+       this.activeRegister = false;
+    },
+
+    register() {
+       this.isRegister = true;
+       this.isLogin = false;
+       this.activeRegister = true;
+       this.activeLogin = false;
+    }
+  },
+
+  computed: {
+    objLogin() {
+      return {
+        login: this.activeLogin,
+      }
+    },
+
+    objRegister() {
+      return {
+        register: this.activeRegister
+      }
     }
   }
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+@import '../../assets/scss/helpers/variables';
+
+.modal-header {
+  display: none !important;
+}
+
+.modal-body {
+  padding: 4rem 2rem 2rem 2rem !important;
+  position: relative;
+
+  input {
+    width: 100%;
+    height: 40px;
+    padding: 10px;
+    border-radius: 5px;
+  }
+}
+
 .wrapper-header {
   background: #01adab;
   width: 100%;
+   
+  
   .header {
     display: flex;
     align-items: center;
@@ -204,7 +258,7 @@ export default {
 
         a {
           text-decoration: none;
-          color: #ffffff;
+          color: $color-white;
           &:hover {
             color: rgb(230, 108, 21);
           }
@@ -223,7 +277,7 @@ export default {
           .login-or-regis {
             display: flex;
             flex-direction: column;
-            color: #ffffff;
+            color: $color-white;
             padding: 0;
             margin: 0;
             margin-left: 10px;
@@ -297,7 +351,7 @@ export default {
         z-index: 1;
 
         li {
-          color: #ffffff;
+          color: $color-white;
           padding: 0;
           margin: 0;
           transition: 0.4s;
@@ -399,5 +453,43 @@ export default {
       
     }
   }
+}
+
+
+.wrap-form {
+  position: absolute;
+  top: -5%;
+  left: 31%;
+  display: flex;
+  align-items: center;
+
+  .register-form {
+    margin-left: 5px;
+  }
+  
+
+  .login-form, .register-form {
+    padding: 17px;
+    color: $dark;
+    background-color: $color-white;
+    font-size: $font-20;
+    border-radius: 5px;
+    font-weight: bold;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  .login, .register {
+    background-color: $primary-green;
+    color: $color-white;
+    padding: 17px;
+    font-size: $font-20;
+    border-radius: 5px;
+    font-weight: bold;
+    &:hover {
+      cursor: pointer;
+    }
+  } 
 }
 </style>
