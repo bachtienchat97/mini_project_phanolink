@@ -196,7 +196,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '../../assets/scss/helpers/_variables';
+
 .footer {
+  background-color: $color-bg-white;
   .contact {
     display: flex;
     align-items: center;
