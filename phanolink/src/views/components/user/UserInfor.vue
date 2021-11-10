@@ -1,5 +1,5 @@
 <template>
-  <div class="user-infor">
+  <div class="user-infor container">
     <div class="user-infor__content container">
       <div class="user-infor__left">
         <div class="user-name">
@@ -32,10 +32,10 @@
             <label for="control">Ngày sinh</label>
             <select class="form-control">
             </select>
-            <select v-model="selectedMonth" class="form-control">
+            <select v-model="form.selectedMonth" class="form-control">
               <option value="9">9</option>
             </select>
-            <select v-model="selectedYear" class="form-control">
+            <select v-model="form.selectedYear" class="form-control">
               <option value="1997">1997</option>
             </select>
           </div>
@@ -53,12 +53,24 @@
 <script>
 export default {
   name: "UserInfor",
+  data() {
+    return {
+      form: {
+        gender: '',
+        selectedYear: '',
+        selectedMonth: ''
+      }
+    }
+  }
 };
 </script>
 
 <style lang="scss" scoped>
+@import '../../../assets/scss/helpers/_variables';
+
 .user-infor {
-  margin: 20px;
+  margin: 0 15px;
+  background-color: $color-bg-white;
 
   .user-infor__content {
     padding: 20px 40px;
