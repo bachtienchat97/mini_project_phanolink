@@ -13,7 +13,6 @@ import vuetify from "./plugins/vuetify";
 
 Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
-
 Vue.config.productionTip = false;
 
 new Vue({

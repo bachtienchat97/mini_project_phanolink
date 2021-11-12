@@ -51,8 +51,10 @@
 </template>
 
 <script>
+
 export default {
   name: "UserInfor",
+
   data() {
     return {
       form: {
@@ -61,7 +63,8 @@ export default {
         selectedMonth: ''
       }
     }
-  }
+  },
+
 };
 </script>
 

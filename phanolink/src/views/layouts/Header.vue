@@ -248,7 +248,6 @@ export default {
 
       ul {
         list-style: none;
-        display: flex;
         margin: 0;
         padding: 0;
 
