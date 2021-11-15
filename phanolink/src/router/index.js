@@ -5,6 +5,7 @@ import Layout from "../layout/Layout";
 
 import Home from "../views/pages/Home";
 import User from "../views/components/user/Layout";
+import FavoriteProduct from "../views/components/user/FavoriteProduct";
 
 
 Vue.use(VueRouter);
@@ -24,6 +25,11 @@ const routes = [
         name: "User",
         component: User,
       },
+      {
+        path: 'san-pham-yeu-thich',
+        name: 'FavoriteProduct',
+        component: FavoriteProduct
+      }
     ]
   }
 ];

@@ -11,7 +11,6 @@
 </template>
 
 <script>
-import "../../assets/scss/styles.scss";
 
 export default {
   name: "NonPrescription",
@@ -19,8 +18,11 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "../../assets/scss/styles.scss";
+
 .non-prescription {
   margin-bottom: 20px;
+  background-color: $color-bg-white;
 
   a {
     text-decoration: none;
