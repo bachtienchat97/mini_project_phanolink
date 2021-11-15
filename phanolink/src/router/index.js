@@ -29,7 +29,7 @@ const routes = [
         path: 'san-pham-yeu-thich',
         name: 'FavoriteProduct',
         component: FavoriteProduct
-      }
+      },
     ]
   }
 ];
