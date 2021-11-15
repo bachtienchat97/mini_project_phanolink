@@ -8,7 +8,7 @@
           <ul>
               <li><img src="../../assets/img/arrow.png" alt="arrow"><a href="#">Thông tin tài khoản</a></li>
               <li><img src="../../assets/img/arrow.png" alt="arrow"><a href="#">Quản lý đơn hàng</a></li>
-              <li><img src="../../assets/img/arrow.png" alt="arrow"><a href="#">Sản phẩm yêu thích</a></li>
+              <li><img src="../../assets/img/arrow.png" alt="arrow"><router-link to="/san-pham-yeu-thich">Sản phẩm yêu thích</router-link></li>
               <li><img src="../../assets/img/arrow.png" alt="arrow"><a href="#">Sản phẩm đã xem</a></li>
               <li><img src="../../assets/img/arrow.png" alt="arrow"><a href="#">Sổ địa chỉ</a></li>
               <li><img src="../../assets/img/arrow.png" alt="arrow"><a href="#">Thông báo của tôi</a></li>

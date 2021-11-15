@@ -17,8 +17,11 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import '../../assets/scss/helpers/_variables';
+
 .supplements {
   margin-bottom: 20px;
+  background-color: $color-bg-white;
 
   a {
     text-decoration: none;
