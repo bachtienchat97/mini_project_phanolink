@@ -23,19 +23,17 @@
             <div class="user">
               <img src="../../assets/img/login2x.png" alt="user" />
               <ul class="login-or-regis">
-                <li><a href="#" v-b-modal.modal-1 @click="login">Đăng nhập</a></li>
-                <li><a href="#">Tài khoản</a></li>
+                <li><span v-b-modal.modal-1 @click="login()" v-if="!data">Đăng nhập</span>
+                <span v-if="user">Đăng xuất</span>
+                </li>
+                <li>
+                  <span v-if="data">{{ data.name }}</span>
+                  <!-- <LoginSuccess /> -->
+                </li>
               </ul>
             </div>
-          </li>
-          <b-modal id="modal-1" hide-footer>
-            <div class="wrap-form">
-              <button class="login-form" type="button" @click="login()" :class="objLogin">Login</button>
-              <button class="register-form" type="button" @click="register()" :class="objRegister">Register</button>
-            </div>
-              <Login v-show="isLogin"/>
-              <Register v-show="isRegister" />
-          </b-modal>
+          </li> 
+          <Modal />
           </ul>
       </div>
 
@@ -147,14 +145,18 @@
 </template>
 
 <script>
-import Search from '../components/Search.vue'
-import Register from '../components/auth/Register'
-import Login from '../components/auth/Login'
+import axios from 'axios';
+
+import Search from '@/views/components/Search.vue'
+// import LoginSuccess from '@/views/components/auth/LoginSuccess.vue';
+// import Register from '@/views/components/auth/Register'
+// import Login from '@/views/components/auth/Login'
+import Modal from '@/views/components/Modal';
 
 export default {
   name: "Header",
 
-  components: {Search,Login,Register},
+  components: {Search, Modal},
 
   data() {
     return {
@@ -163,38 +165,30 @@ export default {
       isLogin: true,
       isRegister: false,
       activeLogin: false,
-      activeRegister: false
+      activeRegister: false,
+      user: null
     }
   },
 
   methods: {
     login() {
-       this.isLogin = true;
+      this.isLogin = true;
        this.isRegister = false;
        this.activeLogin = true;
        this.activeRegister = false;
-    },
-
-    register() {
-       this.isRegister = true;
-       this.isLogin = false;
-       this.activeRegister = true;
-       this.activeLogin = false;
     }
   },
 
   computed: {
-    objLogin() {
-      return {
-        login: this.activeLogin,
-      }
-    },
+    
+  },
 
-    objRegister() {
-      return {
-        register: this.activeRegister
-      }
-    }
+  async created() {
+    const response = await axios.get('data');
+    
+    this.user = response.data
+
+    console.log(this.user, 'user')
   }
 };
 </script>
@@ -284,8 +278,7 @@ export default {
               margin: 0;
             }
 
-            a {
-              text-decoration: none;
+            span {
               &:hover {
                 color: rgb(230, 108, 21);
               }
