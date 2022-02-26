@@ -24,7 +24,9 @@
 
 export default {
   name: "Register",
-
+  props: {
+    isType: { type: String, default: '' }
+  },
   data() {
     return {
       isRegister: true,
@@ -48,7 +50,7 @@ export default {
       // this.isSuccess = response;
 
       // open modal login
-console.log('run submit register')
+      console.log('run submit register')
       this.$emit("update:isType", 'login');
     },
   },

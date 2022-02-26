@@ -19,7 +19,7 @@
       </button>
     </div>
     <Login v-if="isType === 'login'" />
-    <Register v-if="isType === 'register'" v-model="isType" />
+    <Register v-if="isType === 'register'" :isType.sync="isType" />
     <!-- <RegisterSuccess /> -->
 
     <pre>{{ isType }}</pre>
