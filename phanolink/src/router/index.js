@@ -7,7 +7,6 @@ import Home from "../views/pages/Home";
 import User from "../views/components/user/Layout";
 import FavoriteProduct from "../views/components/user/FavoriteProduct";
 
-
 Vue.use(VueRouter);
 
 const routes = [
@@ -31,30 +30,23 @@ const routes = [
         component: FavoriteProduct
       },
     ]
-  }
+  },
+  // {
+  //   path: '/register',
+  //   name: 'Register',
+  //   component: () => import ('../views/components/auth/Register')
+  // },
+  // {
+  //   path: '/login',
+  //   name: 'Login',
+  //   component: () => import ('../views/components/auth/Login')
+  // }
 ];
 
 const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
   routes,
-  scrollBehavior(to, from, savedPosition) {
-		if (to.hash) {
-			return {
-				selector: to.hash,
-				// , offset: { x: 0, y: 10 }
-			};
-		}
-		if (savedPosition) {
-			return savedPosition;
-		}
-		return { x: 0, y: 1 };
-	},
 });
-
-const originalPush = VueRouter.prototype.push;
-VueRouter.prototype.push = function push(location) {
-	return originalPush.call(this, location).catch((err) => err);
-};
 
 export default router;
