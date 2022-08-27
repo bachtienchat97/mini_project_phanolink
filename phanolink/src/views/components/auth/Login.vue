@@ -30,7 +30,6 @@ methods: {
          
          localStorage.setItem('token', response.data.token)
 
-      //    this.$router.push('/')
          this.$bvModal.hide('modal-1')
       },
       
