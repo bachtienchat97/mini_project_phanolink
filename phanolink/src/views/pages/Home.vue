@@ -20,7 +20,6 @@ import Banner from "@/views/components/Banner.vue";
 
 export default {
   name: "Home",
-
   components: {
     // Header,
     // Footer,

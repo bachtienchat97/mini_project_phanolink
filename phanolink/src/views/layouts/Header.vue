@@ -11,7 +11,7 @@
                 alt="hotfire"
               />
               <a href="#">Khuyến mãi HOT</a>
-            </div>
+              </div>
           </li>
           <li>
             <div>
@@ -23,27 +23,30 @@
             <div class="user">
               <img src="../../assets/img/login2x.png" alt="user" />
               <ul class="login-or-regis">
+                <li><span v-b-modal.modal-1 @click="login()" v-if="!data">Đăng nhập</span>
+                <span v-if="user">Đăng xuất</span>
+                </li>
                 <li>
-                  <LoginSuccess />
+                  <span v-if="data">{{ data.name }}</span>
+                  <!-- <LoginSuccess /> -->
                 </li>
               </ul>
             </div>
-          </li>
+          </li> 
           <Modal />
-        </ul>
+          </ul>
       </div>
 
       <div class="header-second">
-        <router-link to="/"
-          ><img src="../../assets/img/Logo.png" alt="logo"
-        /></router-link>
+        <router-link to="/"><img src="../../assets/img/Logo.png" alt="logo" /></router-link>
 
         <div class="header-content">
-          <Search v-model="search" />
-          <div class="btn-search" @click="$emit('search', $event.target.value)">
+            <Search v-model="search"/>
+            <div class="btn-search" @click="$emit('search', $event.target.value)">
             <b-icon icon="search"></b-icon>
             Tìm kiếm
-          </div>
+            </div>
+
 
           <div class="header-content__right">
             <div class="prescription">
@@ -142,33 +145,56 @@
 </template>
 
 <script>
+import axios from 'axios';
 
-import Search from "@/views/components/Search.vue";
-import LoginSuccess from "@/views/components/auth/LoginSuccess.vue";
-import Modal from "@/views/components/Modal";
-
+import Search from '@/views/components/Search.vue'
+// import LoginSuccess from '@/views/components/auth/LoginSuccess.vue';
+// import Register from '@/views/components/auth/Register'
+// import Login from '@/views/components/auth/Login'
+import Modal from '@/views/components/Modal';
 
 export default {
   name: "Header",
 
-  components: { Search, Modal, LoginSuccess },
+  components: {Search, Modal},
 
   data() {
     return {
-      search: "",
+      search: '',
       searchResult: [],
-    };
+      isLogin: true,
+      isRegister: false,
+      activeLogin: false,
+      activeRegister: false,
+      user: null
+    }
   },
 
+  methods: {
+    login() {
+      this.isLogin = true;
+       this.isRegister = false;
+       this.activeLogin = true;
+       this.activeRegister = false;
+    }
+  },
 
+  computed: {
+    
+  },
+
+  async created() {
+    const response = await axios.get('data');
+    
+    this.user = response.data
+
+    console.log(this.user, 'user')
+  }
 };
 </script>
 
 <style lang="scss">
-@import "../../assets/scss/helpers/variables";
-.login {
-  cursor: pointer;
-}
+@import '../../assets/scss/helpers/variables';
 
 .modal-header {
   display: none !important;
@@ -189,7 +215,8 @@ export default {
 .wrapper-header {
   background: #01adab;
   width: 100%;
-
+   
+  
   .header {
     display: flex;
     align-items: center;
@@ -198,8 +225,8 @@ export default {
 
     .header-first {
       width: 100%;
-
-      .btn-search {
+    
+    .btn-search {
         background: #e2e3e4;
         padding: 5px 9px;
         cursor: pointer;
@@ -414,9 +441,12 @@ export default {
       display: flex;
       border-radius: 10px;
       margin-left: 20px;
+
+      
     }
   }
 }
+
 
 .wrap-form {
   position: absolute;
@@ -428,9 +458,9 @@ export default {
   .register-form {
     margin-left: 5px;
   }
+  
 
-  .login-form,
-  .register-form {
+  .login-form, .register-form {
     padding: 17px;
     color: $dark;
     background-color: $color-white;
@@ -442,8 +472,7 @@ export default {
     }
   }
 
-  .login,
-  .register {
+  .login, .register {
     background-color: $primary-green;
     color: $color-white;
     padding: 17px;
@@ -453,6 +482,6 @@ export default {
     &:hover {
       cursor: pointer;
     }
-  }
+  } 
 }
 </style>

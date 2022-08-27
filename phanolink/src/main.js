@@ -5,7 +5,6 @@ import store from "./store";
 
 import './axios';
 
-
 import { BootstrapVue, IconsPlugin } from "bootstrap-vue";
 
 import "bootstrap/dist/css/bootstrap.css";

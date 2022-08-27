@@ -3,7 +3,7 @@
     <div class="wrap-form">
       <button
         class="login-form"
-        :class="activeBtnLogin"
+        :class="activeClassLogin"
         v-b-modal.modal-1
         @click="activeBtn('LOGIN')"
       >
@@ -11,7 +11,7 @@
       </button>
       <button
         class="register-form"
-        :class="activeBtnRegister"
+        :class="activeClassRegister"
         v-b-modal.modal-1
         @click="activeBtn('REGISTER')"
       >
@@ -22,6 +22,7 @@
     <Register v-if="isType === 'register'" :isType.sync="isType" />
     <!-- <RegisterSuccess /> -->
 
+    <pre>{{ isType }}</pre>
   </b-modal>
 </template>
 
@@ -31,7 +32,6 @@ import Register from "@/views/components/auth/Register.vue";
 
 export default {
   name: "Modal",
-  
   components: { Login, Register },
   data() {
     return {
@@ -57,10 +57,10 @@ export default {
   },
 
   computed: {
-    activeBtnLogin() {
+    activeClassLogin() {
       return this.isType === "login" && "active";
     },
-    activeBtnRegister() {
+    activeClassRegister() {
       return this.isType === "register" && "active";
     },
   },
@@ -76,7 +76,7 @@ export default {
 
 .register-form {
   &.active {
-    background: orange;
+    background: blue;
   }
 }
 </style>

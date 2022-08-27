@@ -5,10 +5,14 @@
 </template>
 
 <script>
+import axios from 'axios';
 
 export default {
     name: 'RegisterSuccess',
 
+    async create() {
+        await axios.get('data');
+    }
 }
 </script>
 

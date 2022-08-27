@@ -4,7 +4,7 @@ import VueRouter from "vue-router";
 import Layout from "../layout/Layout";
 
 import Home from "../views/pages/Home";
-// import User from "../views/components/user/Layout";
+import User from "../views/components/user/Layout";
 import FavoriteProduct from "../views/components/user/FavoriteProduct";
 
 Vue.use(VueRouter);
@@ -19,11 +19,11 @@ const routes = [
         name: "Home",
         component: Home,
       },
-      // {
-      //   path: 'user',
-      //   name: "User",
-      //   component: User,
-      // },
+      {
+        path: 'user',
+        name: "User",
+        component: User,
+      },
       {
         path: 'san-pham-yeu-thich',
         name: 'FavoriteProduct',
@@ -31,10 +31,6 @@ const routes = [
       },
     ]
   },
-  {
-    path: '*',
-    redirect: '/'
-  }
   // {
   //   path: '/register',
   //   name: 'Register',

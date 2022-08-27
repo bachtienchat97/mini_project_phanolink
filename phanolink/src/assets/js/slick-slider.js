@@ -9,3 +9,5 @@ $(".single-item").slick({
   slidesToScroll: 1,
   arrows: false,
 });
+
+console.log("hello");
