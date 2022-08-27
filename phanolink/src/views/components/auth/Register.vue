@@ -20,39 +20,41 @@
 </template>
 
 <script>
-//import axios from "axios";
+import { mapActions } from 'vuex';
+// import axios from "axios";
 
 export default {
   name: "Register",
   props: {
-    isType: { type: String, default: '' }
+    isType: { type: String, default: "" },
   },
   data() {
     return {
-      isRegister: true,
-      name: "",
-      email: "",
-      password: "",
-      phone: "",
-      isSuccess: null,
+      user: {
+        name: "",
+        email: "",
+        password: "",
+        phone: "",
+      },
     };
   },
 
   methods: {
-    async handleSubmit() {
-      // const response = await axios.post('register', {
-      //   name : this.name,
-      //   email: this.email,
-      //   password: this.password,
-      //   phone: this.phone
-      // });
+    ...mapActions(['register']),
+    
+    // async handleSubmit() {
+    //   await axios.post("register", {
+    //     name: this.user.name,
+    //     email: this.user.email,
+    //     password: this.user.password,
+    //     phone: this.user.phone,
+    //   });
 
-      // this.isSuccess = response;
+    //   // this.isSuccess = response;
 
-      // open modal login
-      console.log('run submit register')
-      this.$emit("update:isType", 'login');
-    },
+    //   // open modal login
+    //   this.$emit("update:isType", "login");
+    // },
   },
 };
 </script>

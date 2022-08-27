@@ -1,33 +1,58 @@
 <template>
-<div>
-    <span v-if="!data">Tài khoản</span>
-    <span v-if="data">{{ data.name }}</span>
-</div>
+  <div>
+    <div v-if="!allUser.name && userLocal === ''">
+      <span class="login" v-b-modal.modal-1>Đăng nhập</span>
+      <span class="user">Tài khoản</span>
+    </div>
+      <Logout v-if="allUser.name || userLocal !== ''"/>
+      <span class="user" v-if="allUser.name">{{ allUser.name }}1</span>
+  </div>
 </template>
 
 <script>
-import axios from 'axios';
+import { KEY_LOCAL_STORAGE } from "@/constants";
+// import { getTokenParsed } from "@/utils/localStorage";
+
+import { mapActions, mapGetters } from "vuex";
+import Logout from "./Logout.vue";
 
 export default {
-   name: 'LoginSuccess',
+  components: { Logout },
+  name: "LoginSuccess",
 
-   data() {
-       return {
-          user: null
-       }
-   },
-   
-   
-   async created() {
-       const response = await axios.get('data');
-       console.log(response, 'response');
+  data() {
+    return {
+      userLocal: '',
+    };
+  },
 
-       this.user = response.data;
+  computed: {
+    ...mapGetters(["allUser"]),
+  },
+  methods: {
+    ...mapActions(["logoutUser"]),
+    // getUserLocal() {
+    //   const username = JSON.parse(localStorage.getItem(KEY_LOCAL_STORAGE));
+    //   if (username.name !== '') {
+    //     this.userLocal = username.name;
+    //   }
+    //   return this.userLocal
+    // }
+  },
 
-   }
-}
+  created() {
+    
+    const isUserLocal = localStorage.getItem(KEY_LOCAL_STORAGE);
+    if (isUserLocal !== null) {
+      const user = JSON.parse(isUserLocal)
+      this.allUser.name = user.name;
+    }
+  },
+};
 </script>
 
-<style>
-
+<style scoped lang="scss">
+.user {
+  cursor: pointer;
+}
 </style>

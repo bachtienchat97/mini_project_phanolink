@@ -1,16 +1,16 @@
 <template>
 <div class="layout-user container">
-  <ManagerAccount />
-  <UserInfor />
+  <!-- <ManagerAccount />
+  <UserInfor /> -->
 </div>
 </template>
 
 <script>
-import UserInfor from './UserInfor';
-import ManagerAccount from '../ManagerAccount';
+// import UserInfor from './UserInfor';
+// import ManagerAccount from '../ManagerAccount';
 
 export default {
-  components: { UserInfor, ManagerAccount },
+  // components: { UserInfor, ManagerAccount },
 };
 </script>
 
