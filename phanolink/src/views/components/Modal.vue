@@ -20,7 +20,6 @@
     </div>
     <Login v-if="isType === 'login'" />
     <Register v-if="isType === 'register'" :isType.sync="isType" />
-    <!-- <RegisterSuccess /> -->
 
   </b-modal>
 </template>
@@ -70,13 +69,13 @@ export default {
 <style scoped lang="scss">
 .login-form {
   &.active {
-    background: blue;
+    background: #0eb493;
   }
 }
 
 .register-form {
   &.active {
-    background: orange;
+    background: #0eb493;
   }
 }
 </style>
