@@ -1,66 +1,84 @@
 <template>
-  <form @submit.prevent="handleSubmit">
-    <p>Họ tên</p>
-    <input type="text" placeholder="Nhập họ tên" v-model="name" />
+  <div>
+    <form @submit.prevent="handleSubmit" v-if="isSuccess === false">
+      <p>Họ tên</p>
+      <input type="text" placeholder="Nhập họ tên" v-model="userForm.name" />
 
-    <p>Email</p>
-    <input type="email" placeholder="Nhập Email" v-model="email" />
+      <p>Email</p>
+      <input type="email" placeholder="Nhập Email" v-model="userForm.email" />
 
-    <p>Mật khẩu</p>
-    <input
-      type="password"
-      placeholder="Mật khẩu từ 6 đến 32 ký tự"
-      v-model="password"
-    />
+      <p>Mật khẩu</p>
+      <input
+        type="password"
+        placeholder="Mật khẩu từ 6 đến 32 ký tự"
+        v-model="userForm.password"
+      />
 
-    <p>Số điện thoại</p>
-    <input placeholder="Nhập số điện thoại" v-model="phone" />
-    <button class="btn-register">Tạo tài khoản</button>
-  </form>
+      <p>Số điện thoại</p>
+      <input placeholder="Nhập số điện thoại" v-model="userForm.phone" />
+      <button class="btn-register">Tạo tài khoản</button>
+    </form>
+
+    <div class="register-success" v-if="isSuccess">
+      <p>
+        Bạn Đã Đăng Ký Thành Công Với Email : <span>{{ accountRegister }}</span>
+      </p>
+      <div @click="btnBackLogin">
+        Quay Lại Đăng Nhập
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
-import { mapActions } from 'vuex';
-// import axios from "axios";
+import { mapActions } from "vuex";
+import axios from "axios";
 
 export default {
   name: "Register",
+
   props: {
     isType: { type: String, default: "" },
   },
   data() {
     return {
-      user: {
+      userForm: {
         name: "",
         email: "",
         password: "",
         phone: "",
       },
+      isSuccess: false,
+      accountRegister: "",
     };
   },
 
   methods: {
-    ...mapActions(['register']),
-    
-    // async handleSubmit() {
-    //   await axios.post("register", {
-    //     name: this.user.name,
-    //     email: this.user.email,
-    //     password: this.user.password,
-    //     phone: this.user.phone,
-    //   });
+    ...mapActions(["register"]),
 
-    //   // this.isSuccess = response;
+    async handleSubmit() {
+      const response = await axios.post("register", {
+        name: this.userForm.name,
+        email: this.userForm.email,
+        password: this.userForm.password,
+        phone: this.userForm.phone,
+      });
 
-    //   // open modal login
-    //   this.$emit("update:isType", "login");
-    // },
+      if (response.status === 200) {
+        this.isSuccess = true;
+        this.accountRegister = response.data.data?.email;
+      }
+    },
+
+    btnBackLogin() {
+      this.$emit("update:isType", "login");
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-@import "../../../assets/scss/helpers/_variables";
+@import "@/assets/scss/helpers/_variables";
 
 [disabled] {
   cursor: no-drop;
@@ -81,4 +99,33 @@ export default {
     opacity: 0.8;
   }
 }
+
+.register-success {
+  padding: 15px;
+
+  div {
+    cursor: pointer;
+    text-align: center;
+    padding: $size15;
+    border-radius: 5px;
+    border: 1px solid grey;
+    height: auto;
+    font-weight: bold;
+    color: $color-bg-white;
+    margin-top: $size15;
+    font-size: $font-15;
+    background: #2a816f;
+  }
+
+  p {
+    font-size: $font-15;
+    span {
+      color: rgb(29, 252, 29);
+    }
+  }
+
+  
+}
+
+
 </style>
