@@ -250,12 +250,6 @@ export default {
             li {
               margin: 0;
             }
-
-            span {
-              &:hover {
-                color: rgb(230, 108, 21);
-              }
-            }
           }
         }
       }
