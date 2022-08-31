@@ -11,7 +11,6 @@
 
 <script>
 import { KEY_LOCAL_STORAGE } from "@/constants";
-// import { getTokenParsed } from "@/utils/localStorage";
 
 import { mapActions, mapGetters } from "vuex";
 import Logout from "./Logout.vue";
@@ -31,13 +30,6 @@ export default {
   },
   methods: {
     ...mapActions(["logoutUser"]),
-    // getUserLocal() {
-    //   const username = JSON.parse(localStorage.getItem(KEY_LOCAL_STORAGE));
-    //   if (username.name !== '') {
-    //     this.userLocal = username.name;
-    //   }
-    //   return this.userLocal
-    // }
   },
 
   created() {
