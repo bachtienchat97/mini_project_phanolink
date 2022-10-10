@@ -1,9 +1,9 @@
-<template>
-  <div class="non-prescription container">
-    <div class="prescription-header">
-      <div class="prescription-left">
-        <img src="../../assets/img/pills.png" alt="pills" />
-        <span>Thuốc Không Kê Toa</span>
+/<template>
+  <div class="category container">
+    <div class="category-header">
+      <div class="category-left">
+        <img src="@/assets/img/thucpham-green2x.png" :alt="item.name" />
+        <span>{{ item.name }}</span>
       </div>
       <a href="#">Xem tất cả ></a>
     </div>
@@ -11,16 +11,17 @@
 </template>
 
 <script>
-
 export default {
-  name: "NonPrescription",
+  name: "ProductCategories",
+
+  props: { item: Object },
 };
 </script>
 
 <style scoped lang="scss">
-@import "../../assets/scss/styles.scss";
+@import "@/assets/scss/helpers/_variables";
 
-.non-prescription {
+.category {
   margin-bottom: 20px;
   background-color: $color-bg-white;
 
@@ -28,19 +29,19 @@ export default {
     text-decoration: none;
   }
 
-  .prescription-header {
+  .category-header {
     padding: 15px;
     display: flex;
     align-items: center;
     justify-content: space-between;
 
-    .prescription-left {
+    .category-left {
       img {
         background-size: cover;
         background-repeat: no-repeat;
         background-position: center;
-        height: 30px;
         margin-right: 10px;
+        width: 20px;
       }
 
       span {

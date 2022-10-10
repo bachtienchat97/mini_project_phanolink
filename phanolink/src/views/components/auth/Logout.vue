@@ -15,7 +15,7 @@ export default {
   methods: {
     // ...mapActions('logoutUser', null),
     btnLogout() {
-      this.$store.dispatch("logoutUser", {});
+      this.$store.dispatch('auth/logoutUser', {}, { root: true });
       localStorage.removeItem('phanolink_user');
     },
   },

@@ -1,27 +1,25 @@
 <template>
   <div class="layout">
-      <Header/>
-      <BreadCrumb />
-        <div class="main-page container">
-            <router-view></router-view>
-        </div>
-      <Footer/>
+    <Header />
+    <BreadCrumb />
+    <router-view :key='$route.path'></router-view>
+    <Footer />
   </div>
 </template>
 
 <script>
-import Header from '../views/layouts/Header';
-import Footer from '../views/layouts/Footer';
-import BreadCrumb from '../views/components/Breadcrumb';
+import BreadCrumb from "../views/components/Breadcrumb";
+import Header from "@/views/layouts/Header.vue";
+import Footer from "@/views/layouts/Footer.vue";
 
 export default {
- name: 'Layout',
- components: {Header,Footer,BreadCrumb}
-}
+  name: "Layout",
+  components: { BreadCrumb, Header, Footer },
+};
 </script>
 
 <style scoped lang="scss">
 .layout {
-  background-color: #EBEBEB;
+  background-color: #ebebeb;
 }
 </style>

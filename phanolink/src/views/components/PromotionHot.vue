@@ -2,59 +2,31 @@
   <div class="promotion container">
     <div class="promotion-header">
       <div class="promotion-title">
-        <img src="../../assets/img/hot-icon-fire.png" alt="hot-icon-fire" />
+        <img src="@/assets/img/hot-icon-fire.png" alt="hot-icon-fire" />
         <span>Khuyến Mãi Hot</span>
       </div>
       <a href="#">Xem tất cả ></a>
     </div>
 
-    <VueSlickCarousel v-bind="slickOptions">
-      <div class="item-content">
-        <div class="item">
-          <img src="../../assets/img/khuyen-mai-hot-img2.png" alt="img" />
-        </div>
-        <div class="item">
-          <img src="../../assets/img/khuyen-mai-hot1.png" alt="img" />
-        </div>
-        <div class="item">
-          <img src="../../assets/img/khuyen-mai-hot-img2.png" alt="img" />
-        </div>
-      </div>
-
-      <div class="item-content">
-        <div class="item">
-          <img src="../../assets/img/khuyen-mai-hot-img2.png" alt="img" />
-        </div>
-        <div class="item">
-          <img src="../../assets/img/khuyen-mai-hot1.png" alt="img" />
-        </div>
-        <div class="item">
-          <img src="../../assets/img/khuyen-mai-hot-img2.png" alt="img" />
-        </div>
-      </div>
-
-      <div class="item-content">
-        <div class="item">
-          <img src="../../assets/img/khuyen-mai-hot-img2.png" alt="img" />
-        </div>
-        <div class="item">
-          <img src="../../assets/img/khuyen-mai-hot1.png" alt="img" />
-        </div>
-        <div class="item">
-          <img src="../../assets/img/khuyen-mai-hot-img2.png" alt="img" />
-        </div>
-      </div>
+    <VueSlickCarousel v-bind="slickOptions" >
+      <SliderHotPromotion v-for="item in 3" :key="item" />
     </VueSlickCarousel>
   </div>
 </template>
 
 <script>
+// import categoryApis from '@/apis';
+
 import VueSlickCarousel from "vue-slick-carousel";
 import "vue-slick-carousel/dist/vue-slick-carousel.css";
 
+import SliderHotPromotion from './SliderHotPromotion.vue';
+
 export default {
   name: "PromotionHot",
-  components: { VueSlickCarousel },
+
+  components: { VueSlickCarousel, SliderHotPromotion },
+
   data() {
     return {
       slickOptions: {
@@ -69,6 +41,21 @@ export default {
       },
     };
   },
+
+  methods: {
+    // async getProductSlider() {
+    //   const res = await categoryApis.getProductSlider(1);
+    //   if (res.status === 200) {
+    //     const product = res.data.data;
+    //     console.log(product)
+    //     await this.$store.dispatch('product/getProductList', product, { root: true });
+    //   }
+    // }
+  },
+
+  created() {
+    this.$store.dispatch('product/productList',{root: true});
+  }
 };
 </script>
 
@@ -108,25 +95,6 @@ export default {
         &:hover {
           opacity: 0.8;
         }
-      }
-    }
-  }
-
-  .item-content {
-    display: flex !important;
-    margin-left: -10px;
-    margin-bottom: 20px;
-
-    img {
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      margin-left: 10px;
-      width: 365px;
-      &:hover {
-        opacity: 0.8;
-        cursor: pointer;
-        border: 1px solid #05a8d0;
       }
     }
   }

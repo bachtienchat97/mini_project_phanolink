@@ -129,7 +129,7 @@
           <h2>TÀI KHOẢN</h2>
           <ul>
             <li>
-              <a href="#"
+              <a href="#" v-b-modal.modal-1
                 ><img
                   class="arrow"
                   src="../../assets/img/arrow.png"
@@ -138,7 +138,7 @@
               >
             </li>
             <li>
-              <a href="#"
+              <a href="#" v-b-modal.modal-1
                 ><img
                   class="arrow"
                   src="../../assets/img/arrow.png"

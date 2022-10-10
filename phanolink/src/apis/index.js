@@ -1,0 +1,1 @@
+export { default as categoryApis } from '@/apis/category';

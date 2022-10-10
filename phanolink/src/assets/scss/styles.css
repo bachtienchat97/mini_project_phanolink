@@ -1,0 +1,53 @@
+html, body {
+  font-size: 16px;
+  font-family: "Open Sans", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+@media only screen and (max-width : 1160px) {
+  html, body {
+    font-size: 15px;
+  }
+}
+@media only screen and (max-width : 900px) {
+  html, body {
+    font-size: 14px;
+  }
+}
+@media only screen and (max-width : 767px) {
+  html, body {
+    font-size: 12px;
+  }
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+}
+
+ul, ol, p {
+  padding: 0;
+  margin: 0;
+}
+
+h1, h2, h3, h4, h5 {
+  margin: 0;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+img {
+  max-width: 100%;
+}
+
+body {
+  color: #3c3c3c;
+}/*# sourceMappingURL=styles.css.map */

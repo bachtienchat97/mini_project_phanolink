@@ -7,8 +7,6 @@
     :value="search"
     @change="$emit('change',$event.target.value)"
 />
-
-    
 </div>
 </template>
 
@@ -30,7 +28,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .header-content__left {
   .search {
         border: none;
@@ -40,7 +38,6 @@ export default {
         width: 500px;
         background-color: #ffffff;
       }
-      
 }
 
 </style>
