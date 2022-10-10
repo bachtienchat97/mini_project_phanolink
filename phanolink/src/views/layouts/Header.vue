@@ -7,7 +7,7 @@
             <div>
               <img
                 class="hotfire"
-                src="../../assets/img/hotfire.png"
+                src="@/assets/img/hotfire.png"
                 alt="hotfire"
               />
               <a href="#">Khuyến mãi HOT</a>
@@ -15,13 +15,13 @@
           </li>
           <li>
             <div>
-              <img class="noti" src="../../assets/img/bell.png" alt="bell" />
+              <img class="noti" src="@/assets/img/bell.png" alt="bell" />
               <a href="#">Thông báo của tôi</a>
             </div>
           </li>
           <li>
             <div class="user">
-              <img src="../../assets/img/login2x.png" alt="user" />
+              <img src="@/assets/img/login2x.png" alt="user" />
               <ul class="login-or-regis">
                 <li>
                   <LoginSuccess />
@@ -35,10 +35,11 @@
 
       <div class="header-second">
         <router-link to="/"
-          ><img src="../../assets/img/Logo.png" alt="logo"
+          ><img src="@/assets/img/Logo.png" alt="logo"
         /></router-link>
 
         <div class="header-content">
+
           <Search v-model="search" />
           <div class="btn-search" @click="$emit('search', $event.target.value)">
             <b-icon icon="search"></b-icon>
@@ -47,12 +48,12 @@
 
           <div class="header-content__right">
             <div class="prescription">
-              <img src="../../assets/img/prescription.png" alt="prescription" />
+              <img src="@/assets/img/prescription.png" alt="prescription" />
               <span>Tạo toa thuốc</span>
             </div>
 
             <div class="cart">
-              <img src="../../assets/img/cart2x.png" alt="cart2x" />
+              <img src="@/assets/img/cart2x.png" alt="cart2x" />
               <span>Giỏ hàng</span>
             </div>
           </div>
@@ -62,75 +63,42 @@
       <div class="header-third">
         <ul>
           <li class="item">
-            <img src="../../assets/img/category-product.png" alt="category" />
+            <img src="@/assets/img/category-product.png" alt="category" />
             <router-link to="/user"
               >DANH MỤC SẢN PHẨM
               <ul class="item-drop">
-                <li>
-                  <router-link to="/"><a href="#"> Mẹ & bé</a></router-link>
-                </li>
-                <li>
-                  <router-link to="/"
-                    ><a href="#"> Thực phẩm chức năng</a></router-link
-                  >
-                </li>
-                <li>
-                  <router-link to="/"
-                    ><a href="#">Chăm sóc cá nhân</a></router-link
-                  >
-                </li>
-                <li>
-                  <router-link to="/"
-                    ><a href="#">Chăm sóc sức khỏe</a></router-link
-                  >
-                </li>
-                <li>
-                  <router-link to="/"
-                    ><a href="#">Tủ thuốc gia đình</a></router-link
-                  >
-                </li>
-                <li>
-                  <router-link to="/"
-                    ><a href="#">Chăm sóc phụ nữ</a></router-link
-                  >
-                </li>
-                <li>
-                  <router-link to="/"
-                    ><a href="#">Chăm sóc sắc đẹp</a></router-link
-                  >
-                </li>
-                <li>
-                  <router-link to="/"
-                    ><a href="#">Sức khỏe gia đình</a></router-link
-                  >
+                <li v-for="item in cate" :key="item.id">
+                  <router-link :to="{ name: 'Product', params: { slug: item.slug, id: item.id } }">
+                    {{ item.name }}
+                  </router-link>
                 </li>
               </ul>
             </router-link>
           </li>
           <li>
-            <img src="../../assets/img/hot-sale.png" alt="hot-sale" /><a
+            <img src="@/assets/img/hot-sale.png" alt="hot-sale" /><a
               href="#"
               >KHUYẾN MÃI HOT</a
             >
           </li>
           <li>
-            <img src="../../assets/img/location.png" alt="location" /><a
+            <img src="@/assets/img/location.png" alt="location" /><a
               href="#"
               >HỆ THỐNG NHÀ THUỐC</a
             >
           </li>
           <li>
-            <img src="../../assets/img/heart2x.png" alt="heart2x" /><a href="#"
+            <img src="@/assets/img/heart2x.png" alt="heart2x" /><a href="#"
               >GÓC SỨC KHỎE</a
             >
           </li>
           <li>
-            <img src="../../assets/img/intro.png" alt="intro" /><a href="#"
+            <img src="@/assets/img/intro.png" alt="intro" /><a href="#"
               >GIỚI THIỆU</a
             >
           </li>
           <li>
-            <img src="../../assets/img/question.png" alt="question" /><a
+            <img src="@/assets/img/question.png" alt="question" /><a
               href="#"
               >HƯỚNG DẪN</a
             >
@@ -146,6 +114,8 @@
 import Search from "@/views/components/Search.vue";
 import LoginSuccess from "@/views/components/auth/LoginSuccess.vue";
 import Modal from "@/views/components/Modal";
+import { mapGetters } from 'vuex';
+
 
 
 export default {
@@ -160,12 +130,20 @@ export default {
     };
   },
 
-
+  computed: {
+    ...mapGetters({
+      cate: 'category/categoriesList'
+    })
+  },
+  
+  // created() {
+  //   this.$store.dispatch('category/getCategoryList',{root: true});
+  // }
 };
 </script>
 
 <style lang="scss">
-@import "../../assets/scss/helpers/variables";
+@import "@/assets/scss/helpers/variables";
 .login {
   cursor: pointer;
 }
@@ -194,7 +172,7 @@ export default {
     display: flex;
     align-items: center;
     flex-direction: column;
-    padding-top: 10px;
+    padding: 10px 0 0 0;
 
     .header-first {
       width: 100%;

@@ -20,7 +20,6 @@
     </div>
     <Login v-if="isType === 'login'" />
     <Register v-if="isType === 'register'" :isType.sync="isType" />
-
   </b-modal>
 </template>
 

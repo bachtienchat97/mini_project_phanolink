@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+// import { mapActions } from "vuex";
 import axios from "axios";
 
 export default {
@@ -54,7 +54,7 @@ export default {
   },
 
   methods: {
-    ...mapActions(["register"]),
+    // ...mapActions(["auth/register"]),
 
     async handleSubmit() {
       const response = await axios.post("register", {

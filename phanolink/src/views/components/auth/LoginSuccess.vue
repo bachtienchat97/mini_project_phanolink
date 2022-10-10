@@ -1,18 +1,18 @@
 <template>
   <div>
     <div v-if="!allUser.name && userLocal === ''">
-      <span class="login" v-b-modal.modal-1>Đăng nhập</span>
+      <span class="login" @click="$bvModal.show('modal-1')">Đăng nhập</span>
       <span class="user">Tài khoản</span>
     </div>
       <Logout v-if="allUser.name || userLocal !== ''"/>
-      <span class="user" v-if="allUser.name">{{ allUser.name }}1</span>
+      <span class="user" v-if="allUser.name">{{ allUser.name }}</span>
   </div>
 </template>
 
 <script>
 import { KEY_LOCAL_STORAGE } from "@/constants";
 
-import { mapActions, mapGetters } from "vuex";
+import {  mapGetters } from "vuex";
 import Logout from "./Logout.vue";
 
 export default {
@@ -26,10 +26,9 @@ export default {
   },
 
   computed: {
-    ...mapGetters(["allUser"]),
-  },
-  methods: {
-    ...mapActions(["logoutUser"]),
+    ...mapGetters({
+      allUser: 'auth/allUser'
+    }),
   },
 
   created() {

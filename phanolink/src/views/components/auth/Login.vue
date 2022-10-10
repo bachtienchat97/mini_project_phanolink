@@ -23,7 +23,6 @@
 import axios from "axios";
 
 import { setToken } from "@/utils/localStorage.js";
-// import { mapActions } from 'vuex';
 
 export default {
   name: "Login",
@@ -38,23 +37,13 @@ export default {
     };
   },
 
-  // created() {
-  //   this.logout()
-  // },
-
-  computed: {
-    //  ...mapState('auth', ['user']),
-  },
-
   methods: {
-    // ...mapActions(['fetchUserInfo']),
     async handleSubmit() {
       const response = await axios.post("login", this.formSubmit);
 
       if (response.status === 200) {
         // dispatch action to store or using helper mapAction
-        await this.$store.dispatch('userLogin', response.data.data);
-        // const res = await this.fetchUserInfo(response.data.data);
+        await this.$store.dispatch('auth/userLogin', response.data.data, {root: true});
         await setToken(JSON.stringify(response.data.data));
         this.$bvModal.hide("modal-1"); //? hide modal
       }
@@ -64,7 +53,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../../../assets/scss/helpers/_variables";
+@import "@/assets/scss/helpers/_variables";
 
 [disabled] {
   cursor: no-drop;
