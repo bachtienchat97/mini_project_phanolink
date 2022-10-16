@@ -7,10 +7,11 @@
           <div class="category-product-bot">
             <ul>
               <li v-for="item in categoriesList" :key="item.id">
-                <router-link exact-active-class="active-link"
+                <router-link
+                  exact-active-class="active-link"
                   :to="{
                     name: 'Product',
-                    params: { slug: item.slug, id: item.id },
+                    params: { slug: convertSlug(item.name), id: item.id },
                   }"
                 >
                   {{ item.name }}
@@ -36,65 +37,87 @@
             v-for="product in products"
             :key="product.id"
           >
-            <div class="card">
-              <div class="card--discount" v-show="product.discount !== 0 ? isDiscount : !isDiscount">{{ product.discount }}% GIẢM</div>
-              <div
-                class="card-wrap"
-                v-if="product.quantity === 0 ? (checkSold = true) : !checkSold"
-              >
-                <div :class="{ 'card--sold': checkSold }">Hết Hàng</div>
+            <router-link
+              :to="{
+                name: 'ProductDetail',
+                params: {
+                  slug: convertSlug(product.name),
+                  categoryID: product.category_id,
+                  productID: product.id,
+                },
+                query: { page: 1 },
+              }"
+            >
+              <div class="card">
                 <div
                   class="card--discount"
                   v-show="product.discount !== 0 ? isDiscount : !isDiscount"
                 >
                   {{ product.discount }}% GIẢM
                 </div>
-              </div>
-
-              <img
-                v-if="checkFreeShip(product.is_free_shipping)"
-                class="freeship-ico"
-                src="@/assets/img/icons8-in-transit.gif"
-                alt="transit"
-                :width="30"
-              />
-              <span :class="{'show': isDiscount}"
-                style="
-                  font-size: 12px;
-                  position: absolute;
-                  top: 40px;
-                  left: 15px;
-                  border-radius: 5px;
-                  padding: 5px;
-                  margin-top: 5px;
-                  color: #ffffff;
-                  font-size: 12px;
-                  display: flex;
-                  background: #acacac;
-                "
-                v-if="product.quantity > 0"
-                >có sẵn: {{ product.quantity }}</span
-              >
-              <div class="card-img">
-                <img :src="product.img_path" :alt="product.description" />
-              </div>
-
-              <div class="card-description">
-                <p :class="{ 'text-overflow': showLess }">
-                  {{ product.description }}
-                </p>
-
-                <div class="description-wrap">
-                  <span class="discount-price"
-                    >{{
-                      calculateDis(product.original_price, product.discount)
-                    }}
-                    đ</span
+                <div
+                  class="card-wrap"
+                  v-if="
+                    product.quantity === 0 ? (checkSold = true) : !checkSold
+                  "
+                >
+                  <div :class="{ 'card--sold': checkSold }">Hết Hàng</div>
+                  <div
+                    class="card--discount"
+                    v-show="product.discount !== 0 ? isDiscount : !isDiscount"
                   >
-                  <span class="root-price" v-if="product.discount > 0">{{ product.original_price }} đ</span>
+                    {{ product.discount }}% GIẢM
+                  </div>
+                </div>
+
+                <img
+                  v-if="checkFreeShip(product.is_free_shipping)"
+                  class="freeship-ico"
+                  src="@/assets/img/icons8-in-transit.gif"
+                  alt="transit"
+                  :width="30"
+                />
+                <span
+                  :class="{ show: isDiscount }"
+                  style="
+                    font-size: 12px;
+                    position: absolute;
+                    top: 40px;
+                    left: 15px;
+                    border-radius: 5px;
+                    padding: 5px;
+                    margin-top: 5px;
+                    color: #ffffff;
+                    font-size: 12px;
+                    display: flex;
+                    background: #acacac;
+                  "
+                  v-if="product.quantity > 0"
+                  >có sẵn: {{ product.quantity }}</span
+                >
+                <div class="card-img">
+                  <img :src="product.img_path" :alt="product.description" />
+                </div>
+
+                <div class="card-description">
+                  <p :class="{ 'text-overflow': showLess }">
+                    {{ product.description }}
+                  </p>
+
+                  <div class="description-wrap">
+                    <span class="discount-price"
+                      >{{
+                        calculateDis(product.original_price, product.discount)
+                      }}
+                      đ</span
+                    >
+                    <span class="root-price" v-if="product.discount > 0"
+                      >{{ product.original_price }} đ</span
+                    >
+                  </div>
                 </div>
               </div>
-            </div>
+            </router-link>
           </div>
         </div>
       </div>
@@ -103,16 +126,18 @@
 </template>
 
 <script>
+import mixins from "@/mixins";
 import { mapGetters } from "vuex";
 
 import { categoryApis } from "@/apis";
+// import {productApis} from "@/apis";
 
 import { calculateDiscount } from "@/utils/calculateDiscount";
 import { freeShip } from "@/utils/freeShip";
 
 export default {
   name: "Product",
-
+  mixins: [mixins],
   data() {
     return {
       showLess: true,
@@ -126,6 +151,7 @@ export default {
     ...mapGetters({
       categoriesList: "category/categoriesList",
       productList: "product/productListByID",
+      productDetail: "product/productDetailByID",
     }),
 
     checkLengthText() {
@@ -135,11 +161,10 @@ export default {
 
   created() {
     this.renderProductByCategoryID();
-
     this.$store.dispatch("category/getCategoryList", { root: true });
     this.$store.dispatch("product/getProductList", { root: true });
-    this.$store.dispatch("product/getProductListByID", { root: true });
   },
+
   methods: {
     calculateDis(original, discount) {
       return calculateDiscount(original, discount);
@@ -149,21 +174,34 @@ export default {
       return freeShip(isFree);
     },
 
+    //display product list by categoryID
     async renderProductByCategoryID() {
       try {
-        const id = this.$route.params.id;
-        const res = await categoryApis.getProductBaseOnCategoryID(id);
-        console.log(res, "s");
+        const categoryID = this.$route.params.id;
+        const res = await categoryApis.getProductBaseOnCategoryID(categoryID);
         if (res.status === 200) {
           this.products = res.data.data;
           console.log(this.products, "[");
-
-          await this.$store.dispatch("product/getProductListByID", id);
         }
       } catch (e) {
-        console.log(e);
+        throw new Error("something went wrong", e);
       }
     },
+
+   
+
+    // async getProductByID() {
+    //   try {
+    //     const id = this.$route.params.productID;
+    //     const res = await categoryApis.getProductBaseOnCategoryID(id);
+
+    //     if (res.status === 200) {
+
+    //     }
+    //   } catch (e) {
+    //     throw new Error("error: ", e);
+    //   }
+    // },
   },
 };
 </script>
@@ -206,7 +244,7 @@ export default {
         padding: $size10;
 
         .active-link {
-              color: rgb(48, 48, 175);
+          color: rgb(48, 48, 175);
         }
 
         ul {
@@ -342,6 +380,7 @@ export default {
             -webkit-box-orient: vertical;
             overflow: hidden;
             margin-bottom: 5px;
+            color: black;
             &:hover {
               color: $primary-green;
             }

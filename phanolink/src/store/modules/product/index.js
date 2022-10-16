@@ -6,12 +6,14 @@ import axios from 'axios';
 
 const state = {
   products: [],
-  productListByID: []
+  productListByID: [],
+  productDetailByID: []
 };
 
 const getters = {
   productList: (state) => state.products,
-  productListByID: (state) => state.productListByID
+  productListByID: (state) => state.productListByID,
+  productDetailByID: (state) => state.productDetailByID
 };
 
 const actions = {
@@ -27,14 +29,19 @@ const actions = {
     commit("PRODUCT_LIST", payload);
   },
 
-  getProductListByID ({ commit }, payload) {
-    commit("PRODUCT_BY_ID", payload);
+  // getProductListByID ({ commit }, payload) {
+  //   commit("PRODUCT_BY_ID", payload);
+  // },
+
+  getProductDetailByID ({ commit }, payload) {
+    commit("PRODUCT_DETAIL_BY_ID",payload)
   }
 };
 
 const mutations = {
   PRODUCT_LIST: (state, value) => (state.products = value),
-  PRODUCT_BY_ID: (state, value) => (state.productListByID = value)
+  // PRODUCT_BY_ID: (state, value) => (state.productListByID = value),
+  PRODUCT_DETAIL_BY_ID: (state, value) => (state.productDetailByID = value)
 };
 
 export const product = {

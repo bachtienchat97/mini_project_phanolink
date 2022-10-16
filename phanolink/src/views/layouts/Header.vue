@@ -68,7 +68,7 @@
               >DANH MỤC SẢN PHẨM
               <ul class="item-drop">
                 <li v-for="item in cate" :key="item.id">
-                  <router-link :to="{ name: 'Product', params: { slug: item.slug, id: item.id } }">
+                  <router-link :to="{ name: 'Product', params: { slug: convertSlug(item.name), id: item.id } }">
                     {{ item.name }}
                   </router-link>
                 </li>
@@ -110,7 +110,7 @@
 </template>
 
 <script>
-
+import mixins from '@/mixins';
 import Search from "@/views/components/Search.vue";
 import LoginSuccess from "@/views/components/auth/LoginSuccess.vue";
 import Modal from "@/views/components/Modal";
@@ -120,7 +120,7 @@ import { mapGetters } from 'vuex';
 
 export default {
   name: "Header",
-
+  mixins: [mixins],
   components: { Search, Modal, LoginSuccess },
 
   data() {
