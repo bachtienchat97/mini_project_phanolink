@@ -20,13 +20,13 @@ const routes = [
       {
         path: '/:slug/:id',
         name: 'Product',
-        component: () => import (/* webpackChunkName: "product"*/ '@/views/pages/Product')
+        component: () => import (/* webpackChunkName: "product"*/ '@/views/pages/Product'),
       },
-      // {
-      //   path: 'user',
-      //   name: "User",
-      //   component: User,
-      // },
+      {
+        path: '/:slug/:categoryID/:productID',
+        name: "ProductDetail",
+        component: () => import (/* webpackChunkName: "productdetail" */ '@/views/pages/ProductDetail'),
+      },
       {
         path: '*',
         name: 'NotFound',

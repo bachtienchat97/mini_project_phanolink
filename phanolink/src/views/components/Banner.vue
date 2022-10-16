@@ -2,37 +2,37 @@
   <div class="banner container">
     <VueSlickCarousel v-bind="slickOptions">
       <div class="slider-item">
-        <img src="../../assets/img/banner-img.png" alt="banner" />
+        <img src="@/assets/img/banner-img.png" alt="banner" />
       </div>
       <div class="slider-item">
-        <img src="../../assets/img/banner-img.png" alt="banner" />
+        <img src="@/assets/img/banner-img.png" alt="banner" />
       </div>
       <div class="slider-item">
-        <img src="../../assets/img/banner-img.png" alt="banner" />
+        <img src="@/assets/img/banner-img.png" alt="banner" />
       </div>
       <div class="slider-item">
-        <img src="../../assets/img/banner-img.png" alt="banner" />
+        <img src="@/assets/img/banner-img.png" alt="banner" />
       </div>
       <div class="slider-item">
-        <img src="../../assets/img/banner-img.png" alt="banner" />
+        <img src="@/assets/img/banner-img.png" alt="banner" />
       </div>
     </VueSlickCarousel>
 
     <div class="banner-right">
       <div class="banner-right__item">
-        <img src="../../assets/img/duocsi.png" alt="item" />
+        <img src="@/assets/img/duocsi.png" alt="item" />
         <p>Dươc sĩ <br />tư vấn</p>
       </div>
       <div class="banner-right__item">
-        <img src="../../assets/img/sanphamchinhhang.png" alt="item" />
+        <img src="@/assets/img/sanphamchinhhang.png" alt="item" />
         <p>Sản phẩm <br />chính hãng</p>
       </div>
       <div class="banner-right__item">
-        <img src="../../assets/img/giaohangtoanquoc.png" alt="item" />
+        <img src="@/assets/img/giaohangtoanquoc.png" alt="item" />
         <p>Giao hàng <br />toàn quốc</p>
       </div>
       <div class="banner-right__item">
-        <img src="../../assets/img/tichluy.png" alt="item" />
+        <img src="@/assets/img/tichluy.png" alt="item" />
         <p>Tích lũy <br />nhận quà</p>
       </div>
     </div>
