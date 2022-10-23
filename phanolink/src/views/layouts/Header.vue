@@ -29,7 +29,6 @@
               </ul>
             </div>
           </li>
-          <Modal />
         </ul>
       </div>
 
@@ -39,12 +38,7 @@
         /></router-link>
 
         <div class="header-content">
-
           <Search v-model="search" />
-          <div class="btn-search" @click="$emit('search', $event.target.value)">
-            <b-icon icon="search"></b-icon>
-            Tìm kiếm
-          </div>
 
           <div class="header-content__right">
             <div class="prescription">
@@ -60,30 +54,33 @@
         </div>
       </div>
 
-      <div class="header-third">
+      <div id="scroll" class="header-third" container>
         <ul>
           <li class="item">
             <img src="@/assets/img/category-product.png" alt="category" />
-            <router-link to="/user"
+            <template
               >DANH MỤC SẢN PHẨM
               <ul class="item-drop">
                 <li v-for="item in cate" :key="item.id">
-                  <router-link :to="{ name: 'Product', params: { slug: convertSlug(item.name), id: item.id } }">
+                  <router-link
+                    :to="{
+                      name: 'Product',
+                      params: { slug: convertSlug(item.name), id: item.id },
+                    }"
+                  >
                     {{ item.name }}
                   </router-link>
                 </li>
               </ul>
-            </router-link>
+            </template>
           </li>
           <li>
-            <img src="@/assets/img/hot-sale.png" alt="hot-sale" /><a
-              href="#"
+            <img src="@/assets/img/hot-sale.png" alt="hot-sale" /><a href="#"
               >KHUYẾN MÃI HOT</a
             >
           </li>
           <li>
-            <img src="@/assets/img/location.png" alt="location" /><a
-              href="#"
+            <img src="@/assets/img/location.png" alt="location" /><a href="#"
               >HỆ THỐNG NHÀ THUỐC</a
             >
           </li>
@@ -98,25 +95,24 @@
             >
           </li>
           <li>
-            <img src="@/assets/img/question.png" alt="question" /><a
-              href="#"
+            <img src="@/assets/img/question.png" alt="question" /><a href="#"
               >HƯỚNG DẪN</a
             >
           </li>
         </ul>
       </div>
+
+      <Modal />
     </div>
   </div>
 </template>
 
 <script>
-import mixins from '@/mixins';
+import mixins from "@/mixins";
 import Search from "@/views/components/Search.vue";
 import LoginSuccess from "@/views/components/auth/LoginSuccess.vue";
 import Modal from "@/views/components/Modal";
-import { mapGetters } from 'vuex';
-
-
+import { mapGetters } from "vuex";
 
 export default {
   name: "Header",
@@ -132,10 +128,10 @@ export default {
 
   computed: {
     ...mapGetters({
-      cate: 'category/categoriesList'
-    })
+      cate: "category/categoriesList",
+    }),
   },
-  
+
   // created() {
   //   this.$store.dispatch('category/getCategoryList',{root: true});
   // }
@@ -144,9 +140,6 @@ export default {
 
 <style lang="scss">
 @import "@/assets/scss/helpers/variables";
-.login {
-  cursor: pointer;
-}
 
 .modal-header {
   display: none !important;
@@ -176,20 +169,6 @@ export default {
 
     .header-first {
       width: 100%;
-
-      .btn-search {
-        background: #e2e3e4;
-        padding: 5px 9px;
-        cursor: pointer;
-        border-radius: 0 5px 5px 0;
-        &:hover {
-          background: #b0b5b9;
-        }
-
-        .b-icon {
-          margin-right: 5px;
-        }
-      }
 
       ul {
         list-style: none;
@@ -255,15 +234,26 @@ export default {
       display: flex;
       width: 100%;
       justify-content: space-between;
-      margin-bottom: 15px;
     }
 
     .header-third {
       width: 100%;
-      margin-bottom: 15px;
+      margin: 15px auto 0 auto;
+      padding: 0;
+
+      img {
+        margin-right: 10px;
+      }
 
       .item {
         position: relative;
+        color: $color-white;
+        font-size: 15px;
+        cursor: pointer;
+
+        &:hover {
+          color: $color-primary;
+        }
 
         &:hover .item-drop {
           opacity: 1;
@@ -283,19 +273,25 @@ export default {
         left: 12%;
         gap: 0.5rem;
         background-color: #01adab;
-        width: 12rem;
-        padding: 15px 0;
+        width: 100%;
+        padding: 10px;
         z-index: 1;
 
         li {
           color: $color-white;
-          padding: 0;
-          margin: 0;
+          padding-bottom: 5px;
           transition: 0.4s;
           width: 100%;
+          display: flex;
 
           &:hover {
-            margin-left: 5px;
+            margin-left: 2px;
+            padding-left: 2px;
+          }
+
+          &:hover a {
+            padding-left: 2px;
+            color: $color-primary;
           }
         }
       }
@@ -311,21 +307,16 @@ export default {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        margin: 0 0 0 -20px;
-        padding: 0;
+        margin: 0;
+        margin-bottom: 20px;
 
-        li {
-          margin-left: 20px;
+        a {
+          text-decoration: none;
+          color: #ffffff;
+          font-size: 15px;
 
-          a {
-            text-decoration: none;
-            color: #ffffff;
-            font-size: 14px;
-            margin-left: 10px;
-
-            &:hover {
-              color: rgb(230, 108, 21);
-            }
+          &:hover {
+            color: $color-primary;
           }
         }
       }
@@ -335,25 +326,11 @@ export default {
       display: flex;
       align-items: center;
       margin-left: -20px;
-
-      .btn-search {
-        background: #e2e3e4;
-        padding: 5px 9px;
-        cursor: pointer;
-        border-radius: 0 5px 5px 0;
-        &:hover {
-          background: #b0b5b9;
-        }
-
-        .b-icon {
-          margin-right: 5px;
-        }
-      }
     }
 
     .header-content__right {
       display: flex;
-      margin-left: 20px;
+      margin-left: 15px;
 
       .prescription,
       .cart {
@@ -362,21 +339,25 @@ export default {
         padding: 4px 8px;
       }
 
-      .prescription {
+      .cart {
+        background-color: $color-white;
+        border: 1px solid $dark;
+        margin-left: 15px;
+
         &:hover {
-          background: rgb(230, 108, 21);
           cursor: pointer;
-          color: #ffffff;
+          border: 1px solid $color-primary;
+          color: $dark;
         }
       }
 
-      .cart {
-        margin-left: 20px;
-
+      .prescription {
+        background-color: $color-white;
+        border: 1px solid $dark;
         &:hover {
-          background: rgb(230, 108, 21);
           cursor: pointer;
-          color: #ffffff;
+          border: 1px solid $color-primary;
+          color: $dark;
         }
       }
     }
@@ -404,8 +385,6 @@ export default {
   .login-form,
   .register-form {
     padding: 17px;
-    color: $dark;
-    background-color: $color-white;
     font-size: $font-20;
     border-radius: 5px;
     font-weight: bold;

@@ -8,9 +8,15 @@
 
         <div class="display__list-image">
           <ul>
-            <li><img :src="products.img_path" :alt="products.description" /></li>
-            <li><img :src="products.img_path" :alt="products.description" /></li>
-            <li><img :src="products.img_path" :alt="products.description" /></li>
+            <li>
+              <img :src="products.img_path" :alt="products.description" />
+            </li>
+            <li>
+              <img :src="products.img_path" :alt="products.description" />
+            </li>
+            <li>
+              <img :src="products.img_path" :alt="products.description" />
+            </li>
           </ul>
         </div>
       </div>
@@ -57,8 +63,17 @@
           <div class="price">
             <p>Giá:</p>
             <span class="price__numb"
-              >{{ calculateDis(products.original_price, products.discount) }} đ</span
+              >{{
+                calculateDis(products.original_price, products.discount)
+              }}
+              đ</span
             >
+            <span class="price__original" v-if="products.discount !== 0"
+              >{{ products.original_price }} đ</span
+            >
+            <div class="price__discount" v-if="products.discount !== 0">
+              {{ products.discount }}% Giảm
+            </div>
           </div>
           <div class="status">
             <p>Tình trạng:</p>
@@ -79,15 +94,12 @@
               <button class="incr">+</button>
             </div>
 
-            <button :class="{'disabled-order': !isDisabled, 'select-order': isDisabled }" :disabled="products.quantity === 0 ? isDisabled = false : true">
-              <img src="@/assets/img/cart--white2x.png" alt="order" />
-              chọn mua
-            </button>
-
-            <div class="favorite">
-              <img src="@/assets/img/favorite.png" alt="favorite" />
-            </div>
+            <p class="quantity" v-if="products.quantity !== 0">
+              {{ products.quantity }} sản phẩm có sẵn
+            </p>
           </div>
+
+          <OrderProduct :products="products" />
         </div>
 
         <div class="category__order">
@@ -105,43 +117,52 @@
 </template>
 
 <script>
-import {productApis} from "@/apis";
+import OrderProduct from "@/views/components/OrderProduct";
+
+import { productApis } from "@/apis";
 
 import { calculateDiscount } from "@/utils/calculateDiscount";
+import { mapGetters } from "vuex";
 
 export default {
   name: "ProductDetail",
-
+  components: { OrderProduct },
   data() {
     return {
       products: {},
-      isDisabled: true
     };
+  },
+
+  computed: {
+    ...mapGetters({
+      userStore: "auth/allUser",
+    }),
   },
 
   created() {
     this.getProductByID();
     this.$store.dispatch("category/getCategoryList", { root: true });
-
   },
-
+ 
+  
   methods: {
     calculateDis(original, discount) {
       return calculateDiscount(original, discount);
     },
 
-     async getProductByID() { 
+    async getProductByID() {
       try {
         const id = this.$route.params.productID;
         const res = await productApis.getProductByProductID(id);
         if (res.status === 200) {
-          this.products = res.data.data;
+          this.products = await res.data.data;
+          await this.$store.dispatch("product/getProductDetailByID",res.data.data, { root: true });
         }
       } catch (e) {
-        throw new Error("error:", e);
+        throw new Error("error message:", e);
       }
     },
-  },
+  }
 };
 </script>
 
@@ -164,12 +185,18 @@ export default {
     width: 40%;
 
     .display__image {
-      width: 100%;
+      padding: 20px;
       border-bottom: 1px solid #e2e3e4;
 
+      &:hover img {
+        cursor: pointer;
+      }
       img {
         object-fit: cover;
-        background-position: 50%;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        transition: all 0.3s ease-in-out;
       }
     }
 
@@ -242,9 +269,6 @@ export default {
       .brand {
         margin-right: 30px;
       }
-
-      .sku {
-      }
     }
 
     .order__mid {
@@ -257,6 +281,8 @@ export default {
     }
 
     .order__bot {
+      margin-top: -10px;
+
       .price,
       .amount,
       .status,
@@ -265,71 +291,39 @@ export default {
         align-items: center;
       }
 
-      .amount {
-        .favorite {
-          background-color: $primary-green;
-          border-radius: 4px;
-          padding: 8px;
-
-          &:hover {
-            cursor: pointer;
-            opacity: 0.9;
-          }
-
-          img {
-            object-fit: cover;
-            outline: none;
-          }
-        }
-
-        .disabled-order {
-          display: flex;
-          align-items: center;
-          background-color: $color-danger;
-          margin: 0 15px;
-          padding: 10px 15px;
-          color: #fff;
-          text-transform: uppercase;
-          font-weight: bold;
-          border-radius: 4px;
-          opacity: 1;
-          &:hover {
-            cursor: not-allowed;
-          }
-
-          img {
-            object-fit: cover;
-            margin-right: 10px;
-          }
-        }
-
-        .select-order {
-          display: flex;
-          align-items: center;
-          background-color: $color-danger;
-          margin: 0 15px;
-          padding: 10px 15px;
-          color: #fff;
-          text-transform: uppercase;
-          font-weight: bold;
-          border-radius: 4px;
-          opacity: 1;
-
-          &:hover {
-            cursor: pointer;
-            box-shadow: #8b6c6c33 0 2px 8px;
-            opacity: 0.9;
-          }
-
-          img {
-            object-fit: cover;
-            margin-right: 10px;
-          }
-        }
+      .price,
+      .amount,
+      .status {
+        margin-top: 10px;
       }
 
       .price__numb {
         color: $color-danger;
+        margin-right: 10px;
+      }
+
+      .price__original {
+        text-decoration: line-through;
+        font-size: 14px;
+        font-weight: 600;
+        color: #a39797;
+      }
+
+      .price__discount {
+        color: #fff;
+        text-transform: uppercase;
+        font-weight: 600;
+        border-radius: 4px;
+        background-color: #f77c29;
+        padding: 2px 4px;
+        margin-left: 10px;
+        font-size: 12px;
+      }
+
+      .quantity {
+        font-size: 14px;
+        margin-right: 0;
+        margin-left: 10px;
       }
 
       .amount__count {

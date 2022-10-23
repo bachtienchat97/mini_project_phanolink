@@ -14,6 +14,10 @@
 <script>
 export default {
   name: 'NotFound404',
+ 
+  created() {
+    this.$store.dispatch("category/getCategoryList", { root: true });
+  }
 };
 </script>
 

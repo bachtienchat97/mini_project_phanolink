@@ -3,27 +3,31 @@
 </template>
 
 <script>
-
-// import { KEY_LOCAL_STORAGE } from '@/constants';
-// import { removeToken } from '@/utils/localStorage';
-
+import { KEY_LOCAL_STORAGE } from "@/constants";
 
 export default {
-
   name: "Logout",
 
   methods: {
-    // ...mapActions('logoutUser', null),
-    btnLogout() {
-      this.$store.dispatch('auth/logoutUser', {}, { root: true });
-      localStorage.removeItem('phanolink_user');
+    async btnLogout() {
+      await this.$store.dispatch("auth/logoutUser", {}, { root: true });
+      localStorage.removeItem(KEY_LOCAL_STORAGE);
+      if (localStorage.getItem("username")) {
+         localStorage.removeItem("username");
+      }
     },
   },
 };
 </script>
 
 <style scoped lang="scss">
+@import "@/assets/scss/styles";
+
 .logout {
   cursor: pointer;
+  color: $color-white;
+  &:hover {
+    color: $color-primary;
+  }
 }
 </style>
