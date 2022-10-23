@@ -20,18 +20,17 @@
     </form>
 
     <div class="register-success" v-if="isSuccess">
-      <p>
+      <p class="register-text">
         Bạn Đã Đăng Ký Thành Công Với Email : <span>{{ accountRegister }}</span>
       </p>
-      <div @click="btnBackLogin">
-        Quay Lại Đăng Nhập
-      </div>
+      <button type="button" class="back-to-login" @click="backToLogin">
+        Quay Trở Lại Đăng Nhập
+      </button>
     </div>
   </div>
 </template>
 
 <script>
-// import { mapActions } from "vuex";
 import axios from "axios";
 
 export default {
@@ -40,6 +39,7 @@ export default {
   props: {
     isType: { type: String, default: "" },
   },
+  
   data() {
     return {
       userForm: {
@@ -54,7 +54,6 @@ export default {
   },
 
   methods: {
-    // ...mapActions(["auth/register"]),
 
     async handleSubmit() {
       const response = await axios.post("register", {
@@ -70,7 +69,7 @@ export default {
       }
     },
 
-    btnBackLogin() {
+    backToLogin() {
       this.$emit("update:isType", "login");
     },
   },
@@ -102,6 +101,36 @@ export default {
 
 .register-success {
   padding: 15px;
+  display: flex;
+  flex-direction: column;
+  padding: 8px 10px;
+  border: 1px solid $color-common;
+  font-size: 14px;
+  font-weight: 500;
+  flex-shrink: 0;
+  margin-bottom: 10px;
+  
+  .register-text {
+    border: 1px solid $color-common;
+    padding: 5px;
+    font-size: $size15;
+    background-color: $color-white;
+    span {
+      font-weight: bold;
+    }
+  }
+
+  .back-to-login {
+    border: 1px solid $color-primary;
+    padding: 5px;
+    font-size: $size15;
+    font-weight: bold;
+    color: $color-primary;
+    background-color: $color-white;
+    &:hover {
+      background-color: $color-btn;
+    }
+  }
 
   div {
     cursor: pointer;
@@ -120,7 +149,7 @@ export default {
   p {
     font-size: $font-15;
     span {
-      color: rgb(29, 252, 29);
+      color: #2a816f;
     }
   }
 

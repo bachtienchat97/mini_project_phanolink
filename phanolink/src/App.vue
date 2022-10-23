@@ -5,10 +5,13 @@
 </template>
 
 <script>
-
+import {objWindow} from '@/helpers/windowObject';
 
 export default {
   name: "App",
+  beforeCreate() {
+    objWindow;
+  }
 };
 </script>
 

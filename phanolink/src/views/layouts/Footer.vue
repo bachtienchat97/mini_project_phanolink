@@ -3,19 +3,19 @@
     <div class="footer-top">
       <div class="footer-top__intro container">
         <div class="intro-item">
-          <img src="../../assets/img/percent2x.png" alt="item" />
+          <img src="@/assets/img/percent2x.png" alt="item" />
           <p>Sản phẩm chính hãng</p>
         </div>
         <div class="intro-item">
-          <img src="../../assets/img/express-car.png" alt="item" />
+          <img src="@/assets/img/express-car.png" alt="item" />
           <p>Giao hàng toàn quốc</p>
         </div>
         <div class="intro-item">
-          <img src="../../assets/img/pay.png" alt="item" />
+          <img src="@/assets/img/pay.png" alt="item" />
           <p>Thanh toán linh hoạt</p>
         </div>
         <div class="intro-item">
-          <img src="../../assets/img/gift2x.png" alt="item" />
+          <img src="@/assets/img/gift2x.png" alt="item" />
           <p>Tích điểm đổi quà</p>
         </div>
       </div>
@@ -25,7 +25,7 @@
           <div class="contact-hotline">
             <span class="txt-hotline">BẠN ĐANG CẦN ĐƯỢC TƯ VẤN</span>
             <div class="hotline">
-              <img src="../../assets/img/telephone2x.png" alt="tele" />
+              <img src="@/assets/img/telephone2x.png" alt="tele" />
               <span>Gọi ngay</span>
               <span class="number-phone">1800 6768</span>
               <span>(miễn phí)</span>
@@ -35,7 +35,7 @@
           <div class="contact-email">
             <span class="txt-email">NHẬP EMAIL NHẬN MÃ GIẢM GIÁ</span>
             <div class="email">
-              <img src="../../assets/img/telephone2x.png" alt="tele" />
+              <img src="@/assets/img/telephone2x.png" alt="tele" />
               <input type="text" placeholder="Nhập email của bạn" />
             </div>
           </div>
@@ -46,7 +46,7 @@
     <div class="footer-bot container">
       <div class="footer-first">
         <div class="logo-footer">
-          <img src="../../assets/img/logo_green2x.png" alt="logo-footer" />
+          <img src="@/assets/img/logo_green2x.png" alt="logo-footer" />
           <p class="address">
             CÔNG TY CỔ PHẦN DƯỢC PHẨM PHANO<br />Địa chỉ: 31 HỒ BIỂU CHÁNH,
             P.12, Q.Phú Nhuận, TPHCM
@@ -63,7 +63,7 @@
               <a href="#"
                 ><img
                   class="arrow"
-                  src="../../assets/img/arrow.png"
+                  src="@/assets/img/arrow.png"
                   alt="arrow"
                 />Chính sách đổi trả</a
               >
@@ -72,7 +72,7 @@
               <a href="#"
                 ><img
                   class="arrow"
-                  src="../../assets/img/arrow.png"
+                  src="@/assets/img/arrow.png"
                   alt="arrow"
                 />Chính sách giao hàng</a
               >
@@ -81,7 +81,7 @@
               <a href="#"
                 ><img
                   class="arrow"
-                  src="../../assets/img/arrow.png"
+                  src="@/assets/img/arrow.png"
                   alt="arrow"
                 />Chính sách bảo mật</a
               >
@@ -90,7 +90,7 @@
               <a href="#"
                 ><img
                   class="arrow"
-                  src="../../assets/img/arrow.png"
+                  src="@/assets/img/arrow.png"
                   alt="arrow"
                 />Hướng dẫn thanh toán</a
               >
@@ -99,7 +99,7 @@
               <a href="#"
                 ><img
                   class="arrow"
-                  src="../../assets/img/arrow.png"
+                  src="@/assets/img/arrow.png"
                   alt="arrow"
                 />Hướng dẫn đặt hàng</a
               >
@@ -108,7 +108,7 @@
               <a href="#"
                 ><img
                   class="arrow"
-                  src="../../assets/img/arrow.png"
+                  src="@/assets/img/arrow.png"
                   alt="arrow"
                 />Giải quyết phản hồi</a
               >
@@ -117,7 +117,7 @@
               <a href="#"
                 ><img
                   class="arrow"
-                  src="../../assets/img/arrow.png"
+                  src="@/assets/img/arrow.png"
                   alt="arrow"
                 />Giấy phép kinh doanh</a
               >
@@ -129,28 +129,28 @@
           <h2>TÀI KHOẢN</h2>
           <ul>
             <li>
-              <a href="#" v-b-modal.modal-1
+              <a class="open-modal register-md" @click="openModal()"
                 ><img
                   class="arrow"
-                  src="../../assets/img/arrow.png"
+                  src="@/assets/img/arrow.png"
                   alt="arrow"
-                />Đăng ký</a
-              >
+                />Đăng ký
+              </a>
             </li>
             <li>
-              <a href="#" v-b-modal.modal-1
+              <a class="open-modal" @click="openModal()"
                 ><img
                   class="arrow"
-                  src="../../assets/img/arrow.png"
+                  src="@/assets/img/arrow.png"
                   alt="arrow"
-                />Đăng nhập</a
-              >
+                />Đăng nhập
+              </a>
             </li>
             <li>
               <a href="#"
                 ><img
                   class="arrow"
-                  src="../../assets/img/arrow.png"
+                  src="@/assets/img/arrow.png"
                   alt="arrow"
                 />Kiểm tra đơn hàng</a
               >
@@ -162,19 +162,17 @@
           <h2>KẾT NỐI VỚI CHÚNG TÔI</h2>
           <ul>
             <li>
-              <a href="#"><img src="../../assets/img/zalo.png" alt="zalo" /></a>
+              <a href="#"><img src="@/assets/img/zalo.png" alt="zalo" /></a>
             </li>
             <li>
-              <a href="#"><img src="../../assets/img/fb.png" alt="fb" /></a>
+              <a href="#"><img src="@/assets/img/fb.png" alt="fb" /></a>
+            </li>
+            <li>
+              <a href="#"><img src="@/assets/img/gmail.png" alt="gmail" /></a>
             </li>
             <li>
               <a href="#"
-                ><img src="../../assets/img/gmail.png" alt="gmail"
-              /></a>
-            </li>
-            <li>
-              <a href="#"
-                ><img src="../../assets/img/youtube.png" alt="youtube"
+                ><img src="@/assets/img/youtube.png" alt="youtube"
               /></a>
             </li>
           </ul>
@@ -183,20 +181,43 @@
 
       <div class="footer-second">
         <span>© 2019 - Bản quyền thuộc về Công ty CP Dược Phẩm Phano</span>
-        <img src="../../assets/img/bocongthuong.png" alt="bocongthuong" />
+        <img src="@/assets/img/bocongthuong.png" alt="bocongthuong" />
       </div>
     </div>
   </div>
 </template>
 
 <script>
+
+// import { userLocal } from "@/utils/userLocalStorage";
+
 export default {
   name: "Footer",
+
+  created() {
+    this.openModal;
+  },
+
+  methods: {
+    async openModal() {
+        const modal = await document.getElementById("modal-1");
+        // const scroll = await document.querySelector("header-third");
+
+         return  modal.style.display = "block";
+        // const userStorage = await JSON.parse(userLocal);
+        // const userStore = await this.$store.getters["auth/allUser"];
+  
+        // if (userStore.name == undefined && userStorage == null) {
+        //   if (userStore.name == undefined || userStorage == null) {
+        //   }
+        // }
+      },
+  }
 };
 </script>
 
 <style lang="scss" scoped>
-@import '../../assets/scss/helpers/_variables';
+@import "@/assets/scss/helpers/_variables";
 
 .footer {
   background-color: $color-bg-white;
@@ -204,6 +225,10 @@ export default {
     display: flex;
     align-items: center;
     justify-content: space-between;
+  }
+
+  .open-modal {
+    cursor: pointer;
   }
 
   .contact-email {
@@ -255,7 +280,7 @@ export default {
         border-radius: 25px;
         padding: 5px 16px;
         position: absolute;
-        left: 25%;
+        left: 26.6%;
 
         img {
           margin-right: 10px;
