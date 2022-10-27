@@ -129,7 +129,7 @@
           <h2>TÀI KHOẢN</h2>
           <ul>
             <li>
-              <a class="open-modal register-md" @click="openModal()"
+              <a class="open-modal register-md"
                 ><img
                   class="arrow"
                   src="@/assets/img/arrow.png"
@@ -138,13 +138,13 @@
               </a>
             </li>
             <li>
-              <a class="open-modal" @click="openModal()"
+              <router-link :to="{ path: '/login' }" class="open-modal" 
                 ><img
                   class="arrow"
                   src="@/assets/img/arrow.png"
                   alt="arrow"
                 />Đăng nhập
-              </a>
+              </router-link>
             </li>
             <li>
               <a href="#"
@@ -189,29 +189,15 @@
 
 <script>
 
-// import { userLocal } from "@/utils/userLocalStorage";
 
 export default {
   name: "Footer",
 
   created() {
-    this.openModal;
   },
 
   methods: {
-    async openModal() {
-        const modal = await document.getElementById("modal-1");
-        // const scroll = await document.querySelector("header-third");
-
-         return  modal.style.display = "block";
-        // const userStorage = await JSON.parse(userLocal);
-        // const userStore = await this.$store.getters["auth/allUser"];
-  
-        // if (userStore.name == undefined && userStorage == null) {
-        //   if (userStore.name == undefined || userStorage == null) {
-        //   }
-        // }
-      },
+    
   }
 };
 </script>

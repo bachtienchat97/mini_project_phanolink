@@ -21,10 +21,11 @@
           </li>
           <li>
             <div class="user">
-              <img src="@/assets/img/login2x.png" alt="user" />
+              <img src="@/assets/img/login2x.png" alt="user" v-if="!user.name"/>
+              <img src="@/assets/img/icons8-person-64.png" alt="user-logged" v-if="user.name"/>
               <ul class="login-or-regis">
                 <li>
-                  <LoginSuccess />
+                  <User />
                 </li>
               </ul>
             </div>
@@ -54,7 +55,7 @@
         </div>
       </div>
 
-      <div id="scroll" class="header-third" container>
+      <div class="header-third" container>
         <ul>
           <li class="item">
             <img src="@/assets/img/category-product.png" alt="category" />
@@ -102,7 +103,6 @@
         </ul>
       </div>
 
-      <Modal />
     </div>
   </div>
 </template>
@@ -110,14 +110,14 @@
 <script>
 import mixins from "@/mixins";
 import Search from "@/views/components/Search.vue";
-import LoginSuccess from "@/views/components/auth/LoginSuccess.vue";
-import Modal from "@/views/components/Modal";
+import User from "@/views/components/auth/User.vue";
 import { mapGetters } from "vuex";
+
 
 export default {
   name: "Header",
   mixins: [mixins],
-  components: { Search, Modal, LoginSuccess },
+  components: { Search, User },
 
   data() {
     return {
@@ -129,12 +129,11 @@ export default {
   computed: {
     ...mapGetters({
       cate: "category/categoriesList",
+      user: "auth/allUser"
     }),
   },
 
-  // created() {
-  //   this.$store.dispatch('category/getCategoryList',{root: true});
-  // }
+  
 };
 </script>
 
@@ -203,7 +202,7 @@ export default {
             color: $color-white;
             padding: 0;
             margin: 0;
-            margin-left: 10px;
+            margin-left: 5px;
             li {
               margin: 0;
             }

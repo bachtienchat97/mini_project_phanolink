@@ -139,6 +139,12 @@ export default {
     }),
   },
 
+  // beforeRouteLeave(to, from, next) {
+  //   if(this.products.quantity === 0) {
+  //     next(false);
+  //   }else next();
+  // },
+
   created() {
     this.getProductByID();
     this.$store.dispatch("category/getCategoryList", { root: true });

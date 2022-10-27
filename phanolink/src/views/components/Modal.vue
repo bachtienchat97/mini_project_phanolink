@@ -1,44 +1,42 @@
 <template>
-  <div id="modal-1">
-    <div class="content" id="content">
-      <div class="wrap-form">
-        <button
-          class="login-form"
-          :class="activeBtnLogin"
-          @click="activeBtn('LOGIN')"
-        >
-          Login
-        </button>
-        <button
-          class="register-form"
-          :class="activeBtnRegister"
-          @click="activeBtn('REGISTER')"
-        >
-          Register
-        </button>
-      </div>
-
-      <Login v-if="isType === 'login'" />
-      <Register v-if="isType === 'register'" :isType.sync="isType" />
+  <div class="content">
+    <div class="wrap-form">
+      <button
+        class="login-form"
+        :class="activeBtnLogin"
+        @click="activeBtn('LOGIN')"
+      >
+        Login
+      </button>
+      <button
+        class="register-form"
+        :class="activeBtnRegister"
+        @click="activeBtn('REGISTER')"
+      >
+        Register
+      </button>
     </div>
+
+    <Login v-if="isType === 'login'" />
+    <Register v-if="isType === 'register'" :isType.sync="isType" />
   </div>
 </template>
 
 <script>
-import Login from "@/views/components/auth/Login.vue";
+import Login from "@/views/pages/Login.vue";
 import Register from "@/views/components/auth/Register.vue";
 
 export default {
   name: "Modal",
 
   components: { Login, Register },
-  
+
   data() {
     return {
       isType: "login",
     };
   },
-  
+
   methods: {
     activeBtn(type) {
       switch (type) {
@@ -92,33 +90,17 @@ export default {
     border: 1px solid $color-red;
   }
 }
-#modal-1 {
-  width: 100%;
-  height: 100%;
-  background-color: transparent;
-  display: none;
-  position: fixed;
-  overflow: hidden;
-  left: 0;
-  top: 0;
-  z-index: 999;
-  animation: fade 1s linear;
 
-  .content {
-    background-color: $color-white;
-    left: 50%;
-    transition: 0.3s;
-    top: 43%;
-    position: fixed;
-    transform: translate(-50%, -50%);
-    z-index: 1;
-    width: 38%;
-    padding: 70px 40px 40px 40px;
-    border-radius: 5px;
-    border: 1px solid #0eb493;
-    box-shadow: #8b6c6c33 0 2px 8px;
-    animation: fadeOut 0.1s;
-  }
+.content {
+  background-color: $color-white;
+  transition: 0.3s;
+  z-index: 1;
+  margin: 0 auto;
+  padding: 70px 40px 40px 40px;
+  border-radius: 5px;
+  border: 1px solid #0eb493;
+  box-shadow: #8b6c6c33 0 2px 8px;
+  animation: fadeOut 0.1s;
 }
 
 @keyframes fadeOut {

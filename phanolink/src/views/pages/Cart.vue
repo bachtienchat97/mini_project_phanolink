@@ -49,11 +49,15 @@
             </div>
           </div>
         </div>
-        <router-link :to="{ name: 'Cart' }">
-          <button type="button" class="order-process" @click="onClickOrder">
-            tiến hành đặt hàng
-          </button>
+
+        <div class="order-process">
+           <router-link class="order-process-link"
+          :to="{ path: '/' }"
+        >
+          tiến hành đặt hàng
         </router-link>
+        </div>
+       
       </div>
     </div>
   </div>
@@ -62,8 +66,9 @@
 <script>
 import { mapGetters } from "vuex";
 
-import { loginOrNot } from "@/utils/loginOrNot";
-import { userLocal } from '@/utils/userLocalStorage';
+import { userLocal } from "@/utils/userLocalStorage";
+
+import store from "@/store";
 
 export default {
   name: "Cart",
@@ -74,13 +79,35 @@ export default {
     }),
   },
 
-  mounted() {},
+  created() {
+    this.$store.dispatch("category/getCategoryList", { root: true });
+  },
+
+  async beforeRouteLeave(to, from, next) {
+     const userStore = await store.getters["auth/allUser"],
+  userStorage = await JSON.parse(userLocal);
+    if (to.name == '/login' && userStore.name !== undefined && userStorage !== null)
+      // this.$router.push({ name: "Login" }).catch(e => {throw new Error("can't not login");} )
+      next({ path: "/" });
+    else next();
+  },
 
   methods: {
-    onClickOrder() {
-    const userStorage = JSON.parse(userLocal);
-      return loginOrNot(userStorage,this.userStore);
-    },
+    // orderProduct() {
+    //   if (userStore.name == undefined && userStorage == null) {
+    //     if (userStore.name == undefined || userStorage == null) {
+    //       this.$router.push({ name: "Login" });
+    //     } else if (productStore.quantity === 0 && userStore.name !== null) {
+    //       next(false);
+    //     } else {
+    //       next();
+    //     }
+    //   } else if (productStore.quantity === 0 && userStore.name !== null) {
+    //     next(false);
+    //   } else {
+    //     next();
+    //   }
+    // },
   },
 };
 </script>
@@ -149,12 +176,19 @@ export default {
 
       .order-process {
         background-color: $color-red;
+        outline: none;
+        border: none;
         padding: 10px 40px;
-        text-transform: uppercase;
-        color: $color-white;
-        font-size: 20px;
-        width: 100%;
-        font-weight: bold;
+
+        .order-process-link {
+          display: flex;
+          justify-content: center;
+          color: $color-white;
+          text-transform: uppercase;
+          font-weight: bold;
+          font-size: 20px;
+
+        }
         &:hover {
           opacity: 0.9;
           cursor: pointer;

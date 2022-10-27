@@ -1,17 +1,17 @@
-import { KEY_LOCAL_STORAGE } from '../constants';
+import { KEY_LOCAL_STORAGE } from '@/constants';
 
-export function removeToken() {
+export function removeStorage() {
   return localStorage.removeItem(KEY_LOCAL_STORAGE);
 }
 
-export function setToken(token) {
+export function setStorage(token) {
   return localStorage.setItem(KEY_LOCAL_STORAGE, token);
 }
 
-export function getToken() {
+export function getStorage() {
   return localStorage.getItem(KEY_LOCAL_STORAGE)
 }
 
-export function getTokenParsed() {
+export function getStorageParse() {
   return JSON.parse(localStorage.getItem(KEY_LOCAL_STORAGE));
 }

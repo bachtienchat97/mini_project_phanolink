@@ -1,16 +1,18 @@
 <template>
   <div class="order-product">
     <router-link
-      :to="{ name: 'Cart' }"
-      :disabled="products.quantity === 0"
+      :to="{ path: '/cart' }"
+      :disabled="isDisabled"
       :class="{
         'disabled-order': products.quantity === 0,
         'enable-order': products.quantity !== 0,
       }"
     >
       <img src="@/assets/img/add-to-cart.png" alt="add-to-cart" />
-      <span class="tooltipText" v-if="products.quantity === 0">sản phẩm này hiện hết hàng</span>
-      chọn mua
+      <span class="tooltipText" v-if="products.quantity === 0"
+        >sản phẩm này hiện hết hàng</span
+      >
+      <span> chọn mua </span>
     </router-link>
 
     <div class="favorite">
@@ -20,6 +22,9 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
+import { userLocal } from "@/utils/userLocalStorage";
 
 export default {
   name: "OrderProduct",
@@ -31,18 +36,32 @@ export default {
     };
   },
 
-  watch: {
-    isDisabled(newval, oldval) {
-      console.log(newval, "new");
-      console.log(oldval, "old");
-    },
+  computed: {
+    ...mapGetters({
+      user: "auth/allUser",
+    }),
   },
 
   methods: {
-    clicked() {
-      return (this.isDisabled = !this.isDisabled);
-    },
+    async orderClicked() {
+      const userStore = await this.user,
+        userStorage = await JSON.parse(userLocal);
 
+      if (userStore.name == undefined && userStorage == null) {
+        this.$router.push({ path: "/login" }).catch((e) => {
+          throw new Error("error", e);
+        });
+      } else if (userStore.name == undefined || userStorage == null) {
+        this.$router.push({ path: "/login" }).catch((e) => {
+          throw new Error("error", e);
+        });
+      } else false;
+
+      if (this.products.quantity === 0) {
+        this.isDisabled = true;
+        return false;
+      }
+    },
   },
 };
 </script>
@@ -72,6 +91,7 @@ export default {
   }
 
   .disabled-order {
+    position: relative;
     display: flex;
     align-items: center;
     background-color: $color-common;
@@ -82,16 +102,12 @@ export default {
     font-weight: bold;
     border-radius: 4px;
     border: 1px solid $color-default-darker;
-    position: relative;
-    display: inline-block;
 
     .tooltipText::before {
       content: "";
       position: absolute;
       bottom: -1px;
       left: -7px;
-      border-bottom: 6px solid hwb(344 33% 8%);
-      border-left: 6px solid transparent;
     }
 
     .tooltipText {
@@ -105,7 +121,7 @@ export default {
       transform: translateY(-4px);
       padding: 5px 8px;
       border: 1px solid $color-primary;
-      border-radius: 5px 5px 5px 0px;
+      border-radius: 5px;
       /* Position the tooltip */
       position: absolute;
       top: -38px;
@@ -118,7 +134,7 @@ export default {
     }
 
     &:hover {
-      cursor: not-allowed;
+      cursor: pointer;
       box-shadow: #8b6c6c33 0 2px 8px;
       opacity: 0.9;
       background-color: #fff;

@@ -1,17 +1,14 @@
 <template>
   <div class="main-app">
-      <router-view/>
+      <router-view />
   </div>
 </template>
 
 <script>
-import {objWindow} from '@/helpers/windowObject';
 
 export default {
   name: "App",
-  beforeCreate() {
-    objWindow;
-  }
+ 
 };
 </script>
 
