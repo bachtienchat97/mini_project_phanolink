@@ -8,7 +8,6 @@
             <ul>
               <li v-for="item in categoriesList" :key="item.id">
                 <router-link
-                  exact-active-class="active-link"
                   :to="{
                     name: 'Product',
                     params: { slug: convertSlug(item.name), id: item.id },
@@ -156,23 +155,27 @@ export default {
 
       .category-product-bot {
         font-size: 14px;
-        padding: $size10;
 
         .active-link {
           color: rgb(48, 48, 175);
+          border-left: 2px solid rgb(48, 48, 175);
+
         }
 
         ul {
+
           li {
-            margin-bottom: $size10;
             list-style: none;
+            margin: 10px 0;
 
             &:hover a {
               color: rgb(48, 48, 175);
             }
             a {
               text-decoration: none;
-              color: black;
+              color: $dark;
+              padding: 10px 0px 10px 10px;
+              font-size: 15px;
             }
           }
         }

@@ -3,28 +3,28 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 
+import _ from 'lodash';    
+Object.defineProperty(Vue.prototype, '$_', { value: _ });
+
+import { BootstrapVue, IconsPlugin, SpinnerPlugin, ToastPlugin, PopoverPlugin } from "bootstrap-vue";
+
+
 import './axios';
-
-import { BootstrapVue, IconsPlugin } from "bootstrap-vue";
-
-import { SpinnerPlugin } from 'bootstrap-vue'
 
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
-
 import "@/assets/scss/styles.scss";
-import vuetify from "./plugins/vuetify";
-
 
 
 Vue.use(BootstrapVue);
+Vue.use(ToastPlugin);
+Vue.use(SpinnerPlugin);
+Vue.use(PopoverPlugin);
 Vue.use(IconsPlugin);
-Vue.use(SpinnerPlugin)
 Vue.config.productionTip = false;
 
 new Vue({
   router,
   store,
-  vuetify,
   render: (h) => h(App),
 }).$mount("#app");

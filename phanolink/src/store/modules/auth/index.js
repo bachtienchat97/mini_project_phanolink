@@ -1,12 +1,15 @@
+// import { KEY_LOCAL_STORAGE } from "@/constants";
+// import { getStorage } from "@/utils/localStorage";
 
 const state = {
-   user: [],
-   localUser: [],
-   error: null
+   user: {},
+   error: null,
+   isAuthen: false,
 };
 
 const getters = {
    allUser: (state) => state.user,
+   isAuthen: (state) => state.isAuthen,
 };
 
 const actions = {
@@ -14,15 +17,20 @@ const actions = {
       commit('USER_INFO', userInfo);
    },
 
+   // userStorage({commit}, userStorage) {
+   //    commit('USER_STORAGE', userStorage)
+   // },
+
+
    logoutUser({ commit }, payload) {
       commit('LOGOUT_USER', payload)
-
    }
 };
 
 const mutations = {
-   USER_INFO: (state, value) => (state.user = value),
-   LOGOUT_USER: (state, payload) => (state.user = payload)
+   USER_INFO: (state, userLogin) => (state.user = userLogin, state.isAuthen = true),
+   // AUTHENTICATOR: (state, isAuthen) => (state.isAuthen = isAuthen),
+   LOGOUT_USER: (state, userLogout) => (state.user = userLogout, state.isAuthen = false),
 };
 
 export const auth = {

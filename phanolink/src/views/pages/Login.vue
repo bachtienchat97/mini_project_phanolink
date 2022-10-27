@@ -29,11 +29,7 @@
       />
 
       <div class="wrap-btn">
-        <div
-          class="toggle-password"
-          v-if="isDisplay"
-          @click="hidePassword"
-        >
+        <div class="toggle-password" v-if="isDisplay" @click="hidePassword">
           <img src="@/assets/img/icon-closed-eye.png" alt="icon-closed-eye" />
         </div>
 
@@ -46,17 +42,12 @@
     <p>Quên mật khẩu? Nhấn vào <a href="#" class="forget-pass">đây</a></p>
 
     <label class="remember">
-      <input
-        type="checkbox"
-        name="remember"
-        value="isRemember"
-        id="remember"
-      />
+      <input type="checkbox" name="remember" value="isRemember" id="remember" />
       Ghi nhớ tài khoản của tôi
     </label>
-    <button class="btn-login" @click="handleSubmit()">
-      <b-spinner small v-if="!isSpinner"> </b-spinner>
-      <span v-if="isSpinner"> Đăng nhập</span>
+    <button type="submit" class="btn-login" @click="handleSubmit()">
+      <b-spinner small v-if="!isSpinner"></b-spinner>
+      <span v-if="isSpinner">Đăng nhập</span>
     </button>
   </form>
 </template>
@@ -64,11 +55,12 @@
 <script>
 import axios from "axios";
 
-import { setToken } from "@/utils/localStorage.js";
+import { mapGetters } from "vuex";
+
+import { KEY_LOCAL_STORAGE } from "@/constants";
 
 export default {
   name: "Login",
-
   data() {
     return {
       formSubmit: {
@@ -79,45 +71,40 @@ export default {
       isCorrectUser: false,
       isDisplay: true,
       isSpinner: true,
-      // isChecked: "",
     };
+  },
+
+  computed: {
+    ...mapGetters({
+      productDetailByID: "product/productDetailByID",
+      isAuthen: "auth/isAuthen",
+    }),
   },
 
   methods: {
     async handleSubmit() {
-      const remember = document.getElementById("remember"),
-        loginForm = document.getElementById("modal-1"),
-        passwordInput = document.getElementById("password"),
-        emailInput = document.getElementById("email");
       this.isSpinner = false;
-
       try {
         const response = await axios.post("login", this.formSubmit);
         if (response.status === 200) {
-          this.isSpinner = true;
           // dispatch action to store or using helper mapAction
           await this.$store.dispatch("auth/userLogin", response.data.data, {
             root: true,
           });
+          localStorage.setItem(
+            KEY_LOCAL_STORAGE,
+            JSON.stringify(response.data.data)
+          );
+          this.$router.push({ path: "/" }).catch(() => {});
 
-          await setToken(JSON.stringify(response.data.data));
-          emailInput.value = "";
-          passwordInput.value = "";
-
-          if (remember.checked && emailInput.value !== "") {
-            localStorage.username = emailInput.value;
-            localStorage.checkbox = remember.value;
-          } else {
-            localStorage.username = "";
-            localStorage.checkbox = "";
-          }
-
-          loginForm.style.display = "none";
+          this.isSpinner = true;
         }
       } catch (error) {
         if (error) {
           this.isCorrectUser = true;
+          this.isSpinner = true;
         }
+        console.log("Error:", error);
       }
     },
 
@@ -232,6 +219,8 @@ export default {
   background-color: $primary-green;
   transition: 0.3s;
   margin-top: 10px;
+  outline: none;
+  border: none;
   &:hover {
     opacity: 0.8;
   }

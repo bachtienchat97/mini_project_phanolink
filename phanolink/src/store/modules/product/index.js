@@ -26,7 +26,7 @@ const actions = {
   },
 
   productList({ commit }, payload) {
-    commit("PRODUCT_LIST", payload);
+     commit("PRODUCT_LIST", payload);
   },
 
   // getProductListByID ({ commit }, payload) {

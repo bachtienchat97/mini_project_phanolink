@@ -1,6 +1,5 @@
 <template>
   <div>
-    <router-view />
     <Banner />
     <PromotionHot />
     <FeaturedProducts />
@@ -9,6 +8,9 @@
       :key="item.id"
       :item="item"
     />
+    <transition name="fade">
+      <router-view />
+    </transition>
   </div>
 </template>
 
@@ -18,9 +20,8 @@ import FeaturedProducts from "@/views/components/FeaturedProducts.vue";
 import ProductCategories from "@/views/components/ProductCategories.vue";
 import Banner from "@/views/components/Banner.vue";
 
+
 import { mapGetters } from "vuex";
-// import { BASE_URL } from "@/constants/index";
-// import axios from "axios";
 
 export default {
   name: "Home",
@@ -39,7 +40,7 @@ export default {
   },
 
   created() {
-    this.$store.dispatch('category/getCategoryList',{root: true});
+    this.$store.dispatch("category/getCategoryList", { root: true });
   },
 
   methods: {

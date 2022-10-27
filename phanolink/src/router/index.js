@@ -1,11 +1,12 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 
-import Layout from "@/layout/Layout";
+import LayoutDefault from "@/layout/LayoutDefault";
+import requireMeta from "@/helpers/requireMeta";
 
-import { userLocal } from "@/utils/userLocalStorage";
+// import { userLocal } from "@/utils/userLocalStorage";
 
-import store from "@/store";
+// import store from "@/store";
 
 Vue.use(VueRouter);
 
@@ -17,14 +18,24 @@ const router = new VueRouter({
   routes: [
     {
       path: "/",
-      component: Layout,
+      component: LayoutDefault,
       children: [
         {
           path: "/",
           name: "Home",
-          component: () =>
-            import(/* webpackChunkName: "home"*/ "@/views/pages/Home"),
+          component: () => import("@/views/pages/Home"),
         },
+
+        {
+          path: "login",
+          name: "Login",
+          component: () => import("@/views/pages/Login"),
+          beforeEnter: requireMeta.requireLoggin,
+          meta: {
+            isLoggin: true,
+          },
+        },
+
         {
           path: "/:slug/:id",
           name: "Product",
@@ -39,94 +50,37 @@ const router = new VueRouter({
               /* webpackChunkName: "productdetail" */ "@/views/pages/ProductDetail"
             ),
         },
+
         {
-          path: "*",
-          name: "NotFound",
-          component: () => import("@/views/pages/NotFound404"),
-        },
-        {
-          path: "/login",
-          name: "Modal",
-          component: () => import("@/views/components/Modal"),
-        },
-        {
-          path: "/cart",
+          path: "cart",
           name: "Cart",
           component: () =>
             import(/* webpackChunkName: "cart" */ "@/views/pages/Cart"),
+          beforeEnter: requireMeta.requireAuth,
           meta: {
             requiresAuth: true,
-            requiresQuantity: true,
           },
         },
+
+        // {
+        //   path: "*",
+        //   name: "NotFound",
+        //   component: () => import("@/views/pages/NotFound404"),
+        //   meta: {
+        //     title: "page not found",
+        //   },
+        // },
       ],
     },
+
+    
+
+    
   ],
 });
 
-router.beforeEach(async (to, from, next) => {
-  const userStorage = await JSON.parse(userLocal),
-    userStore = await store.getters["auth/allUser"],
-    productStore = await store.getters["product/productDetailByID"],
-    modal = document.getElementById("modal-1");
-  // quantity = to.matched.some((record) => {
-  //   record.meta.requiresQuantity;
-  // });
-  if (to.meta.requiresAuth) {
-    if (userStore.name == undefined && userStorage == null) {
-      if (userStore.name == undefined || userStorage == null) {
-        window.scrollTo({
-          top: 0,
-          left: 0,
-          behavior: "smooth",
-        });
-        modal.style.display = "block";
-      } else if (productStore.quantity === 0 && userStore.name !== undefined) {
-        modal.style.display = "none";
-        next(false);
-      } else {
-        next();
-      }
-    } else if (productStore.quantity === 0 && userStore.name !== undefined) {
-      modal.style.display = "none";
-      next(false);
-    } else {
-      next();
-    }
-  } else {
-    next();
-  }
-
-  // if (quantity && productStore.quantity !== 0) {
-  //   if (userStore.name == undefined && userStorage == null) {
-  //     if (userStore.name == undefined || userStorage == null) {
-  //       window.scrollTo({
-  //         top: 0,
-  //         left: 0,
-  //         behavior: "smooth",
-  //       });
-  //       modal.style.display = "block";
-  //       next(false);
-  //     }else {
-  //       next();
-  //     }
-  //   }else {
-  //     next();
-  //   }
-  // }else {
-  //   next()
-  // }
-
-  // if (to.name !== "ProductDetail" && to.name !== "Cart") {
-  //     modal.style.display = "none";
-  // }
-  // if (to.name !== "ProductDetail") {
-  //   if (userStore.name == undefined && userStorage == null) {
-  //     if (userStore.name == undefined || userStorage == null) {
-  //       modal.style.display = "none";
-  //     }else next();
-  //   }else next();
-  // }else next();
-});
+// router.beforeEach(async (to, from, next) => {
+//   if
+// });
 
 export default router;
