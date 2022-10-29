@@ -1,7 +1,7 @@
 import {BASE_URL} from '@/constants';
 import axios from 'axios';
 // import queryString from 'query-string';
-import httpClient from '@/utils/requestApis';
+// import httpClient from '@/utils/requestApis';
 
 const categoryApis = {
   getCategoryList: () => {
@@ -14,7 +14,7 @@ const categoryApis = {
 
   getProductBaseOnCategoryID: (id) => {
     // const queryParams = queryString.stringify(query);
-    return httpClient.get(`${BASE_URL}/categories/${id}`);
+    return axios.get(`${BASE_URL}/categories/${id}`);
   },
 
   // getProductSlider: (id) => {

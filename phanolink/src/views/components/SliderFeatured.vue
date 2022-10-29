@@ -10,14 +10,14 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
 
 export default {
   name: "SliderFeatured",
 
-  computed: {
-    ...mapGetters({
-      productList:'product/productList'})
+  props: {
+    productList: {
+      type: Array,
+    }
   },
 };
 </script>

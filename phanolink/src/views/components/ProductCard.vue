@@ -1,6 +1,11 @@
 <template>
   <div class="wrap-product-card">
-    <div class="product-card" v-for="product in products" :key="product.id">
+    <template  v-if="isLoadingProducts">
+      <SkeletonProductList v-for="item in amount" :key="item"/>
+    </template>
+
+    <div class="product-card" v-for="product in productsList" :key="product.id" v-else>
+
       <router-link
         :to="{
           name: 'ProductDetail',
@@ -19,6 +24,7 @@
           >
             {{ product.discount }}% GIẢM
           </div>
+
           <div
             class="card-wrap"
             v-if="product.quantity === 0 ? (checkSold = true) : !checkSold"
@@ -72,6 +78,7 @@
                 }}
                 đ</span
               >
+
               <span class="root-price" v-if="product.discount > 0"
                 >{{ product.original_price }} đ</span
               >
@@ -84,37 +91,41 @@
 </template>
 
 <script>
+import SkeletonProductList from "@/views/components/skeleton/SkeletonCard";
+
 import { calculateDiscount } from "@/utils/calculateDiscount";
 import { freeShip } from "@/utils/freeShip";
 
 import mixins from "@/mixins";
-import { mapGetters } from "vuex";
-
 
 export default {
   name: "ProductCard",
-
-  props: {
-    products: Array,
-  },
+  components: { SkeletonProductList },
 
   mixins: [mixins],
+
+  props: {
+    productsList: {
+      type: Array,
+    },
+    isLoadingProducts: {
+      type: Boolean,
+      default: false
+    }
+  },
 
   data() {
     return {
       showLess: true,
       checkSold: false,
       isDiscount: true,
+      amount: 12
     };
   },
-  
-  computed: {
-    ...mapGetters({
-      productList: "product/productListByID",
-    }),
 
-     checkLengthText() {
-      return this.productList.description.length > 50 ? true : false;
+  computed: {
+    checkLengthText() {
+      return this.productsList.description.length > 50 ? true : false;
     },
   },
 
@@ -138,7 +149,10 @@ export default {
   gap: 10px;
 
   .product-card {
+    width: 100%;
     .card {
+      width: 100%;
+      height: 100%;
       padding: 10px;
       position: relative;
       background-color: $color-white;
@@ -196,7 +210,6 @@ export default {
         margin-bottom: 10px;
         img {
           height: 180px;
-          width: 300px;
           background-size: cover;
           background-repeat: no-repeat;
           background-position: center;

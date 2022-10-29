@@ -12,8 +12,8 @@
     </div>
     <div class="featured-content">
       <VueSlickCarousel v-bind="slickOptions">
-        <SliderFeatured/>
-        <SliderFeatured/>
+        <SliderFeatured :productList="productList" />
+        <SliderFeatured :productList="productList" />
       </VueSlickCarousel>
 
       <div class="phano">

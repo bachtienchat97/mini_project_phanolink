@@ -8,6 +8,7 @@
             <ul>
               <li v-for="item in categoriesList" :key="item.id">
                 <router-link
+                  exact-active-class="active-link"
                   :to="{
                     name: 'Product',
                     params: { slug: convertSlug(item.name), id: item.id },
@@ -31,7 +32,7 @@
         </div>
 
         <div class="wrap-product-card container">
-          <ProductCard :products="products" />
+          <ProductCard  :productsList="productsList" :isLoadingProducts="isLoadingProducts"/>
         </div>
       </div>
     </div>
@@ -43,10 +44,10 @@ import mixins from "@/mixins";
 import { mapGetters } from "vuex";
 
 import { categoryApis } from "@/apis";
-import ProductCard from "@/views/components/ProductCard";
 
 import { calculateDiscount } from "@/utils/calculateDiscount";
 import { freeShip } from "@/utils/freeShip";
+import ProductCard from "@/views/components/ProductCard";
 
 export default {
   name: "Product",
@@ -59,16 +60,16 @@ export default {
     return {
       showLess: true,
       checkSold: false,
-      products: [],
       isDiscount: true,
+      productsList: [],
+      isLoadingProducts: false
     };
   },
 
   computed: {
     ...mapGetters({
       categoriesList: "category/categoriesList",
-      productList: "product/productListByID",
-      productDetail: "product/productDetailByID",
+      productList: "product/productDetailByID",
     }),
 
     checkLengthText() {
@@ -78,11 +79,25 @@ export default {
 
   created() {
     this.renderProductByCategoryID();
-    this.$store.dispatch("category/getCategoryList", { root: true });
-    this.$store.dispatch("product/getProductList", { root: true });
   },
 
   methods: {
+    async renderProductByCategoryID() {
+      try {
+        this.isLoadingProducts = true;
+        const categoryID = this.$route.params.id;
+        const res = await categoryApis.getProductBaseOnCategoryID(categoryID);
+        if (res.status === 200) {
+          this.isLoadingProducts = false;
+          this.productsList = await res.data.data;
+        }
+      } catch (e) {
+        throw new Error("something went wrong", e);
+      }finally {
+        this.isLoadingProducts = false;
+      }
+    },
+
     calculateDis(original, discount) {
       return calculateDiscount(original, discount);
     },
@@ -91,31 +106,6 @@ export default {
       return freeShip(isFree);
     },
 
-    //display product list by categoryID
-    async renderProductByCategoryID() {
-      try {
-        const categoryID = this.$route.params.id;
-        const res = await categoryApis.getProductBaseOnCategoryID(categoryID);
-        if (res.status === 200) {
-          this.products = res.data.data;
-        }
-      } catch (e) {
-        throw new Error("something went wrong", e);
-      }
-    },
-
-    // async getProductByID() {
-    //   try {
-    //     const id = this.$route.params.productID;
-    //     const res = await categoryApis.getProductBaseOnCategoryID(id);
-
-    //     if (res.status === 200) {
-
-    //     }
-    //   } catch (e) {
-    //     throw new Error("error: ", e);
-    //   }
-    // },
   },
 };
 </script>
@@ -159,11 +149,9 @@ export default {
         .active-link {
           color: rgb(48, 48, 175);
           border-left: 2px solid rgb(48, 48, 175);
-
         }
 
         ul {
-
           li {
             list-style: none;
             margin: 10px 0;

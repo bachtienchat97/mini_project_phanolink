@@ -9,16 +9,15 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
 
 export default {
   name: "SliderHotPromotions",
 
-  computed: {
-    ...mapGetters({
-      productList: "product/productList",
-    }),
-  },
+  props: {
+    productList: {
+      type: Array
+    }
+  }
 };
 </script>
 

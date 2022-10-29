@@ -21,8 +21,6 @@ const actions = {
   categoryList({ commit }, payload) {
     commit("CATEGORY_LIST", payload);
   },
-
-  
 };
 
 const mutations = {
