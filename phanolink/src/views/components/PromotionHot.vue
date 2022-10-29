@@ -8,14 +8,15 @@
       <a href="#">Xem tất cả ></a>
     </div>
 
-    <VueSlickCarousel v-bind="slickOptions" >
-      <SliderHotPromotion v-for="item in 3" :key="item" />
+    <VueSlickCarousel v-bind="slickOptions">
+      <SliderHotPromotion :productList="productList" />
+      <SliderHotPromotion :productList="productList" />
     </VueSlickCarousel>
   </div>
 </template>
 
 <script>
-// import categoryApis from '@/apis';
+import { mapGetters } from "vuex";
 
 import VueSlickCarousel from "vue-slick-carousel";
 import "vue-slick-carousel/dist/vue-slick-carousel.css";
@@ -27,6 +28,13 @@ export default {
 
   components: { VueSlickCarousel, SliderHotPromotion },
 
+   computed: {
+    ...mapGetters({
+      productList: "product/productList",
+    }),
+  },
+
+  
   data() {
     return {
       slickOptions: {
@@ -43,19 +51,10 @@ export default {
   },
 
   methods: {
-    // async getProductSlider() {
-    //   const res = await categoryApis.getProductSlider(1);
-    //   if (res.status === 200) {
-    //     const product = res.data.data;
-    //     console.log(product)
-    //     await this.$store.dispatch('product/getProductList', product, { root: true });
-    //   }
-    // }
+   
   },
 
-  created() {
-    this.$store.dispatch('product/productList',{root: true});
-  }
+  
 };
 </script>
 

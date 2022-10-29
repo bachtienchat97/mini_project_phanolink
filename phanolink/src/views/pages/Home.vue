@@ -8,9 +8,7 @@
       :key="item.id"
       :item="item"
     />
-    <transition name="fade">
       <router-view />
-    </transition>
   </div>
 </template>
 
@@ -33,27 +31,15 @@ export default {
     Banner,
   },
 
+  created() {
+    this.$store.dispatch("product/getProductListHome", {root: true});
+  },
+
   computed: {
     ...mapGetters({
       categoriesList: "category/categoriesList",
     }),
   },
 
-  created() {
-    this.$store.dispatch("category/getCategoryList", { root: true });
-  },
-
-  methods: {
-    // async getProductList() {
-    //   try {
-    //     const res = await axios.get(`${BASE_URL}/home/categories`);
-    //     if (res.status === 200) {
-    //       await this.$store.dispatch("category/getCategoryList", res.data.data);
-    //     }
-    //   } catch (e) {
-    //     throw new Error("something went wrong");
-    //   }
-    // },
-  },
 };
 </script>

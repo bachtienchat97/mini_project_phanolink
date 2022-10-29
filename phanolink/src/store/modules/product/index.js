@@ -1,24 +1,25 @@
-// import categoryApis from '@/apis';
-import {BASE_URL} from '@/constants';
+import { BASE_URL } from "@/constants";
 
-import axios from 'axios';
-
+import axios from "axios";
 
 const state = {
   products: [],
   productListByID: [],
-  productDetailByID: {}
+  productDetailByID: {},
 };
 
 const getters = {
   productList: (state) => state.products,
   productListByID: (state) => state.productListByID,
-  productDetailByID: (state) => state.productDetailByID
+  productDetailByID: (state) => state.productDetailByID,
 };
 
 const actions = {
+  async getProductListByID({ commit }, payload) {
+    await commit("PRODUCT_BY_ID", payload);
+  },
 
-  async getProductList({ dispatch }) {
+  async getProductListHome({ dispatch }) {
     const res = await axios.get(`${BASE_URL}/categories/1`);
     if (res.status === 200) {
       await dispatch("productList", res.data.data);
@@ -26,22 +27,18 @@ const actions = {
   },
 
   productList({ commit }, payload) {
-     commit("PRODUCT_LIST", payload);
+    commit("PRODUCT_LIST", payload);
   },
 
-  // getProductListByID ({ commit }, payload) {
-  //   commit("PRODUCT_BY_ID", payload);
-  // },
-
-  getProductDetailByID ({ commit }, payload) {
-    commit("PRODUCT_DETAIL_BY_ID",payload)
-  }
+  getProductDetailByID({ commit }, payload) {
+    commit("PRODUCT_DETAIL_BY_ID", payload);
+  },
 };
 
 const mutations = {
+  PRODUCT_BY_ID: (state, value) => (state.productListByID = value),
   PRODUCT_LIST: (state, value) => (state.products = value),
-  // PRODUCT_BY_ID: (state, value) => (state.productListByID = value),
-  PRODUCT_DETAIL_BY_ID: (state, value) => (state.productDetailByID = value)
+  PRODUCT_DETAIL_BY_ID: (state, value) => (state.productDetailByID = value),
 };
 
 export const product = {
@@ -49,5 +46,5 @@ export const product = {
   state,
   getters,
   actions,
-  mutations
-}
+  mutations,
+};

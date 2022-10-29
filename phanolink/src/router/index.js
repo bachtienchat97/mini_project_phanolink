@@ -4,10 +4,6 @@ import VueRouter from "vue-router";
 import LayoutDefault from "@/layout/LayoutDefault";
 import requireMeta from "@/helpers/requireMeta";
 
-// import { userLocal } from "@/utils/userLocalStorage";
-
-// import store from "@/store";
-
 Vue.use(VueRouter);
 
 const router = new VueRouter({
@@ -42,6 +38,7 @@ const router = new VueRouter({
           component: () =>
             import(/* webpackChunkName: "product"*/ "@/views/pages/Product"),
         },
+        
         {
           path: "/:slug/:categoryID/:productID",
           name: "ProductDetail",
@@ -62,6 +59,11 @@ const router = new VueRouter({
           },
         },
 
+        {
+          path: "skeleton",
+          name: "SkeletonCard",
+          component: () => import ("@/views/components/skeleton/SkeletonCard")
+        }
         // {
         //   path: "*",
         //   name: "NotFound",
@@ -72,10 +74,6 @@ const router = new VueRouter({
         // },
       ],
     },
-
-    
-
-    
   ],
 });
 

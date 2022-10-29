@@ -3,11 +3,7 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 
-import _ from 'lodash';    
-Object.defineProperty(Vue.prototype, '$_', { value: _ });
-
-import { BootstrapVue, IconsPlugin, SpinnerPlugin, ToastPlugin, PopoverPlugin } from "bootstrap-vue";
-
+import { BootstrapVue, IconsPlugin, SpinnerPlugin, SkeletonPlugin } from "bootstrap-vue";
 
 import './axios';
 
@@ -17,11 +13,11 @@ import "@/assets/scss/styles.scss";
 
 
 Vue.use(BootstrapVue);
-Vue.use(ToastPlugin);
 Vue.use(SpinnerPlugin);
-Vue.use(PopoverPlugin);
+Vue.use(SkeletonPlugin);
 Vue.use(IconsPlugin);
 Vue.config.productionTip = false;
+
 
 new Vue({
   router,

@@ -122,7 +122,6 @@ import OrderProduct from "@/views/components/OrderProduct";
 import { productApis } from "@/apis";
 
 import { calculateDiscount } from "@/utils/calculateDiscount";
-import { mapGetters } from "vuex";
 
 export default {
   name: "ProductDetail",
@@ -132,18 +131,6 @@ export default {
       products: {},
     };
   },
-
-  computed: {
-    ...mapGetters({
-      userStore: "auth/allUser",
-    }),
-  },
-
-  // beforeRouteLeave(to, from, next) {
-  //   if(this.products.quantity === 0) {
-  //     next(false);
-  //   }else next();
-  // },
 
   created() {
     this.getProductByID();
@@ -162,7 +149,6 @@ export default {
         const res = await productApis.getProductByProductID(id);
         if (res.status === 200) {
           this.products = await res.data.data;
-          await this.$store.dispatch("product/getProductDetailByID",res.data.data, { root: true });
         }
       } catch (e) {
         throw new Error("error message:", e);

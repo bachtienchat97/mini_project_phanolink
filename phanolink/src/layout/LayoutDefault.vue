@@ -2,7 +2,7 @@
   <div class="layout-default">
     <Header />
     <BreadCrumb />
-    <router-view :key="$router.path" />
+    <router-view :key='$route.path'/>
     <Footer />
   </div>
 </template>
@@ -15,6 +15,10 @@ import Footer from "@/views/layouts/Footer.vue";
 export default {
   name: "Layout",
   components: { BreadCrumb, Header, Footer },
+
+  created() {
+    this.$store.dispatch('category/getCategoryList', {root: true})
+  }
 };
 </script>
 
