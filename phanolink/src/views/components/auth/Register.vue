@@ -1,22 +1,52 @@
 <template>
-  <div>
-    <form @submit.prevent="handleSubmit" v-if="isSuccess === false">
-      <p>Họ tên</p>
-      <input type="text" placeholder="Nhập họ tên" v-model="userForm.name" />
+  <div class="register">
+    <form
+      class="form-register"
+      @submit.prevent="handleSubmit"
+      v-if="isSuccess === false"
+    >
+      <div class="user-name">
+        <label for="user-name">Họ tên</label>
+        <input  class="input-text"
+          name="user-name"
+          type="text"
+          placeholder="Nhập họ tên"
+          v-model="userForm.name"
+        />
+      </div>
 
-      <p>Email</p>
-      <input type="email" placeholder="Nhập Email" v-model="userForm.email" />
+      <div class="email">
+        <label for="email">Email</label>
+        <input class="input-text"
+          name="email"
+          type="email"
+          placeholder="Nhập Email"
+          v-model="userForm.email"
+        />
+      </div>
 
-      <p>Mật khẩu</p>
-      <input
-        type="password"
-        placeholder="Mật khẩu từ 6 đến 32 ký tự"
-        v-model="userForm.password"
-      />
+      <div class="password">
+        <label for="password">Mật khẩu</label>
+        <input class="input-text"
+          name="password"
+          type="password"
+          placeholder="Mật khẩu từ 6 đến 32 ký tự"
+          v-model="userForm.password"
+        />
+      </div>
 
-      <p>Số điện thoại</p>
-      <input placeholder="Nhập số điện thoại" v-model="userForm.phone" />
-      <button class="btn-register">Tạo tài khoản</button>
+      <div class="phone">
+        <label for="phone">Số điện thoại</label>
+        <input class="input-text"
+          name="phone"
+          placeholder="Nhập số điện thoại"
+          v-model="userForm.phone"
+        />
+      </div>
+      <b-spinner small v-if="!isSubmit"></b-spinner>
+      <button type="submit" class="btn-register">
+        <span v-if="isSubmit"> Tạo tài khoản </span>
+      </button>
     </form>
 
     <div class="register-success" v-if="isSuccess">
@@ -31,7 +61,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import httpClient from "@/utils/requestApis";
 
 export default {
   name: "Register",
@@ -39,7 +69,7 @@ export default {
   props: {
     isType: { type: String, default: "" },
   },
-  
+
   data() {
     return {
       userForm: {
@@ -48,24 +78,31 @@ export default {
         password: "",
         phone: "",
       },
+      isSubmit: true,
       isSuccess: false,
       accountRegister: "",
     };
   },
 
   methods: {
-
     async handleSubmit() {
-      const response = await axios.post("register", {
-        name: this.userForm.name,
-        email: this.userForm.email,
-        password: this.userForm.password,
-        phone: this.userForm.phone,
-      });
+      this.isSubmit = false;
+      try {
+        const response = await httpClient.post("register", {
+          name: this.userForm.name,
+          email: this.userForm.email,
+          password: this.userForm.password,
+          phone: this.userForm.phone,
+        });
 
-      if (response.status === 200) {
-        this.isSuccess = true;
-        this.accountRegister = response.data.data?.email;
+        if (response.status === 200) {
+          this.isSubmit = true;
+          this.isSuccess = true;
+          this.accountRegister = response.data.data?.email;
+        }
+      } catch (error) {
+        this.isSubmit = true;
+        console.error(error);
       }
     },
 
@@ -84,16 +121,36 @@ export default {
   opacity: 0.5;
 }
 
+.form-register {
+  width: 100%;
+
+  .email,
+  .phone,
+  .password,
+  .user-name {
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    .input-text {
+      padding: 5px 15px;
+      margin-top: 5px;
+    }
+  }
+}
 .btn-register {
   width: 100%;
   border-radius: 5px;
+  transition: 0.3s;
   height: 40px;
   font-weight: bold;
   color: $color-bg-white;
   font-size: $font-15;
-  margin-top: 15px;
+  margin-top: 10px;
   background-color: $primary-green;
-  transition: 0.3s;
+  outline: none;
+  border: none;
   &:hover {
     opacity: 0.8;
   }
@@ -109,7 +166,7 @@ export default {
   font-weight: 500;
   flex-shrink: 0;
   margin-bottom: 10px;
-  
+
   .register-text {
     border: 1px solid $color-common;
     padding: 5px;
@@ -152,9 +209,5 @@ export default {
       color: #2a816f;
     }
   }
-
-  
 }
-
-
 </style>

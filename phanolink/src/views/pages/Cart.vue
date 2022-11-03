@@ -51,13 +51,10 @@
         </div>
 
         <div class="order-process">
-           <router-link class="order-process-link"
-          :to="{ path: '/' }"
-        >
-          tiến hành đặt hàng
-        </router-link>
+          <router-link class="order-process-link" :to="{ path: '/' }">
+            tiến hành đặt hàng
+          </router-link>
         </div>
-       
       </div>
     </div>
   </div>
@@ -66,7 +63,7 @@
 <script>
 import { mapGetters } from "vuex";
 
-import { userLocal } from "@/utils/userLocalStorage";
+import { getStorageParse } from "@/utils/localStorage";
 
 import store from "@/store";
 
@@ -84,9 +81,13 @@ export default {
   },
 
   async beforeRouteLeave(to, from, next) {
-     const userStore = await store.getters["auth/allUser"],
-  userStorage = await JSON.parse(userLocal);
-    if (to.name == '/login' && userStore.name !== undefined && userStorage !== null)
+    const userStore = await store.getters["auth/allUser"],
+      userStorage = await getStorageParse();
+    if (
+      to.name == "/login" &&
+      userStore.name !== undefined &&
+      userStorage !== null
+    )
       // this.$router.push({ name: "Login" }).catch(e => {throw new Error("can't not login");} )
       next({ path: "/" });
     else next();
@@ -152,6 +153,7 @@ export default {
 
       .header-mark {
         display: flex;
+        position: relative;
         background-color: #01adab;
         width: 160px;
         height: 55px;
@@ -164,7 +166,6 @@ export default {
         color: #ffffff;
         border-bottom-left-radius: 8px;
         border-bottom-right-radius: 8px;
-        position: relative;
         font-size: 14px;
         font-size: 0.875rem;
       }
@@ -187,7 +188,6 @@ export default {
           text-transform: uppercase;
           font-weight: bold;
           font-size: 20px;
-
         }
         &:hover {
           opacity: 0.9;

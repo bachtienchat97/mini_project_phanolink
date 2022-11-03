@@ -1,61 +1,69 @@
 <template>
-  <form @submit.prevent="handleSubmit">
-    <div class="error" v-if="isCorrectUser">
-      <img src="@/assets/img/error-icon.png" alt="error-icon" />
-      <p>Tên tài khoản của bạn hoặc Mật khẩu không đúng, vui lòng thử lại</p>
-    </div>
+  <div class="login">
+    <form @submit.prevent="handleSubmit">
+      <div class="error" v-if="isCorrectUser">
+        <img src="@/assets/img/error-icon.png" alt="error-icon" />
+        <p>Tên tài khoản của bạn hoặc Mật khẩu không đúng, vui lòng thử lại</p>
+      </div>
 
-    <label for="email">Email / SĐT</label>
-    <div class="account">
-      <input
-        id="email"
-        name="email"
-        type="text"
-        class="input-text"
-        placeholder="Nhập email hoặc số điện thoại"
-        v-model="formSubmit.email"
-      />
-    </div>
+      <label for="email">Email / SĐT</label>
+      <div class="account">
+        <input
+          id="email"
+          name="email"
+          type="text"
+          class="input-text"
+          placeholder="Nhập email hoặc số điện thoại"
+          v-model="formSubmit.email"
+        />
+      </div>
 
-    <label for="password">Mật khẩu</label>
-    <div class="password-wrap">
-      <input
-        id="password"
-        name="password"
-        class="input-text"
-        type="password"
-        placeholder="Mật khẩu từ 6 đến 32 ký tự"
-        v-model="formSubmit.password"
-      />
+      <label for="password">Mật khẩu</label>
+      <div class="password-wrap">
+        <input
+          id="password"
+          name="password"
+          class="input-text"
+          type="password"
+          placeholder="Mật khẩu từ 6 đến 32 ký tự"
+          v-model="formSubmit.password"
+        />
 
-      <div class="wrap-btn">
-        <div class="toggle-password" v-if="isDisplay" @click="hidePassword">
-          <img src="@/assets/img/icon-closed-eye.png" alt="icon-closed-eye" />
-        </div>
+        <div class="wrap-btn">
+          <div class="toggle-password" v-if="isDisplay" @click="hidePassword">
+            <img src="@/assets/img/icon-closed-eye.png" alt="icon-closed-eye" />
+          </div>
 
-        <div class="toggle-password" v-else @click="displayPassword">
-          <img src="@/assets/img/icon-uchiha-eye.png" alt="icon-uchiha-eye" />
+          <div class="toggle-password" v-else @click="displayPassword">
+            <img src="@/assets/img/icon-uchiha-eye.png" alt="icon-uchiha-eye" />
+          </div>
         </div>
       </div>
-    </div>
 
-    <p>Quên mật khẩu? Nhấn vào <a href="#" class="forget-pass">đây</a></p>
+      <p>Quên mật khẩu? Nhấn vào <a href="#" class="forget-pass">đây</a></p>
 
-    <label class="remember">
-      <input type="checkbox" name="remember" value="isRemember" id="remember" />
-      Ghi nhớ tài khoản của tôi
-    </label>
-    <button type="submit" class="btn-login" @click="handleSubmit()">
-      <b-spinner small v-if="!isSpinner"></b-spinner>
-      <span v-if="isSpinner">Đăng nhập</span>
-    </button>
-  </form>
+      <label class="remember">
+        <input
+          type="checkbox"
+          name="remember"
+          value="isRemember"
+          id="remember"
+        />
+        Ghi nhớ tài khoản của tôi
+      </label>
+      <button type="submit" class="btn-login" @click="handleSubmit()">
+        <b-spinner small v-if="!isSpinner"></b-spinner>
+        <span v-if="isSpinner">Đăng nhập</span>
+      </button>
+    </form>
+  </div>
 </template>
 
 <script>
-import axios from "axios";
+import httpClient from "@/utils/requestApis";
 
 import { mapGetters } from "vuex";
+import Nprogress from 'nprogress';
 
 import { KEY_LOCAL_STORAGE } from "@/constants";
 
@@ -85,9 +93,10 @@ export default {
     async handleSubmit() {
       this.isSpinner = false;
       try {
-        const response = await axios.post("login", this.formSubmit);
+        const response = await httpClient.post("login", this.formSubmit);
         if (response.status === 200) {
-          // dispatch action to store or using helper mapAction
+          Nprogress.start();
+
           await this.$store.dispatch("auth/userLogin", response.data.data, {
             root: true,
           });
@@ -98,9 +107,12 @@ export default {
           this.$router.push({ path: "/" }).catch(() => {});
 
           this.isSpinner = true;
+          Nprogress.done();
         }
       } catch (error) {
         if (error) {
+          Nprogress.done();
+
           this.isCorrectUser = true;
           this.isSpinner = true;
         }
@@ -134,7 +146,8 @@ export default {
   cursor: no-drop;
   opacity: 0.5;
 }
-
+.login {
+}
 .error {
   display: flex;
   padding: 8px 10px;

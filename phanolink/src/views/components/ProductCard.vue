@@ -5,7 +5,6 @@
     </template>
 
     <div class="product-card" v-for="product in productsList" :key="product.id" v-else>
-
       <router-link
         :to="{
           name: 'ProductDetail',
