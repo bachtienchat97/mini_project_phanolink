@@ -1,5 +1,6 @@
 <template>
   <div class="layout-default">
+    <ProgressBar/>
     <Header />
     <BreadCrumb />
     <router-view :key='$route.path'/>
@@ -11,10 +12,11 @@
 import BreadCrumb from "@/views/components/Breadcrumb";
 import Header from "@/views/layouts/Header.vue";
 import Footer from "@/views/layouts/Footer.vue";
+import ProgressBar from "@/views/components/ProgressBar";
 
 export default {
   name: "Layout",
-  components: { BreadCrumb, Header, Footer },
+  components: { BreadCrumb, Header, Footer, ProgressBar },
 
   created() {
     this.$store.dispatch('category/getCategoryList', {root: true})
@@ -23,6 +25,7 @@ export default {
 </script>
 
 <style scoped>
+
 .layout-default {
   background-color: #ebebeb;
 }

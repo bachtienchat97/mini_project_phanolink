@@ -1,5 +1,5 @@
 <template >
-    <div class="skeleton">
+    <div class="skeleton-card">
       <div class="card-img">
         <b-skeleton-img
           :width="'100%'"
@@ -40,7 +40,7 @@ export default {
 <style lang="scss" scoped>
 @import "@/assets/scss/styles";
 
-.skeleton {
+.skeleton-card {
   padding: 10px;
   max-width: 300px;
   width: 230px;

@@ -22,11 +22,11 @@ const actions = {
   async getProductListHome({ dispatch }) {
     const res = await axios.get(`${BASE_URL}/categories/1`);
     if (res.status === 200) {
-      await dispatch("productList", res.data.data);
+      await dispatch("productListHome", res.data.data);
     }
   },
 
-  productList({ commit }, payload) {
+  productListHome({ commit }, payload) {
     commit("PRODUCT_LIST", payload);
   },
 

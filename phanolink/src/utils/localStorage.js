@@ -4,8 +4,8 @@ export function removeStorage() {
   return localStorage.removeItem(KEY_LOCAL_STORAGE);
 }
 
-export function setStorage(token) {
-  return localStorage.setItem(KEY_LOCAL_STORAGE, token);
+export function setStorage(key) {
+  return localStorage.setItem(KEY_LOCAL_STORAGE, key);
 }
 
 export function getStorage() {

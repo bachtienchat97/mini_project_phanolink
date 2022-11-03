@@ -10,7 +10,7 @@
     >
       <img src="@/assets/img/add-to-cart.png" alt="add-to-cart" />
       <span class="tooltipText" v-if="products.quantity === 0"
-        >sản phẩm này hiện hết hàng</span
+        >sản phẩm này hiện cháy hàng</span
       >
       <span> chọn mua </span>
     </router-link>
@@ -24,7 +24,7 @@
 <script>
 import { mapGetters } from "vuex";
 
-import { userLocal } from "@/utils/userLocalStorage";
+import { getStorage } from "@/utils/localStorage";
 
 export default {
   name: "OrderProduct",
@@ -45,7 +45,7 @@ export default {
   methods: {
     async orderClicked() {
       const userStore = await this.user,
-        userStorage = await JSON.parse(userLocal);
+        userStorage = await JSON.parse(getStorage());
 
       if (userStore.name == undefined && userStorage == null) {
         this.$router.push({ path: "/login" }).catch((e) => {

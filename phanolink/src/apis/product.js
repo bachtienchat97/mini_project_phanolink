@@ -1,9 +1,9 @@
 import {BASE_URL} from '@/constants';
-import axios from 'axios';
+import httpClient from '@/utils/requestApis';
 
 const productApis = {
   getProductByProductID: (id) => {
-    return axios.get(`${BASE_URL}/products/${id}`);
+    return httpClient.get(`${BASE_URL}/products/${id}`);
   }
 }
 

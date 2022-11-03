@@ -1,6 +1,6 @@
 import { BASE_URL } from "@/constants";
 
-import axios from "axios";
+import httpClient from "@/utils/requestApis";
 
 const state = {
   categories: [],
@@ -12,7 +12,7 @@ const getters = {
 
 const actions = {
   async getCategoryList({ dispatch }) {
-    const res = await axios.get(`${BASE_URL}/home/categories`);
+    const res = await httpClient.get(`${BASE_URL}/home/categories`);
     if (res.status === 200) {
       await dispatch("categoryList", res.data.data);
     }

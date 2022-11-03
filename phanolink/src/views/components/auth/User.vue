@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { KEY_LOCAL_STORAGE } from "@/constants";
+import { removeStorage } from "@/utils/localStorage";
 import { getStorageParse } from "@/utils/localStorage";
 
 import { mapGetters } from "vuex";
@@ -53,7 +53,7 @@ export default {
   methods: {
     async handleLogout() {
       await this.$store.dispatch("auth/logoutUser", {}, { root: true });
-      this.userLocal = localStorage.removeItem(KEY_LOCAL_STORAGE);
+      this.userLocal = removeStorage();
     },
   },
 

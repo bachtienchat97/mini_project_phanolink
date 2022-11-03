@@ -24,8 +24,8 @@ const router = new VueRouter({
 
         {
           path: "login",
-          name: "Login",
-          component: () => import("@/views/pages/Login"),
+          name: "Modal",
+          component: () => import("@/views/components/auth/Modal"),
           beforeEnter: requireMeta.requireLoggin,
           meta: {
             isLoggin: true,
@@ -60,9 +60,9 @@ const router = new VueRouter({
         },
 
         {
-          path: "skeleton",
-          name: "SkeletonCard",
-          component: () => import ("@/views/components/skeleton/SkeletonCard")
+          path: "progress",
+          name: "ProgressBar",
+          component: () => import ("@/views/components/ProgressBar")
         }
         // {
         //   path: "*",

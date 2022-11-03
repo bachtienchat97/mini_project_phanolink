@@ -4,6 +4,7 @@
       <div class="product-sidebar">
         <div class="category-product">
           <div class="category-product-top">Danh Mục Sản Phẩm</div>
+          
           <div class="category-product-bot">
             <ul>
               <li v-for="item in categoriesList" :key="item.id">
@@ -32,7 +33,7 @@
         </div>
 
         <div class="wrap-product-card container">
-          <ProductCard  :productsList="productsList" :isLoadingProducts="isLoadingProducts"/>
+          <ProductCard  :productsList="products" :isLoadingProducts="isLoadingProducts"/>
         </div>
       </div>
     </div>
@@ -61,8 +62,8 @@ export default {
       showLess: true,
       checkSold: false,
       isDiscount: true,
-      productsList: [],
-      isLoadingProducts: false
+      products: [],
+      isLoadingProducts: false,
     };
   },
 
@@ -89,7 +90,9 @@ export default {
         const res = await categoryApis.getProductBaseOnCategoryID(categoryID);
         if (res.status === 200) {
           this.isLoadingProducts = false;
-          this.productsList = await res.data.data;
+          this.products = await res.data.data;
+          //dispatch data to state in store 
+          await this.$store.dispatch("product/getProductListByID", this.products,{root: true})
         }
       } catch (e) {
         throw new Error("something went wrong", e);
