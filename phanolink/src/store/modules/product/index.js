@@ -1,6 +1,6 @@
 import { BASE_URL } from "@/constants";
 
-import axios from "axios";
+import httpClient from "@/utils/requestApis";
 
 const state = {
   products: [],
@@ -14,31 +14,32 @@ const getters = {
   productDetailByID: (state) => state.productDetailByID,
 };
 
+const mutations = {
+  PRODUCT_LIST_HOME: (state, value) => (state.products = value),
+  PRODUCT_DETAIL_BY_ID: (state, value) => (state.productDetailByID = value),
+  PRODUCT_BY_ID: (state, value) => (state.productListByID = value),
+};
+
 const actions = {
   async getProductListByID({ commit }, payload) {
     await commit("PRODUCT_BY_ID", payload);
   },
 
   async getProductListHome({ dispatch }) {
-    const res = await axios.get(`${BASE_URL}/categories/1`);
+    const res = await httpClient.get(`${BASE_URL}/categories/1`);
     if (res.status === 200) {
       await dispatch("productListHome", res.data.data);
     }
   },
 
   productListHome({ commit }, payload) {
-    commit("PRODUCT_LIST", payload);
+    commit("PRODUCT_LIST_HOME", payload);
   },
 
   getProductDetailByID({ commit }, payload) {
     commit("PRODUCT_DETAIL_BY_ID", payload);
   },
-};
 
-const mutations = {
-  PRODUCT_BY_ID: (state, value) => (state.productListByID = value),
-  PRODUCT_LIST: (state, value) => (state.products = value),
-  PRODUCT_DETAIL_BY_ID: (state, value) => (state.productDetailByID = value),
 };
 
 export const product = {
