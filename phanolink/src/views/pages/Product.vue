@@ -4,7 +4,7 @@
       <div class="product-sidebar">
         <div class="category-product">
           <div class="category-product-top">Danh Mục Sản Phẩm</div>
-          
+
           <div class="category-product-bot">
             <ul>
               <li v-for="item in categoriesList" :key="item.id">
@@ -15,7 +15,9 @@
                     params: { slug: convertSlug(item.name), id: item.id },
                   }"
                 >
-                  {{ item.name }}
+                  <span @click="selectCategoryID(item.id)">
+                    {{ item.name }}
+                  </span>
                 </router-link>
               </li>
             </ul>
@@ -33,7 +35,10 @@
         </div>
 
         <div class="wrap-product-card container">
-          <ProductCard  :productsList="products" :isLoadingProducts="isLoadingProducts"/>
+          <ProductCard
+            :productsList="products"
+            :isLoadingProducts="isLoadingProducts"
+          />
         </div>
       </div>
     </div>
@@ -48,6 +53,7 @@ import { categoryApis } from "@/apis";
 
 import { calculateDiscount } from "@/utils/calculateDiscount";
 import { freeShip } from "@/utils/freeShip";
+
 import ProductCard from "@/views/components/ProductCard";
 
 export default {
@@ -70,11 +76,16 @@ export default {
   computed: {
     ...mapGetters({
       categoriesList: "category/categoriesList",
-      productList: "product/productDetailByID",
+      productList: "product/productDetailByID", //{}
     }),
+    
+    // the way to access getter in store are cached : property-style access
+    // categoriesList() {
+    //   return this.$store.getters['category/categoriesList']
+    // },
 
     checkLengthText() {
-      return this.productList.description.length > 50 ? true : false;
+      return this.productList.description.length > 40 ? true : false;
     },
   },
 
@@ -83,6 +94,10 @@ export default {
   },
 
   methods: {
+    selectCategoryID(id) {
+      this.$store.commit("product/CATEGORY_SELECTED_ID", id);
+    },
+
     async renderProductByCategoryID() {
       try {
         this.isLoadingProducts = true;
@@ -91,12 +106,15 @@ export default {
         if (res.status === 200) {
           this.isLoadingProducts = false;
           this.products = await res.data.data;
-          //dispatch data to state in store 
-          await this.$store.dispatch("product/getProductListByID", this.products,{root: true})
+          await this.$store.dispatch(
+            "product/getProductListByID",
+            this.products,
+            { root: true }
+          );
         }
       } catch (e) {
         throw new Error("something went wrong", e);
-      }finally {
+      } finally {
         this.isLoadingProducts = false;
       }
     },
@@ -108,7 +126,6 @@ export default {
     checkFreeShip(isFree) {
       return freeShip(isFree);
     },
-
   },
 };
 </script>

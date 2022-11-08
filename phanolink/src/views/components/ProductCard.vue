@@ -16,7 +16,7 @@
           query: { page: 1 },
         }"
       >
-        <div class="card">
+        <div class="card" @click="getProductCardID(product.id)">
           <div
             class="card--discount"
             v-show="product.discount !== 0 ? isDiscount : !isDiscount"
@@ -94,6 +94,7 @@ import SkeletonProductList from "@/views/components/skeleton/SkeletonCard";
 
 import { calculateDiscount } from "@/utils/calculateDiscount";
 import { freeShip } from "@/utils/freeShip";
+import { mapGetters } from "vuex";
 
 import mixins from "@/mixins";
 
@@ -121,14 +122,25 @@ export default {
       amount: 12
     };
   },
-
+  
   computed: {
     checkLengthText() {
       return this.productsList.description.length > 50 ? true : false;
     },
+
+    ...mapGetters({
+      productList: "product/productDetailByID", //{}
+    }),
   },
 
+
   methods: {
+    getProductCardID(id){
+      if(id) {
+        this.$store.commit("product/PRODUCT_CARD_ID", id);
+      }
+    },
+
     calculateDis(original, discount) {
       return calculateDiscount(original, discount);
     },

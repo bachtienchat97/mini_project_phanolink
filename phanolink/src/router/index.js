@@ -37,8 +37,11 @@ const router = new VueRouter({
           name: "Product",
           component: () =>
             import(/* webpackChunkName: "product"*/ "@/views/pages/Product"),
+          meta: {
+            breadcrumb: true,
+          },
         },
-        
+
         {
           path: "/:slug/:categoryID/:productID",
           name: "ProductDetail",
@@ -46,6 +49,9 @@ const router = new VueRouter({
             import(
               /* webpackChunkName: "productdetail" */ "@/views/pages/ProductDetail"
             ),
+          meta: {
+            breadcrumb: true,
+          },
         },
 
         {
@@ -56,29 +62,21 @@ const router = new VueRouter({
           beforeEnter: requireMeta.requireAuth,
           meta: {
             requiresAuth: true,
+            breadcrumb: true,
           },
         },
-
         {
-          path: "progress",
-          name: "ProgressBar",
-          component: () => import ("@/views/components/ProgressBar")
-        }
-        // {
-        //   path: "*",
-        //   name: "NotFound",
-        //   component: () => import("@/views/pages/NotFound404"),
-        //   meta: {
-        //     title: "page not found",
-        //   },
-        // },
+          path: "/:notfound(.*)*",
+          name: "NotFound",
+          component: () => import("@/views/pages/NotFound404"),
+          meta: {
+            title: "page not found",
+          },
+        },
       ],
     },
   ],
 });
 
-// router.beforeEach(async (to, from, next) => {
-//   if
-// });
 
 export default router;
