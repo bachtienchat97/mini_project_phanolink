@@ -15,9 +15,7 @@
                     params: { slug: convertSlug(item.name), id: item.id },
                   }"
                 >
-                  <span @click="selectCategoryID(item.id)">
-                    {{ item.name }}
-                  </span>
+                  {{ item.name }}
                 </router-link>
               </li>
             </ul>
@@ -29,9 +27,13 @@
       <div class="product-main">
         <div class="product-sort">
           <span class="top-title"> Ưu tiên xem : </span>
-          <span class="ascending active">Giá Thấp</span>
-          <span class="descrement">Giá Cao</span>
-          <span class="promotion">Khuyến mãi</span>
+          <span class="ascending active" @click="sortLowPrice(products)"
+            >Giá Thấp</span
+          >
+          <span class="descrement" @click="sortHighPrice(products)">Giá Cao</span>
+          <span class="promotion" @click="sortPromotion(products)"
+            >Khuyến mãi</span
+          >
         </div>
 
         <div class="wrap-product-card container">
@@ -52,7 +54,6 @@ import { mapGetters } from "vuex";
 import { categoryApis } from "@/apis";
 
 import { calculateDiscount } from "@/utils/calculateDiscount";
-import { freeShip } from "@/utils/freeShip";
 
 import ProductCard from "@/views/components/ProductCard";
 
@@ -78,7 +79,7 @@ export default {
       categoriesList: "category/categoriesList",
       productList: "product/productDetailByID", //{}
     }),
-    
+
     // the way to access getter in store are cached : property-style access
     // categoriesList() {
     //   return this.$store.getters['category/categoriesList']
@@ -94,10 +95,6 @@ export default {
   },
 
   methods: {
-    selectCategoryID(id) {
-      this.$store.commit("product/CATEGORY_SELECTED_ID", id);
-    },
-
     async renderProductByCategoryID() {
       try {
         this.isLoadingProducts = true;
@@ -119,12 +116,30 @@ export default {
       }
     },
 
-    calculateDis(original, discount) {
-      return calculateDiscount(original, discount);
+    sortLowPrice(products) {
+      this.products = products
+        .filter((item, index, arr) => {
+          calculateDiscount(item.original_price, item.discount);
+          return item.original_price === arr[index].original_price;
+        })
+        .sort((a, b) => a.original_price - b.original_price);
     },
 
-    checkFreeShip(isFree) {
-      return freeShip(isFree);
+    sortHighPrice(products) {
+      this.products = products
+        .filter((item, index, arr) => {
+          calculateDiscount(item.original_price, item.discount);
+          return item.original_price === arr[index].original_price;
+        })
+        .sort((a, b) => b.original_price - a.original_price);
+    },
+
+    sortPromotion(products) {
+      this.products = products
+        .filter((item, index, arr) => {
+          return item.discount === arr[index].discount;
+        })
+        .sort((a, b) => b.discount - a.discount);
     },
   },
 };

@@ -1,10 +1,15 @@
 <template>
   <div class="wrap-product-card">
-    <template  v-if="isLoadingProducts">
-      <SkeletonProductList v-for="item in amount" :key="item"/>
+    <template v-if="isLoadingProducts">
+      <SkeletonProductList v-for="item in amount" :key="item" />
     </template>
 
-    <div class="product-card" v-for="product in productsList" :key="product.id" v-else>
+    <div
+      class="product-card"
+      v-for="product in productsList"
+      :key="product.id"
+      v-else
+    >
       <router-link
         :to="{
           name: 'ProductDetail',
@@ -16,7 +21,7 @@
           query: { page: 1 },
         }"
       >
-        <div class="card" @click="getProductCardID(product.id)">
+        <div class="card">
           <div
             class="card--discount"
             v-show="product.discount !== 0 ? isDiscount : !isDiscount"
@@ -62,7 +67,8 @@
             >có sẵn: {{ product.quantity }}</span
           >
           <div class="card-img">
-            <img :src="product.img_path" :alt="product.description" />
+            <img :src="product.img_path" v-if="product.img_path" />
+            <img src="@/assets/img/durex.png" v-else />
           </div>
 
           <div class="card-description">
@@ -70,7 +76,7 @@
               {{ product.description }}
             </p>
 
-            <div class="description-wrap">
+            <div class="description-wrap" v-if="product.discount > 0">
               <span class="discount-price"
                 >{{
                   calculateDis(product.original_price, product.discount)
@@ -78,10 +84,11 @@
                 đ</span
               >
 
-              <span class="root-price" v-if="product.discount > 0"
-                >{{ product.original_price }} đ</span
-              >
+              <span class="root-price">{{ product.original_price }} đ</span>
             </div>
+            <span class="discount-price" v-if="product.discount === 0"
+              >{{ product.original_price }} đ</span
+            >
           </div>
         </div>
       </router-link>
@@ -110,8 +117,8 @@ export default {
     },
     isLoadingProducts: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
 
   data() {
@@ -119,10 +126,10 @@ export default {
       showLess: true,
       checkSold: false,
       isDiscount: true,
-      amount: 12
+      amount: 12,
     };
   },
-  
+
   computed: {
     checkLengthText() {
       return this.productsList.description.length > 50 ? true : false;
@@ -133,14 +140,7 @@ export default {
     }),
   },
 
-
   methods: {
-    getProductCardID(id){
-      if(id) {
-        this.$store.commit("product/PRODUCT_CARD_ID", id);
-      }
-    },
-
     calculateDis(original, discount) {
       return calculateDiscount(original, discount);
     },
@@ -218,9 +218,9 @@ export default {
 
       .card-img {
         padding: 10px;
-        margin-bottom: 10px;
         img {
           height: 180px;
+          width: 100%;
           background-size: cover;
           background-repeat: no-repeat;
           background-position: center;
@@ -243,6 +243,11 @@ export default {
           }
         }
 
+        .discount-price {
+          color: red;
+          font-weight: bold;
+        }
+
         .description-wrap {
           display: flex;
           flex-direction: column;
@@ -251,11 +256,6 @@ export default {
             text-decoration: line-through;
             font-size: 13px;
             color: #a39797;
-          }
-
-          .discount-price {
-            color: red;
-            font-weight: bold;
           }
         }
       }
