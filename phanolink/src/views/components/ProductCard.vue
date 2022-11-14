@@ -1,91 +1,98 @@
 <template>
-  <div class="wrap-product-card">
-    <template  v-if="isLoadingProducts">
-      <SkeletonProductList v-for="item in amount" :key="item"/>
+  <div class="product-card-child">
+    <template v-if="isLoadingProducts">
+      <SkeletonProductList v-for="item in amount" :key="item" />
     </template>
 
-    <div class="product-card" v-for="product in productsList" :key="product.id" v-else>
-      <router-link
-        :to="{
-          name: 'ProductDetail',
-          params: {
-            slug: convertSlug(product.name),
-            categoryID: product.category_id,
-            productID: product.id,
-          },
-          query: { page: 1 },
-        }"
+      <div
+        v-else
+        class="product-card overflow-auto"
+        v-for="product in productsList"
+        :key="product.id"
       >
-        <div class="card" @click="getProductCardID(product.id)">
-          <div
-            class="card--discount"
-            v-show="product.discount !== 0 ? isDiscount : !isDiscount"
-          >
-            {{ product.discount }}% GIẢM
-          </div>
-
-          <div
-            class="card-wrap"
-            v-if="product.quantity === 0 ? (checkSold = true) : !checkSold"
-          >
-            <div :class="{ 'card--sold': checkSold }">Hết Hàng</div>
+        <router-link
+          :to="{
+            name: 'ProductDetail',
+            params: {
+              slug: convertSlug(product.name),
+              categoryID: product.category_id,
+              productID: product.id,
+            },
+            query: { page: 1 },
+          }"
+        >
+          <div class="card">
             <div
               class="card--discount"
               v-show="product.discount !== 0 ? isDiscount : !isDiscount"
             >
               {{ product.discount }}% GIẢM
             </div>
-          </div>
 
-          <img
-            v-if="checkFreeShip(product.is_free_shipping)"
-            class="freeship-ico"
-            src="@/assets/img/icons8-in-transit.gif"
-            alt="transit"
-            :width="30"
-          />
-          <span
-            :class="{ show: isDiscount }"
-            style="
-              font-size: 12px;
-              position: absolute;
-              top: 40px;
-              left: 15px;
-              border-radius: 5px;
-              padding: 5px;
-              color: #ffffff;
-              font-size: 12px;
-              display: flex;
-              background: #acacac;
-            "
-            v-if="product.quantity > 0"
-            >có sẵn: {{ product.quantity }}</span
-          >
-          <div class="card-img">
-            <img :src="product.img_path" :alt="product.description" />
-          </div>
-
-          <div class="card-description">
-            <p :class="{ 'text-overflow': showLess }">
-              {{ product.description }}
-            </p>
-
-            <div class="description-wrap">
-              <span class="discount-price"
-                >{{
-                  calculateDis(product.original_price, product.discount)
-                }}
-                đ</span
+            <div
+              class="card-wrap"
+              v-if="product.quantity === 0 ? (checkSold = true) : !checkSold"
+            >
+              <div :class="{ 'card--sold': checkSold }">Hết Hàng</div>
+              <div
+                class="card--discount"
+                v-show="product.discount !== 0 ? isDiscount : !isDiscount"
               >
+                {{ product.discount }}% GIẢM
+              </div>
+            </div>
 
-              <span class="root-price" v-if="product.discount > 0"
+            <img
+              v-if="checkFreeShip(product.is_free_shipping)"
+              class="freeship-ico"
+              src="@/assets/img/icons8-in-transit.gif"
+              alt="transit"
+              :width="30"
+            />
+            <span
+              :class="{ show: isDiscount }"
+              style="
+                font-size: 12px;
+                position: absolute;
+                top: 40px;
+                left: 15px;
+                border-radius: 5px;
+                padding: 5px;
+                color: #ffffff;
+                font-size: 12px;
+                display: flex;
+                background: #acacac;
+              "
+              v-if="product.quantity > 0"
+              >có sẵn: {{ product.quantity }}</span
+            >
+            <div class="card-img">
+              <img :src="product.img_path" v-if="product.img_path" />
+              <img src="@/assets/img/durex.png" v-else />
+            </div>
+
+            <div class="card-description">
+              <p :class="{ 'text-overflow': true }">
+                {{ product.description }}
+              </p>
+
+              <div class="description-wrap" v-if="product.discount > 0">
+                <span class="discount-price"
+                  >{{
+                    calculateDis(product.original_price, product.discount)
+                  }}
+                  đ</span
+                >
+
+                <span class="root-price">{{ product.original_price }} đ</span>
+              </div>
+              <span class="discount-price" v-if="product.discount === 0"
                 >{{ product.original_price }} đ</span
               >
             </div>
           </div>
-        </div>
-      </router-link>
-    </div>
+        </router-link>
+      </div>
   </div>
 </template>
 
@@ -94,7 +101,6 @@ import SkeletonProductList from "@/views/components/skeleton/SkeletonCard";
 
 import { calculateDiscount } from "@/utils/calculateDiscount";
 import { freeShip } from "@/utils/freeShip";
-import { mapGetters } from "vuex";
 
 import mixins from "@/mixins";
 
@@ -110,8 +116,8 @@ export default {
     },
     isLoadingProducts: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
 
   data() {
@@ -119,28 +125,15 @@ export default {
       showLess: true,
       checkSold: false,
       isDiscount: true,
-      amount: 12
+      amount: 12,
     };
   },
-  
-  computed: {
-    checkLengthText() {
-      return this.productsList.description.length > 50 ? true : false;
-    },
 
-    ...mapGetters({
-      productList: "product/productDetailByID", //{}
-    }),
+  computed: {
+   
   },
 
-
   methods: {
-    getProductCardID(id){
-      if(id) {
-        this.$store.commit("product/PRODUCT_CARD_ID", id);
-      }
-    },
-
     calculateDis(original, discount) {
       return calculateDiscount(original, discount);
     },
@@ -154,7 +147,7 @@ export default {
 
 <style lang="scss" scoped>
 @import "@/assets/scss/styles";
-.wrap-product-card {
+.product-card-child {
   display: grid;
   grid-template-columns: repeat(4, auto);
   gap: 10px;
@@ -218,9 +211,9 @@ export default {
 
       .card-img {
         padding: 10px;
-        margin-bottom: 10px;
         img {
           height: 180px;
+          width: 100%;
           background-size: cover;
           background-repeat: no-repeat;
           background-position: center;
@@ -243,6 +236,11 @@ export default {
           }
         }
 
+        .discount-price {
+          color: red;
+          font-weight: bold;
+        }
+
         .description-wrap {
           display: flex;
           flex-direction: column;
@@ -251,11 +249,6 @@ export default {
             text-decoration: line-through;
             font-size: 13px;
             color: #a39797;
-          }
-
-          .discount-price {
-            color: red;
-            font-weight: bold;
           }
         }
       }

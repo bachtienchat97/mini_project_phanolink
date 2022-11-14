@@ -29,6 +29,7 @@ const router = new VueRouter({
           beforeEnter: requireMeta.requireLoggin,
           meta: {
             isLoggin: true,
+            breadcrumb: false,
           },
         },
 

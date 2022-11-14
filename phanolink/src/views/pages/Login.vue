@@ -63,7 +63,6 @@
 import httpClient from "@/utils/requestApis";
 
 import { mapGetters } from "vuex";
-import Nprogress from 'nprogress';
 
 import { KEY_LOCAL_STORAGE } from "@/constants";
 
@@ -95,7 +94,6 @@ export default {
       try {
         const response = await httpClient.post("login", this.formSubmit);
         if (response.status === 200) {
-          Nprogress.start();
 
           await this.$store.dispatch("auth/userLogin", response.data.data, {
             root: true,
@@ -107,11 +105,9 @@ export default {
           this.$router.push({ path: "/" }).catch(() => {});
 
           this.isSpinner = true;
-          Nprogress.done();
         }
       } catch (error) {
         if (error) {
-          Nprogress.done();
 
           this.isCorrectUser = true;
           this.isSpinner = true;
