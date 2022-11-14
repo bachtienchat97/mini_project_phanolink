@@ -24,7 +24,8 @@ export default {
   watch: {
     "$route.path": {
       handler(path) {
-        if (this.items.filter((item) => item.href === path).length === 0) {
+        const breadcrumb = this.$route.meta.breadcrumb
+        if (this.items.filter((item) => item.href === path).length === 0 && breadcrumb) {
           this.items.push({
             text: this.$route.params.slug.replace(/-/g, " "),
             href: path,

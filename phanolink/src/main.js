@@ -5,7 +5,7 @@ import store from "./store";
 import 'nprogress/nprogress.css';
 
 
-import { BootstrapVue, IconsPlugin, SpinnerPlugin, SkeletonPlugin } from "bootstrap-vue";
+import { BootstrapVue, IconsPlugin, SpinnerPlugin, SkeletonPlugin, PaginationPlugin } from "bootstrap-vue";
 
 import '@/utils/requestApis';
 
@@ -16,6 +16,7 @@ import "@/assets/scss/styles.scss";
 
 Vue.use(BootstrapVue);
 Vue.use(SpinnerPlugin);
+Vue.use(PaginationPlugin);
 Vue.use(SkeletonPlugin);
 Vue.use(IconsPlugin);
 Vue.config.productionTip = false;

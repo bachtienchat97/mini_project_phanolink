@@ -27,20 +27,41 @@
       <div class="product-main">
         <div class="product-sort">
           <span class="top-title"> Ưu tiên xem : </span>
-          <span class="ascending active" @click="sortLowPrice(products)"
+          <span
+            class="ascending"
+            :class="{ active_btn: isActive === 'asc' }"
+            @click="sortLowPrice(products)"
             >Giá Thấp</span
           >
-          <span class="descrement" @click="sortHighPrice(products)">Giá Cao</span>
-          <span class="promotion" @click="sortPromotion(products)"
+          <span
+            class="descrement"
+            :class="{ active_btn: isActive === 'desc' }"
+            @click="sortHighPrice(products)"
+            >Giá Cao</span
+          >
+          <span
+            class="promotion"
+            :class="{ active_btn: isActive === 'prom' }"
+            @click="sortPromotion(products)"
             >Khuyến mãi</span
           >
         </div>
 
         <div class="wrap-product-card container">
           <ProductCard
-            :productsList="products"
+            :productsList="productPaginate"
             :isLoadingProducts="isLoadingProducts"
           />
+
+          <b-pagination
+            @change="onPageChanged"
+            v-model="currentPage"
+            :total-rows="rows"
+            :per-page="perPage"
+            aria-controls="my-table"
+            align="right"
+            style="marginTop: 15px"
+          ></b-pagination>
         </div>
       </div>
     </div>
@@ -69,8 +90,12 @@ export default {
       showLess: true,
       checkSold: false,
       isDiscount: true,
+      isActive: "",
       products: [],
       isLoadingProducts: false,
+      currentPage: 1,
+      perPage: 12,
+      productPaginate: [],
     };
   },
 
@@ -80,15 +105,22 @@ export default {
       productList: "product/productDetailByID", //{}
     }),
 
-    // the way to access getter in store are cached : property-style access
-    // categoriesList() {
-    //   return this.$store.getters['category/categoriesList']
-    // },
+    rows() {
+      return this.products.length;
+    },
 
     checkLengthText() {
       return this.productList.description.length > 40 ? true : false;
     },
+    // the way to access getter in store are cached : property-style access
+    // categoriesList() {
+    //   return this.$store.getters['category/categoriesList']
+    // },
   },
+
+  // beforeMount() {
+  //   this.paginate(this.perPage, 0);
+  // },
 
   created() {
     this.renderProductByCategoryID();
@@ -108,6 +140,7 @@ export default {
             this.products,
             { root: true }
           );
+          this.paginate(this.perPage, 0);
         }
       } catch (e) {
         throw new Error("something went wrong", e);
@@ -116,7 +149,25 @@ export default {
       }
     },
 
+    paginate(page_size, page_number) {
+      let itemsToParse = this.products;
+      this.productPaginate = itemsToParse.slice(
+        page_size * page_number, //first time : 12 , 0  , second : 12 , 1
+        (page_number + 1) * page_size
+      );
+      window.scrollTo({
+          top: 0,
+          left: 0,
+          behavior: "smooth",
+      });
+    },
+
+    onPageChanged(page) {
+      this.paginate(this.perPage, page - 1); // click paginate 2 => 12 , 1
+    },
+
     sortLowPrice(products) {
+      this.isActive = "asc";
       this.products = products
         .filter((item, index, arr) => {
           calculateDiscount(item.original_price, item.discount);
@@ -126,6 +177,7 @@ export default {
     },
 
     sortHighPrice(products) {
+      this.isActive = "desc";
       this.products = products
         .filter((item, index, arr) => {
           calculateDiscount(item.original_price, item.discount);
@@ -135,6 +187,7 @@ export default {
     },
 
     sortPromotion(products) {
+      this.isActive = "prom";
       this.products = products
         .filter((item, index, arr) => {
           return item.discount === arr[index].discount;
@@ -235,7 +288,7 @@ export default {
         }
       }
 
-      .active {
+      .active_btn {
         border: 1px solid $color-primary;
         color: $color-primary;
       }
