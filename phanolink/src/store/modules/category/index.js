@@ -4,17 +4,22 @@ import httpClient from "@/utils/requestApis";
 
 const state = {
   categories: [],
+  isLoadCategory: false
 };
 
 const getters = {
   categoriesList: (state) => state.categories,
+  isLoadCategory: (state) => state.isLoadCategory,
 };
 
 const actions = {
-  async getCategoryList({ dispatch }) {
+  async getCategoryList({ dispatch, state }) {
+    state.isLoadCategory = true
+
     const res = await httpClient.get(`${BASE_URL}/home/categories`);
     if (res.status === 200) {
-      await dispatch("categoryList", res.data.data);
+        dispatch("categoryList", res.data.data);
+        state.isLoadCategory = false;
     }
   },
 

@@ -7,11 +7,14 @@
       </div>
       <a href="#">Xem tất cả ></a>
     </div>
-
-    <VueSlickCarousel v-bind="slickOptions">
+    <VueSlickCarousel v-bind="slickOptions" v-if="productList">
       <SliderHotPromotion :productList="productList" />
       <SliderHotPromotion :productList="productList" />
     </VueSlickCarousel>
+
+    <div class="skeleton-img" v-if="!productList">
+      <SkeletonImage :width="width" :height="height" v-for="i in 3" :key="i" style="marginLeft: 10px; display: unset; padding: 0;"/>
+    </div>
   </div>
 </template>
 
@@ -21,12 +24,14 @@ import { mapGetters } from "vuex";
 import VueSlickCarousel from "vue-slick-carousel";
 import "vue-slick-carousel/dist/vue-slick-carousel.css";
 
+import SkeletonImage from "@/views/components/skeleton/SkeletonImage";
+
 import SliderHotPromotion from './SliderHotPromotion.vue';
 
 export default {
   name: "PromotionHot",
 
-  components: { VueSlickCarousel, SliderHotPromotion },
+  components: { VueSlickCarousel, SliderHotPromotion,SkeletonImage },
 
    computed: {
     ...mapGetters({
@@ -47,6 +52,8 @@ export default {
         arrows: false,
         draggable: true,
       },
+      width: '365px',
+      height: '264px',
     };
   },
 
@@ -62,6 +69,11 @@ export default {
 .promotion {
   margin-bottom: 20px;
   position: relative;
+
+  .skeleton-img {
+    display: flex;
+    margin-left: -10px;
+  }
 
   ::v-deep .slick-dots {
     list-style: none;

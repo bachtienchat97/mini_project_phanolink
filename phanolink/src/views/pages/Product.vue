@@ -118,10 +118,6 @@ export default {
     // },
   },
 
-  // beforeMount() {
-  //   this.paginate(this.perPage, 0);
-  // },
-
   created() {
     this.renderProductByCategoryID();
   },

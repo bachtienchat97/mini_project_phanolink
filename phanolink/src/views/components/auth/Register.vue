@@ -98,7 +98,7 @@ export default {
         if (response.status === 200) {
           this.isSubmit = true;
           this.isSuccess = true;
-          this.accountRegister = response.data.data?.email;
+          this.accountRegister = response.data.data?.email; // the sign "?" is optinal chaining
         }
       } catch (error) {
         this.isSubmit = true;

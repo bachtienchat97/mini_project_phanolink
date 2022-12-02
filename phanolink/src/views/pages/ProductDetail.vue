@@ -1,6 +1,72 @@
 <template>
   <div class="product-detail container">
-    <div class="product-detail-wrapper">
+    <div class="product-detail-wrapper" v-if="isLoadingProductByID">
+      <div class="product-detail__display">
+        <div class="display__image">
+          <SkeletonImage :width="large" :height="large" />
+        </div>
+
+        <div class="display__list-image">
+          <ul>
+            <li>
+              <SkeletonImage :width="small" :height="small" />
+            </li>
+            <li>
+              <SkeletonImage :width="small" :height="small" />
+            </li>
+            <li>
+              <SkeletonImage :width="small" :height="small" />
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="product-detail__order">
+        <div class="product-title">
+          <SkeletonBar :width="widthLarge" />
+        </div>
+
+        <div class="order__top">
+          <SkeletonBar :width="widthSmaller" style="marginRight: 10px" />
+          <SkeletonBar :width="widthSmaller" />
+        </div>
+
+        <div class="order__mid">
+          <div class="weight">
+            <SkeletonBar :width="widthSmall" />
+          </div>
+          <div class="size">
+            <SkeletonBar :width="widthSmall" />
+          </div>
+          <div class="speci">
+            <SkeletonBar :width="widthSmall" />
+          </div>
+          <div class="made">
+            <SkeletonBar :width="widthSmall" />
+          </div>
+        </div>
+
+        <div class="order__bot">
+          <div class="price">
+            <SkeletonBar :width="widthSmall" />
+          </div>
+          <div class="status">
+            <SkeletonBar :width="widthSmall" />
+          </div>
+
+          <div class="amount">
+            <SkeletonBar :width="widthDefault" />
+          </div>
+        </div>
+
+        <div class="category__order">
+          <SkeletonBar :width="widthDefault" />
+        </div>
+      </div>
+    </div>
+
+
+    <div class="product-detail-wrapper" else>
       <div class="product-detail__display">
         <div class="display__image">
           <img :src="products.img_path" :alt="products.description" />
@@ -118,6 +184,8 @@
 
 <script>
 import OrderProduct from "@/views/components/OrderProduct";
+import SkeletonImage from "@/views/components/skeleton/SkeletonImage";
+import SkeletonBar from "@/views/components/skeleton/SkeletonBar";
 
 import { productApis } from "@/apis";
 
@@ -125,10 +193,17 @@ import { calculateDiscount } from "@/utils/calculateDiscount";
 
 export default {
   name: "ProductDetail",
-  components: { OrderProduct },
+  components: { SkeletonImage, SkeletonBar, OrderProduct },
   data() {
     return {
       products: {},
+      large: "412px",
+      small: "100px",
+      widthSmaller: "20%",
+      widthDefault: "40%",
+      widthSmall: "50%",
+      widthLarge: "60%",
+      isLoadingProductByID: false,
     };
   },
 
@@ -136,8 +211,7 @@ export default {
     this.getProductByID();
     this.$store.dispatch("category/getCategoryList", { root: true });
   },
- 
-  
+
   methods: {
     calculateDis(original, discount) {
       return calculateDiscount(original, discount);
@@ -145,16 +219,18 @@ export default {
 
     async getProductByID() {
       try {
+        this.isLoadingProductByID = true;
         const id = this.$route.params.productID;
         const res = await productApis.getProductByProductID(id);
         if (res.status === 200) {
           this.products = await res.data.data;
+          this.isLoadingProductByID = false;
         }
       } catch (e) {
         throw new Error("error message:", e);
       }
     },
-  }
+  },
 };
 </script>
 
@@ -266,8 +342,12 @@ export default {
     .order__mid {
       .weight,
       .size,
-      .made,
       .speci {
+        display: flex;
+        margin-bottom: 10px;
+      }
+
+      .made {
         display: flex;
       }
     }
