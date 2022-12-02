@@ -1,12 +1,24 @@
 <template>
-<b-card>
-  <b-skeleton animation="fade" width="100%"></b-skeleton>
-</b-card>
+  <b-skeleton animation="fade" :width="width" :height="height" style="marginBottom: margin"></b-skeleton>
 </template>
 
 <script>
 export default {
-  name: "SkeletonBar"
+  name: "SkeletonBar",
+
+  props: {
+    width: {
+      type: String
+    },
+
+    height: {
+      type: String
+    },
+
+    margin: {
+      type: String
+    }
+  }
 }
 </script>
 

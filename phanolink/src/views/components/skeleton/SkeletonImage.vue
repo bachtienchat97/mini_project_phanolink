@@ -1,12 +1,18 @@
 <template>
-  <div class="skeleton-img">
-    <b-skeleton-img no-aspect></b-skeleton-img>
-  </div>
+    <b-skeleton-img  :width="width" :height="height"></b-skeleton-img>
 </template>
 
 <script>
 export default {
-  name: "SkeletonImage"
+  name: "SkeletonImage",
+  props: {
+    width: {
+      type: String
+    },
+    height: {
+      type: String
+    },
+  }
 }
 </script>
 

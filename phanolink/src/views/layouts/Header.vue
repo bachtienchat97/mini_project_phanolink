@@ -6,6 +6,7 @@
           <li>
             <div>
               <img
+                loading="lazy"
                 class="hotfire"
                 src="@/assets/img/hotfire.png"
                 alt="hotfire"
@@ -21,8 +22,16 @@
           </li>
           <li>
             <div class="user">
-              <img src="@/assets/img/login2x.png" alt="user" v-if="!user.name"/>
-              <img src="@/assets/img/icons8-person-64.png" alt="user-logged" v-if="user.name"/>
+              <img
+                src="@/assets/img/login2x.png"
+                alt="user"
+                v-if="!user.name"
+              />
+              <img
+                src="@/assets/img/icons8-person-64.png"
+                alt="user-logged"
+                v-if="user.name"
+              />
               <ul class="login-or-regis">
                 <li>
                   <User />
@@ -39,7 +48,123 @@
         /></router-link>
 
         <div class="header-content">
-          <Search v-model="search" />
+          <Search
+            v-model="search"
+            @search-product="searchProductByHisTory"
+            @search-change="searchChange"
+          />
+
+          <div id="wrapper-search-products">
+            <div class="search-products">
+              <div class="search-products--top custom-scrollbar">
+                <div class="wrap-products-history" v-if="searchHistory && isShowHistory">
+                  <div
+                    class="products-history"
+                    v-for="(itemHistory, index) in searchHistory"
+                    :key="index"
+                  >
+                  <div class="products-left">
+                    <img
+                      src="@/assets/img/history.png"
+                      alt="history.png"
+                      class="icon-search"
+                    />
+                    <div class="item">{{ itemHistory }}</div>
+                  </div>
+
+                  <span @click="removeSearchHistory(itemHistory)">Xóa</span>
+                  </div>
+                </div>
+
+                  <div class="products-searching" v-show="resultSearch.length > 0">
+                    <div class="searching" v-for="(it,index) in resultSearch" :key="index">
+                      <img
+                      loading="lazy"
+                      src="@/assets/img/search.png"
+                      alt="search.png"
+                      class="icon-search"
+                      />
+                      <router-link 
+                      class="item" 
+                          :to="{
+                            name: 'ProductDetail',
+                            params: {
+                              slug: convertSlug(it.name),
+                              categoryID: it.category_id,
+                              productID: it.id,
+                            },
+                            query: { page: 1 },
+                          }">
+                          {{it.name.toLowerCase()}}
+                      </router-link>
+                    </div>
+                  </div>
+
+                <span class="search-not-found" v-text="notFoundText" v-if="isMatched"></span>
+              </div>
+
+              <div class="wrap-product-bottom">
+                <template v-if="isLoadingCategory">
+                  <div class="search-products--skeleton">
+                    <div class="item-skeleton"  v-for="itms in 6" :key="itms">
+                      <SkeletonImage :width="'160px'" :height="'90px'"/>
+                      <SkeletonBar style="marginTop: 5px;" :width="'80%'" :height="height"/>
+                    </div>
+                  </div>
+                </template>
+
+                <template v-else>
+                  <div class="search-products--item">
+                    <div class="item" v-for="item in cate" :key="item.id">
+                    <router-link
+                      :to="{
+                        name: 'Product',
+                        params: { slug: convertSlug(item.name), id: item.id },
+                      }"
+                    >
+                      <img
+                        src="@/assets/img/thuc-pham-chuc-nang.png"
+                        alt="tpcn"
+                        v-if="item.id === 1"
+                      />
+
+                      <img
+                        src="@/assets/img/duoc-pham.png"
+                        alt="duoc pham"
+                        v-if="item.id === 2"
+                      />
+
+                      <img
+                        src="@/assets/img/cham-soc-suc-khoe.jpg"
+                        alt="cham soc suc khoe"
+                        v-if="item.id === 3"
+                      />
+
+                      <img
+                        src="@/assets/img/cham-soc-da-cho-nam.png"
+                        alt="cham soc da cho nam"
+                        v-if="item.id === 4"
+                      />
+
+                      <img
+                        src="@/assets/img/cham-soc-da-mat.jpg"
+                        alt="cham soc da cho nu"
+                        v-if="item.id === 5"
+                      />
+
+                      <img
+                        src="@/assets/img/me-va-be.jpg"
+                        alt="me va be"
+                        v-if="item.id === 6"
+                      />
+                      {{ item.name }}
+                    </router-link>
+                    </div>
+                  </div>
+                </template>
+              </div>
+            </div>
+          </div>
 
           <div class="header-content__right">
             <div class="prescription">
@@ -56,12 +181,22 @@
       </div>
 
       <div class="header-third" container>
-        <ul>
+        <ul class="list-header-third">
           <li class="item">
             <img src="@/assets/img/category-product.png" alt="category" />
             <template
               >DANH MỤC SẢN PHẨM
-              <ul class="item-drop">
+              <ul class="item-drop" v-show="isLoadingCategory">
+                <li v-for="i in 6" :key="i">
+                  <SkeletonBar
+                    :width="width"
+                    :height="height"
+                    :margin="margin"
+                  />
+                </li>
+              </ul>
+
+              <ul class="item-drop" v-show="!isLoadingCategory">
                 <li v-for="item in cate" :key="item.id">
                   <router-link
                     :to="{
@@ -102,7 +237,6 @@
           </li>
         </ul>
       </div>
-
     </div>
   </div>
 </template>
@@ -112,33 +246,147 @@ import mixins from "@/mixins";
 import Search from "@/views/components/Search.vue";
 import User from "@/views/components/auth/User.vue";
 import { mapGetters } from "vuex";
-
+import SkeletonBar from "@/views/components/skeleton/SkeletonBar.vue";
+import SkeletonImage from "@/views/components/skeleton/SkeletonImage.vue";
 
 export default {
   name: "Header",
   mixins: [mixins],
-  components: { Search, User },
+  components: { Search, User, SkeletonBar, SkeletonImage },
 
   data() {
     return {
       search: "",
-      searchResult: [],
+      resultSearch: [],
+      isMatched: false,
+      isShowHistory: true,
+      searchHistory: [],
+      width: "100%",
+      widthSkeletonBar: "10%",
+      height: "15px",
+      margin: "10px",
+      notFoundText: "đề xuất tìm kiếm không phù hợp"
     };
+  },
+
+  created() {
+    this.$store.dispatch("product/getAllProductByCategory", { root: true });
+    if(localStorage.getItem("searchHistory")){
+      this.searchHistory = JSON.parse(localStorage.getItem("searchHistory"));
+    }
+    this.searchChange();
   },
 
   computed: {
     ...mapGetters({
       cate: "category/categoriesList",
-      user: "auth/allUser"
+      isLoadingCategory: "category/isLoadCategory",
+      user: "auth/allUser",
+      allProducts: "product/allProductByCategories",
     }),
+    
   },
 
-  
+  watch: {
+    "$route.path": {
+      handler() {
+        let slugs = this.$route.params.slug;
+        if(slugs) {
+        this.searchHistory.unshift(slugs.replace(/-/g, " "));
+        this.searchHistory = this.searchHistory.filter(
+        (item, index, arr) => index === arr.indexOf(item)
+        );
+        localStorage.setItem("searchHistory", JSON.stringify(this.searchHistory));
+        }
+      },
+      deep: true,
+      immediate: true,
+    }
+  },
+
+  methods: {
+     searchChange(search) {
+      let arrOrigin = this.allProducts.flat(2); //only have arrays when user searching on input
+
+      if (search && arrOrigin) {
+        //method "normalize" removed diacritics of words
+        const res  = arrOrigin.filter(item => {
+          const result = item.name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+          return result.indexOf(search.toLowerCase()) > -1;
+        })
+
+        if(res) {
+          //"find" method return value matched satisfied with condition
+          this.resultSearch = res;
+          
+        }
+
+        if(this.resultSearch.length === 0) {
+          this.isMatched = true;
+        }else{
+          this.isMatched = false;
+          this.isShowHistory = false;
+        }
+      }
+
+    }, 
+    
+    searchProductByHisTory(value) {
+      const localSearch = this.searchHistory.length <= 11;
+      //handle history search and then save to localStorage
+      if (localSearch && value) {
+        this.searchHistory.unshift(value);
+      }
+      let abortDuplicate = this.searchHistory.filter(
+        (item, index, arr) => index === arr.indexOf(item)
+      );
+      if (abortDuplicate) this.searchHistory = abortDuplicate;
+        localStorage.setItem("searchHistory", JSON.stringify(this.searchHistory));
+      value = "";
+      
+    },
+
+    removeSearchHistory(item) {
+      let indexSearch = this.searchHistory.indexOf(item);
+      const searchItemStorage = localStorage.getItem("searchHistory") !== null;
+      if(item) {
+        this.searchHistory.splice(indexSearch,1);
+        
+       if(searchItemStorage) {
+         localStorage.setItem("searchHistory", JSON.stringify(this.searchHistory));
+       }
+      };
+    }
+  },
 };
 </script>
 
 <style lang="scss">
 @import "@/assets/scss/helpers/variables";
+
+::-webkit-scrollbar {
+  width: 22px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #b6ccd4;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #abbdc4;
+  border-radius: 20px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #d6dee1;
+  border-radius: 20px;
+  border: 6px solid transparent;
+  background-clip: content-box;
+}
 
 .modal-header {
   display: none !important;
@@ -182,7 +430,7 @@ export default {
           text-decoration: none;
           color: $color-white;
           &:hover {
-            color: rgb(230, 108, 21);
+            color: #ee295f;
           }
         }
 
@@ -240,6 +488,14 @@ export default {
       margin: 15px auto 0 auto;
       padding: 0;
 
+      .list-header-third {
+        list-style: none;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin: 0 0 20px 0;
+      }
+
       img {
         margin-right: 10px;
       }
@@ -268,12 +524,12 @@ export default {
         flex-direction: column;
         align-items: flex-start;
         position: absolute;
-        top: 30px;
+        top: 20px;
         left: 12%;
         gap: 0.5rem;
         background-color: #01adab;
         width: 100%;
-        padding: 10px;
+        padding: 20px;
         z-index: 1;
 
         li {
@@ -302,13 +558,6 @@ export default {
       }
 
       ul {
-        list-style: none;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin: 0;
-        margin-bottom: 20px;
-
         a {
           text-decoration: none;
           color: #ffffff;
@@ -325,6 +574,175 @@ export default {
       display: flex;
       align-items: center;
       margin-left: -20px;
+      position: relative;
+
+      #wrapper-search-products {
+        display: none;
+      }
+      .search-products {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 90%;
+        left: 4%;
+        background-color: $color-white;
+        z-index: 999;
+        box-shadow: inset 5px 5px 5px rgba(0, 0, 0, 0.5),
+          30px 30px 20px rgba(0, 0, 0, 0.5),
+          inset -20px -20px 20px rgba(225, 225, 225, 0.5);
+      }
+
+      .search-products--top {
+        border-bottom: 1px solid grey;
+        padding: 20px 0 15px 0;
+        max-height: 300px;
+        margin-bottom: -10px;
+        overflow-x: hidden;
+        
+         .search-not-found {
+            font-size: 14px;
+            font-style: italic;
+            float: right;
+            margin-right: 20px;
+          }
+
+        .wrap-products-history {
+          overflow: auto;
+        }
+    
+        .delete-item {
+          padding: 10px 50px;
+          font-size: 15px;
+          cursor: default;
+        }
+
+        .products-history {
+            padding: 10px 20px;
+             &:hover {
+            cursor: pointer;
+            opacity: 0.8;
+            background-color: #d6cece;
+        }
+        .products-left {
+            display: flex;
+           
+          .icon-search {
+            margin-right: 10px;
+            width: 20px;
+            height: 20px;
+            object-fit: cover;
+          }
+
+          .item {
+            text-decoration: none;
+            font-size: 15px;
+            margin-right: 5px;
+            color: $dark;
+            width: 490px;
+            white-space: nowrap;
+            overflow: hidden !important;
+            text-overflow: ellipsis;
+          }
+        }
+        }
+
+        .products-searching {
+          flex-direction: column;
+        }
+        .products-searching :hover{
+          cursor: pointer;
+          opacity: 0.8;
+          background-color: #d6cece;
+        }
+
+        .products-searching, .products-history {
+          display: flex;
+        }
+          .searching {
+            display: flex;
+            padding: 10px 20px;
+            margin-bottom: 5px;
+           
+            &:hover {
+            cursor: pointer;
+            opacity: 0.8;
+            background-color: #d6cece;
+          }
+
+          .icon-search {
+            margin-right: 10px;
+            width: 20px;
+            height: 20px;
+            object-fit: cover;
+          }
+
+          .item {
+            text-decoration: none;
+            font-size: 15px;
+            color: $dark;
+            width: 500px;
+            white-space: nowrap;
+            overflow: hidden !important;
+            text-overflow: ellipsis;
+          }
+        }
+
+        .products-history {
+          justify-content: space-between;
+          span {
+            font-size: 14px;
+            color: #36c;
+            &:hover {
+              text-decoration: underline;
+            }
+          }
+        }
+      }
+
+      .search-products--item {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        padding: 20px;
+        gap: 5px;
+
+        a {
+          display: flex;
+          text-align: center;
+          font-size: 15px;
+          text-decoration: none;
+          font-weight: bold;
+          padding: 5px;
+          flex-direction: column;
+          align-items: center;
+          margin-bottom: -5px;
+          color: $dark;
+          cursor: pointer;
+          &:hover {
+            opacity: 0.8;
+          }
+          img {
+            object-fit: cover;
+            width: 90px;
+            height: 90px;
+            margin-bottom: 5px;
+          }
+        }
+      
+      }
+      .search-products--skeleton {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        padding: 20px;
+        gap: 5px;
+        .item-skeleton {
+          display: flex;
+          text-align: center;
+          padding: 5px;
+          flex-direction: column;
+          align-items: center;
+          margin-bottom: -5px;
+        }
+      }
     }
 
     .header-content__right {
@@ -359,13 +777,6 @@ export default {
           color: $dark;
         }
       }
-    }
-
-    .header-content__left {
-      font-size: 15px;
-      display: flex;
-      border-radius: 10px;
-      margin-left: 20px;
     }
   }
 }

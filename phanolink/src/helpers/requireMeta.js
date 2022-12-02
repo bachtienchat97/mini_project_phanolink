@@ -1,6 +1,5 @@
 import store from "@/store";
 import { getStorageParse } from "@/utils/localStorage";
-import Nprogress from 'nprogress';
 
 const requireMeta = {
   requireAuth: async (to, from, next) => {
@@ -8,10 +7,8 @@ const requireMeta = {
     const requireAuth = to.matched.some((record) => record.meta.requiresAuth);
     if (requireAuth) {
       if (getStorageParse() == null && userStore == null) {
-        Nprogress.start();
         next({ path: "/login" });
       } else if (getStorageParse() == null) {
-        Nprogress.start();
         next({ path: "/login" });
       } else if (userStore == null) next({ path: "/login " });
       else next();

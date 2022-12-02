@@ -11,11 +11,14 @@
       <a href="#">Xem tất cả ></a>
     </div>
     <div class="featured-content">
-      <VueSlickCarousel v-bind="slickOptions">
+      <div class="skeleton-img" v-show="!productList">
+        <SkeletonImage :width="width"  v-for="i in 4" :key="i"/>
+      </div>
+
+      <VueSlickCarousel v-bind="slickOptions" v-show="productList">
         <SliderFeatured :productList="productList" />
         <SliderFeatured :productList="productList" />
       </VueSlickCarousel>
-
       <div class="phano">
         <img src="@/assets/img/phanosafe.png" alt="phanosafe" />
       </div>
@@ -28,12 +31,14 @@ import VueSlickCarousel from "vue-slick-carousel";
 import { mapGetters } from 'vuex';
 
 import SliderFeatured from './SliderFeatured.vue';
+import SkeletonImage from '@/views/components/skeleton/SkeletonImage';
 
 export default {
   name: "FeaturedProducts",
   components: {
     VueSlickCarousel,
-    SliderFeatured
+    SliderFeatured,
+    SkeletonImage
   },
 
   computed: {
@@ -54,6 +59,8 @@ export default {
         arrows: false,
         draggable: true,
       },
+      width: '365px',
+      height: '264px'
     };
   },
 
@@ -77,7 +84,6 @@ export default {
   ::v-deep .slick-dots {
     list-style: none;
     display: flex !important;
-    // position: absolute;
     bottom: 0;
     left: 50%;
     padding: 0;
@@ -115,6 +121,12 @@ export default {
 
   .featured-content {
     display: flex;
+
+    .skeleton-img {
+      display: grid;
+      grid-template-columns: repeat(2,1fr);
+      gap: 10px;
+    }
   }
 
   .phano {

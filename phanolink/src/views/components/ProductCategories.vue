@@ -5,15 +5,19 @@
         <img src="@/assets/img/thucpham-green2x.png" :alt="item.name" />
         <span>{{ item.name }}</span>
       </div>
-      <a href="#">Xem tất cả ></a>
+      <router-link :to="{ name: 'Product', params: { slug: convertSlug(item.name), id: item.id } }">
+        Xem tất cả
+      </router-link>
     </div>
   </div>
 </template>
 
 <script>
+import mixins from "@/mixins";
+
 export default {
   name: "ProductCategories",
-
+  mixins: [mixins],
   props: { item: Object },
 };
 </script>
@@ -24,10 +28,6 @@ export default {
 .category {
   margin-bottom: 20px;
   background-color: $color-bg-white;
-
-  a {
-    text-decoration: none;
-  }
 
   .category-header {
     padding: 15px;

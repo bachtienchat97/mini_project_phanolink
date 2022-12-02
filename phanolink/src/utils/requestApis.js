@@ -15,13 +15,19 @@ const httpClient = axios.create({
 
 
 httpClient.interceptors.request.use(
+  
   function (config) {
     Nprogress.start();
-    // Do something before request is sent
-    const token = getToken();
+    try {
+      const token = getToken();
 
     if (token) config.headers.Authorization = `Bearer ${token}`;
     return config;
+    } catch (error) {
+      console.log(error)
+    }
+    // Do something before request is sent
+    
   },
   function (error) {
     Nprogress.done();
@@ -37,8 +43,8 @@ httpClient.interceptors.response.use(
     return response;
   },
   function (error) {
+
     Nprogress.done();
-    
     return Promise.reject(error.response.data);
   }
 );
