@@ -13,6 +13,7 @@ $color-default-dark: #111111;
 
 // Primary colors
 $color-primary: #EE295F;
+$color-red: #E42F43;
 
 // Success colors
 $color-success: #00a849;
@@ -28,6 +29,12 @@ $whiteish: #f2f2f2;
 $pink: #E96F92;
 $purple: #75517D;
 $green: #54fad4;
+$primary-green: #0eb493;
+$dark: #505050;
+$color-bg-white: #fff;
+$color-common: #e2e3e4;
+$color-btn: #fbebed;
+$color-btn-2: #d4152d;
 
 //options
 $duration: 0.8s;
@@ -40,8 +47,17 @@ $hsize: $size/2;
 //
 // Fonts size
 $font-15: 15px;
+$font-20: 20px;
 //
 
+//! Measurement: 
+$size5: 5px;
+$size10: 10px;
+$size14: 14px;
+$size15: 15px;
+$size20: 20px;
+$size25: 25px;
+$size30: 30px;
 //
 // Padding & margin
 //
@@ -53,4 +69,3 @@ $info-tablet-vertical: "only screen and (max-width : 900px)";
 $info-phone: "only screen and (max-width : 767px)";
 $info-phone-4: "only screen and (max-width : 320px)";
 
-$primary-green: #0eb493;

@@ -2,7 +2,7 @@
   <div class="featured-products container">
     <div class="featured-header">
       <div class="featured-left">
-        <img src="../../assets/img/product_star2x.png" alt="product" />
+        <img src="@/assets/img/product_star2x.png" alt="product" />
         <div class="featured-left__title">
           <span>Sản Phẩm Nổi Bật</span>
           <p>Lorem ipsum, or lipsum as it is sometimes known</p>
@@ -11,24 +11,16 @@
       <a href="#">Xem tất cả ></a>
     </div>
     <div class="featured-content">
-      <VueSlickCarousel v-bind="slickOptions">
-        <div class="item-content">
-          <img src="../../assets/img/khuyen-mai-hot-img2.png" alt="item" />
-          <img src="../../assets/img/khuyen-mai-hot-img2.png" alt="item" />
-          <img src="../../assets/img/khuyen-mai-hot-img2.png" alt="item" />
-          <img src="../../assets/img/khuyen-mai-hot-img2.png" alt="item" />
-        </div>
+      <div class="skeleton-img" v-show="!productList">
+        <SkeletonImage :width="width"  v-for="i in 4" :key="i"/>
+      </div>
 
-        <div class="item-content">
-          <img src="../../assets/img/khuyen-mai-hot-img2.png" alt="item" />
-          <img src="../../assets/img/khuyen-mai-hot-img2.png" alt="item" />
-          <img src="../../assets/img/khuyen-mai-hot-img2.png" alt="item" />
-          <img src="../../assets/img/khuyen-mai-hot-img2.png" alt="item" />
-        </div>
+      <VueSlickCarousel v-bind="slickOptions" v-show="productList">
+        <SliderFeatured :productList="productList" />
+        <SliderFeatured :productList="productList" />
       </VueSlickCarousel>
-
       <div class="phano">
-        <img src="../../assets/img/phanosafe.png" alt="phanosafe" />
+        <img src="@/assets/img/phanosafe.png" alt="phanosafe" />
       </div>
     </div>
   </div>
@@ -36,11 +28,23 @@
 
 <script>
 import VueSlickCarousel from "vue-slick-carousel";
+import { mapGetters } from 'vuex';
+
+import SliderFeatured from './SliderFeatured.vue';
+import SkeletonImage from '@/views/components/skeleton/SkeletonImage';
 
 export default {
   name: "FeaturedProducts",
   components: {
     VueSlickCarousel,
+    SliderFeatured,
+    SkeletonImage
+  },
+
+  computed: {
+    ...mapGetters({
+      productList: "product/productList",
+    }),
   },
 
   data() {
@@ -53,17 +57,21 @@ export default {
         autoplaySpeed: 4000,
         dots: true,
         arrows: false,
+        draggable: true,
       },
+      width: '365px',
+      height: '264px'
     };
   },
+
 };
 </script>
 
 <style lang="scss" scoped>
-@import '../../assets/scss/helpers/_variables';
+@import '@/assets/scss/helpers/_variables';
 
 .featured-products {
-  position: relative;
+  margin-bottom: 20px;
 
   ::v-deep .slick-slider {
     position: unset;
@@ -76,7 +84,6 @@ export default {
   ::v-deep .slick-dots {
     list-style: none;
     display: flex !important;
-    position: absolute;
     bottom: 0;
     left: 50%;
     padding: 0;
@@ -109,48 +116,30 @@ export default {
   }
 
   ::v-deep .slick-slider {
-    display: flex;
-    width: 70%;
+    display: grid;
   }
 
   .featured-content {
-    width: 100%;
     display: flex;
-    margin-bottom: 20px;
-  }
 
-  .phano {
-    width: 30%;
-    margin-left: 10px;
-
-    img {
-      background-size: cover;
-      background-repeat: no-repeat;
-      background-position: center;
-      width: 100%;
-      &:hover {
-        opacity: 0.9;
-        cursor: pointer;
-      }
+    .skeleton-img {
+      display: grid;
+      grid-template-columns: repeat(2,1fr);
+      gap: 10px;
     }
   }
 
-  .item-content {
-    display: grid !important;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-    height: 608px;
+  .phano {
+    margin-left: 10px;
+    width: 100%;
 
     img {
       background-size: cover;
       background-repeat: no-repeat;
       background-position: center;
-      width: 100%;
-
       &:hover {
-        opacity: 0.8;
+        opacity: 0.9;
         cursor: pointer;
-        border: 1px solid #05a8d0;
       }
     }
   }

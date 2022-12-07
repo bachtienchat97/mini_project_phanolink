@@ -1,35 +1,45 @@
 <template>
   <div>
-    <Header />
-    <router-view />
     <Banner />
     <PromotionHot />
     <FeaturedProducts />
-    <NonPrescription />
-    <Supplements />
-    <Footer />
+    <ProductCategories
+      v-for="item in categoriesList"
+      :key="item.id"
+      :item="item"
+    />
+      <router-view />
   </div>
 </template>
 
 <script>
-import Header from "../layouts/Header.vue";
-import Footer from "../layouts/Footer.vue";
-import PromotionHot from "../components/PromotionHot.vue";
-import FeaturedProducts from "../components/FeaturedProducts.vue";
-import NonPrescription from "../components/NonPrescription.vue";
-import Supplements from "../components/Supplements.vue";
-import Banner from "../components/Banner.vue";
+import PromotionHot from "@/views/components/PromotionHot.vue";
+import FeaturedProducts from "@/views/components/FeaturedProducts.vue";
+import ProductCategories from "@/views/components/ProductCategories.vue";
+import Banner from "@/views/components/Banner.vue";
+
+
+import { mapGetters } from "vuex";
 
 export default {
   name: "Home",
+
   components: {
-    Header,
-    Footer,
     PromotionHot,
     FeaturedProducts,
-    NonPrescription,
-    Supplements,
+    ProductCategories,
     Banner,
   },
+
+  created() {
+    this.$store.dispatch("product/getProductListHome", {root: true});
+  },
+
+  computed: {
+    ...mapGetters({
+      categoriesList: "category/categoriesList",
+    }),
+  },
+
 };
 </script>

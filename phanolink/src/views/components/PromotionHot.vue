@@ -2,59 +2,44 @@
   <div class="promotion container">
     <div class="promotion-header">
       <div class="promotion-title">
-        <img src="../../assets/img/hot-icon-fire.png" alt="hot-icon-fire" />
+        <img src="@/assets/img/hot-icon-fire.png" alt="hot-icon-fire" />
         <span>Khuyến Mãi Hot</span>
       </div>
       <a href="#">Xem tất cả ></a>
     </div>
-
-    <VueSlickCarousel v-bind="slickOptions">
-      <div class="item-content">
-        <div class="item">
-          <img src="../../assets/img/khuyen-mai-hot-img2.png" alt="img" />
-        </div>
-        <div class="item">
-          <img src="../../assets/img/khuyen-mai-hot1.png" alt="img" />
-        </div>
-        <div class="item">
-          <img src="../../assets/img/khuyen-mai-hot-img2.png" alt="img" />
-        </div>
-      </div>
-
-      <div class="item-content">
-        <div class="item">
-          <img src="../../assets/img/khuyen-mai-hot-img2.png" alt="img" />
-        </div>
-        <div class="item">
-          <img src="../../assets/img/khuyen-mai-hot1.png" alt="img" />
-        </div>
-        <div class="item">
-          <img src="../../assets/img/khuyen-mai-hot-img2.png" alt="img" />
-        </div>
-      </div>
-
-      <div class="item-content">
-        <div class="item">
-          <img src="../../assets/img/khuyen-mai-hot-img2.png" alt="img" />
-        </div>
-        <div class="item">
-          <img src="../../assets/img/khuyen-mai-hot1.png" alt="img" />
-        </div>
-        <div class="item">
-          <img src="../../assets/img/khuyen-mai-hot-img2.png" alt="img" />
-        </div>
-      </div>
+    <VueSlickCarousel v-bind="slickOptions" v-if="productList">
+      <SliderHotPromotion :productList="productList" />
+      <SliderHotPromotion :productList="productList" />
     </VueSlickCarousel>
+
+    <div class="skeleton-img" v-if="!productList">
+      <SkeletonImage :width="width" :height="height" v-for="i in 3" :key="i" style="marginLeft: 10px; display: unset; padding: 0;"/>
+    </div>
   </div>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 import VueSlickCarousel from "vue-slick-carousel";
 import "vue-slick-carousel/dist/vue-slick-carousel.css";
 
+import SkeletonImage from "@/views/components/skeleton/SkeletonImage";
+
+import SliderHotPromotion from './SliderHotPromotion.vue';
+
 export default {
   name: "PromotionHot",
-  components: { VueSlickCarousel },
+
+  components: { VueSlickCarousel, SliderHotPromotion,SkeletonImage },
+
+   computed: {
+    ...mapGetters({
+      productList: "product/productList",
+    }),
+  },
+
+  
   data() {
     return {
       slickOptions: {
@@ -67,8 +52,16 @@ export default {
         arrows: false,
         draggable: true,
       },
+      width: '365px',
+      height: '264px',
     };
   },
+
+  methods: {
+   
+  },
+
+  
 };
 </script>
 
@@ -76,6 +69,11 @@ export default {
 .promotion {
   margin-bottom: 20px;
   position: relative;
+
+  .skeleton-img {
+    display: flex;
+    margin-left: -10px;
+  }
 
   ::v-deep .slick-dots {
     list-style: none;
@@ -108,25 +106,6 @@ export default {
         &:hover {
           opacity: 0.8;
         }
-      }
-    }
-  }
-
-  .item-content {
-    display: flex !important;
-    margin-left: -10px;
-    margin-bottom: 20px;
-
-    img {
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      margin-left: 10px;
-      width: 365px;
-      &:hover {
-        opacity: 0.8;
-        cursor: pointer;
-        border: 1px solid #05a8d0;
       }
     }
   }
