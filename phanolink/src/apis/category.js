@@ -16,16 +16,6 @@ const categoryApis = {
     // const queryParams = queryString.stringify(query);
     return httpClient.get(`${BASE_URL}/categories/${id}`);
   },
-
-  // getProductSlider: (id) => {
-  //   // const queryParams = queryString.stringify(query);
-  //     return httpClient.get(`/categories/1`);
-  // },
-
-  // getProducts: () => {
-  //   // const queryParams = queryString.stringify(query);
-  //     return httpClient.get(`/categories/${id}`);
-  // }
 }
 
 export default categoryApis;
