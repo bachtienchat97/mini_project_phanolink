@@ -362,7 +362,18 @@ export default {
 </script>
 
 <style lang="scss">
-@import "@/assets/scss/helpers/variables";
+@import "@/assets/scss/styles";
+@media #{$info-tablet-horizontal} {
+  .list-header-third li {
+    display: flex;
+    margin-right: 10px;
+    img {
+      height: unset;
+      width: 24px;
+    }
+  }
+ 
+}
 
 ::-webkit-scrollbar {
   width: 22px;
@@ -488,12 +499,21 @@ export default {
       margin: 15px auto 0 auto;
       padding: 0;
 
+      li {
+        @media #{$info-tablet-horizontal} {
+          font-size: 13px;
+        }
+      }
       .list-header-third {
         list-style: none;
         display: flex;
         align-items: center;
         justify-content: space-between;
         margin: 0 0 20px 0;
+        @media #{$info-tablet-horizontal}{
+          margin-right: -10px;
+          line-break: anywhere;
+        }
       }
 
       img {
@@ -505,7 +525,7 @@ export default {
         color: $color-white;
         font-size: 15px;
         cursor: pointer;
-
+        
         &:hover {
           color: $color-primary;
         }
@@ -562,6 +582,9 @@ export default {
           text-decoration: none;
           color: #ffffff;
           font-size: 15px;
+          @media #{$info-tablet-horizontal} {
+            font-size: 13px;
+          }
 
           &:hover {
             color: $color-primary;
@@ -575,6 +598,10 @@ export default {
       align-items: center;
       margin-left: -20px;
       position: relative;
+      @media #{$info-tablet-horizontal} {
+        margin-left: 0;
+        position: unset;
+      }
 
       #wrapper-search-products {
         display: none;
@@ -588,8 +615,12 @@ export default {
         background-color: $color-white;
         z-index: 999;
         box-shadow: inset 5px 5px 5px rgba(0, 0, 0, 0.5),
-          30px 30px 20px rgba(0, 0, 0, 0.5),
-          inset -20px -20px 20px rgba(225, 225, 225, 0.5);
+        30px 30px 20px rgba(0, 0, 0, 0.5),
+        inset -20px -20px 20px rgba(225, 225, 225, 0.5);
+        @media #{$info-tablet-horizontal} {
+          top: 19%;
+          left: 22%;
+        }
       }
 
       .search-products--top {
@@ -816,4 +847,6 @@ export default {
     }
   }
 }
+
+
 </style>

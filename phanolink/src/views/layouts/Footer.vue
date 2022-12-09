@@ -221,11 +221,17 @@ export default {
     display: flex;
     align-items: center;
     width: 50%;
+    @media #{$info-tablet-horizontal} {
+      flex-direction: column;
+    }
 
     .email {
       background: #ffffff;
       border-radius: 25px;
       padding: 5px 16px;
+      @media #{$info-tablet-horizontal} {
+      display: flex;
+    }
 
       img {
         margin-right: 10px;
@@ -252,6 +258,9 @@ export default {
       display: flex;
       align-items: center;
       width: 50%;
+      @media #{$info-tablet-horizontal} {
+        flex-direction: column;
+      }
 
       .txt-hotline {
         position: relative;
@@ -267,6 +276,9 @@ export default {
         padding: 5px 16px;
         position: absolute;
         left: 26.6%;
+        @media #{$info-tablet-horizontal} {
+          position: unset;
+        }
 
         img {
           margin-right: 10px;
