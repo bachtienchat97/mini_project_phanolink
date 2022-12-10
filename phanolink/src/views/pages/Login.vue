@@ -93,14 +93,15 @@ export default {
       this.isSpinner = false;
       try {
         const response = await httpClient.post("login", this.formSubmit);
+        console.log(response.data)
         if (response.status === 200) {
 
-          await this.$store.dispatch("auth/userLogin", response.data.data, {
+          await this.$store.dispatch("auth/userLogin", response.data, {
             root: true,
           });
           localStorage.setItem(
             KEY_LOCAL_STORAGE,
-            JSON.stringify(response.data.data)
+            JSON.stringify(response.data)
           );
           this.$router.push({ path: "/" }).catch(() => {});
 

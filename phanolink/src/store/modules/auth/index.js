@@ -1,5 +1,4 @@
-// import { KEY_LOCAL_STORAGE } from "@/constants";
-// import { getStorage } from "@/utils/localStorage";
+// import httpClient from "@/utils/requestApis";
 
 const state = {
    user: {},
@@ -13,7 +12,11 @@ const getters = {
 };
 
 const actions = {
-   userLogin({ commit }, userInfo) {
+   async userLogin({ commit }, userInfo) {
+      // if(userInfo.accessToken) {
+      //    const res = await httpClient.get("profile", userInfo.accessToken);
+      //    console.log(res,'res')
+      // }
       commit('USER_INFO', userInfo);
    },
 

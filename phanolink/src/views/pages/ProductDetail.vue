@@ -66,7 +66,7 @@
     </div>
 
 
-    <div class="product-detail-wrapper" else>
+    <div class="product-detail-wrapper" v-else>
       <div class="product-detail__display">
         <div class="display__image">
           <img :src="products.img_path" :alt="products.description" />
@@ -227,6 +227,7 @@ export default {
           this.isLoadingProductByID = false;
         }
       } catch (e) {
+        this.isLoadingProductByID = true;
         throw new Error("error message:", e);
       }
     },
