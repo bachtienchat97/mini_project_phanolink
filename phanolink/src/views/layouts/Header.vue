@@ -174,7 +174,9 @@
 
             <div class="cart">
               <img src="@/assets/img/cart2x.png" alt="cart2x" />
-              <span>Giỏ hàng</span>
+                <router-link :to="{ name: 'ProductDetail' }" >
+                  <span>Giỏ hàng</span>
+                </router-link>
             </div>
           </div>
         </div>
@@ -796,6 +798,10 @@ export default {
           cursor: pointer;
           border: 1px solid $color-primary;
           color: $dark;
+        }
+
+        img {
+          margin-right: 5px;
         }
       }
 
