@@ -1,8 +1,8 @@
 <template>
   <div>
     <div class="wrap-user" v-if="isAuthen || userLocal">
-      <div class="user show-tooltip" v-if="user.name">
-        {{ user.name }}
+      <div class="user show-tooltip" v-if="user.userName">
+        {{ user.userName }}
         <div class="tooltipText">
           <span> Thông tin tài khoản</span>
           <span>Đơn mua</span>
@@ -11,7 +11,7 @@
       </div>
 
       <div class="user show-tooltip" v-if="userLocal">
-        {{ userLocal.name }}
+        {{ userLocal.userName }}
         <div class="tooltipText">
           <span> Thông tin tài khoản</span>
           <span>Đơn mua</span>

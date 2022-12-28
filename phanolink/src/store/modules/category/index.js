@@ -1,4 +1,4 @@
-import { BASE_URL } from "@/constants";
+import { BASE_URL_GOKISOFT } from "@/constants";
 
 import httpClient from "@/utils/requestApis";
 
@@ -16,7 +16,7 @@ const actions = {
   async getCategoryList({ dispatch, state }) {
     state.isLoadCategory = true
 
-    const res = await httpClient.get(`${BASE_URL}/home/categories`);
+    const res = await httpClient.get(`${BASE_URL_GOKISOFT}/home/categories`);
     if (res.status === 200) {
         dispatch("categoryList", res.data.data);
         state.isLoadCategory = false;

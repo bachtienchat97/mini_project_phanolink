@@ -33,7 +33,7 @@
               class="card-wrap"
               v-if="product.quantity === 0 ? (checkSold = true) : !checkSold"
             >
-              <div :class="{ 'card--sold': checkSold }">Hết Hàng</div>
+              <div :class="{ 'card--sold': checkSold }" v-if="checkSold">Hết Hàng</div>
               <div
                 class="card--discount"
                 v-show="product.discount !== 0 ? isDiscount : !isDiscount"
