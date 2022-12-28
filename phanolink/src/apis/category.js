@@ -1,4 +1,5 @@
 import {BASE_URL} from '@/constants';
+import {BASE_URL_GOKISOFT} from '@/constants';
 import axios from 'axios';
 // import queryString from 'query-string';
 import httpClient from '@/utils/requestApis';
@@ -14,7 +15,7 @@ const categoryApis = {
 
   getProductBaseOnCategoryID: (id) => {
     // const queryParams = queryString.stringify(query);
-    return httpClient.get(`${BASE_URL}/categories/${id}`);
+    return httpClient.get(`${BASE_URL_GOKISOFT}/categories?/${id}`);
   },
 }
 

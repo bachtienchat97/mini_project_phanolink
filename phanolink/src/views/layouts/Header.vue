@@ -793,7 +793,10 @@ export default {
         background-color: $color-white;
         border: 1px solid $dark;
         margin-left: 15px;
-
+        .router-link-active {
+          text-decoration: none;
+          color: $dark;
+        }
         &:hover {
           cursor: pointer;
           border: 1px solid $color-primary;
