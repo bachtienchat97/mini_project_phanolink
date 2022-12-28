@@ -1,3 +1,4 @@
+import {BASE_URL_GOKISOFT} from '@/constants';
 import {BASE_URL} from '@/constants';
 import httpClient from '@/utils/requestApis';
 
@@ -7,7 +8,7 @@ const productApis = {
   },
 
   getAllProductByCategories: (id) => {
-    return httpClient.get(`${BASE_URL}/categories/${id}`);
+    return httpClient.get(`${BASE_URL_GOKISOFT}/categories?${id}`);
   }
 }
 

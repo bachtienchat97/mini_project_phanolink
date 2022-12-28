@@ -128,6 +128,7 @@ export default {
         this.isLoadingProducts = true;
         const categoryID = this.$route.params.id;
         const res = await categoryApis.getProductBaseOnCategoryID(categoryID);
+        console.log(res)
         if (res.status === 200) {
           this.isLoadingProducts = false;
           this.products = await res.data.data;
